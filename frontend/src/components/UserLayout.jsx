@@ -3,11 +3,11 @@ import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
-function AdminLayout() {
+function UserLayout() {
   return (
-    <div className="dashboard-layout admin-layout">
+    <div className="dashboard-layout user-layout">
 
-      <Sidebar role="admin" />
+      <Sidebar role="user" />
 
       <div className="dashboard-main">
 
@@ -25,4 +25,4 @@ function AdminLayout() {
   );
 }
 
-export default AdminLayout;
+export default UserLayout;

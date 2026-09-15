@@ -1,23 +1,31 @@
 import { Routes, Route } from "react-router-dom";
 
-/* ================= USER PAGES ================= */
+/* ================= LAYOUTS ================= */
+
+import PublicLayout from "../components/PublicLayout";
+import UserLayout from "../components/UserLayout";
+import AdminLayout from "../components/AdminLayout";
+
+/* ================= PROTECTION ================= */
+
+import ProtectedRoute from "../components/ProtectedRoute";
+import AdminRoute from "../components/AdminRoute";
+
+/* ================= PUBLIC / COMMON PAGES ================= */
 
 import Home from "../pages/Home";
 import Events from "../pages/Events";
 import EventDetails from "../pages/EventDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+
+/* ================= USER PAGES ================= */
+
 import Dashboard from "../pages/Dashboard";
 import BookingPage from "../pages/BookingPage";
 import BookingConfirmation from "../pages/BookingConfirmation";
 import MyBookings from "../pages/MyBookings";
 import UsersSettings from "../pages/UsersSettings";
-
-/* ================= PROTECTION ================= */
-
-import ProtectedRoute from "../components/ProtectedRoute";
-import AdminRoute from "../components/AdminRoute";
-import AdminLayout from "../components/AdminLayout";
 
 /* ================= ADMIN PAGES ================= */
 
@@ -32,23 +40,39 @@ import Reports from "../pages/admin/Reports";
 import Notifications from "../pages/admin/Notifications";
 import AdminSetting from "../pages/admin/AdminSetting";
 
+
 function AppRoutes() {
   return (
     <Routes>
 
-      {/* ================= PUBLIC ================= */}
+      {/* ==================================================
+          PUBLIC PAGES WITH SIDEBAR
+      ================================================== */}
 
-      <Route path="/" element={<Home />} />
+      <Route element={<PublicLayout />}>
 
-      <Route
-        path="/events"
-        element={<Events />}
-      />
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-      <Route
-        path="/events/:id"
-        element={<EventDetails />}
-      />
+        <Route
+          path="/events"
+          element={<Events />}
+        />
+
+        <Route
+          path="/events/:id"
+          element={<EventDetails />}
+        />
+
+      </Route>
+
+
+      {/* ==================================================
+          AUTHENTICATION PAGES
+          NO SIDEBAR
+      ================================================== */}
 
       <Route
         path="/login"
@@ -60,56 +84,50 @@ function AppRoutes() {
         element={<Register />}
       />
 
-      {/* ================= USER ================= */}
+
+      {/* ==================================================
+          USER PAGES WITH SIDEBAR
+      ================================================== */}
 
       <Route
-        path="/dashboard"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <UserLayout />
           </ProtectedRoute>
         }
-      />
+      >
 
-      <Route
-        path="/booking/:id"
-        element={
-          <ProtectedRoute>
-            <BookingPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
 
-      <Route
-        path="/booking-confirmation/:id"
-        element={
-          <ProtectedRoute>
-            <BookingConfirmation />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/booking/:id"
+          element={<BookingPage />}
+        />
 
-      <Route
-        path="/my-bookings"
-        element={
-          <ProtectedRoute>
-            <MyBookings />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/booking-confirmation/:id"
+          element={<BookingConfirmation />}
+        />
 
-      {/* USER SETTINGS */}
+        <Route
+          path="/my-bookings"
+          element={<MyBookings />}
+        />
 
-      <Route
-        path="/settings"
-        element={
-          <ProtectedRoute>
-            <UsersSettings />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/settings"
+          element={<UsersSettings />}
+        />
 
-      {/* ================= ADMIN ================= */}
+      </Route>
+
+
+      {/* ==================================================
+          ADMIN PAGES WITH ADMIN SIDEBAR
+      ================================================== */}
 
       <Route
         path="/admin"
@@ -179,7 +197,7 @@ function AppRoutes() {
           element={<Notifications />}
         />
 
-        {/* Admin Settings */}
+        {/* Settings */}
 
         <Route
           path="settings"

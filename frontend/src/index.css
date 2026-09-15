@@ -1,13 +1,101 @@
+/* =========================================================
+   EVENTBOOK
+   GLOBAL + NAVBAR + SIDEBAR
+   ========================================================= */
+
+:root {
+  --eventbook-primary: #2563eb;
+  --eventbook-primary-dark: #1d4ed8;
+  --eventbook-primary-soft: #eff6ff;
+
+  --eventbook-text: #0f172a;
+  --eventbook-text-secondary: #475569;
+  --eventbook-muted: #94a3b8;
+
+  --eventbook-border: #e5e7eb;
+  --eventbook-background: #f8fafc;
+  --eventbook-white: #ffffff;
+
+  --eventbook-sidebar-width: 260px;
+
+  --eventbook-navbar-height: 72px;
+
+  --eventbook-radius-sm: 8px;
+  --eventbook-radius-md: 11px;
+  --eventbook-radius-lg: 16px;
+
+  --eventbook-transition: 0.22s ease;
+
+  --eventbook-shadow:
+    0 8px 30px rgba(15, 23, 42, 0.07);
+}
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f8f9fa;
-  color: #212529;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  background: var(--eventbook-background);
+  color: var(--eventbook-text);
+
+  overflow-x: hidden;
+}
+
+body.sidebar-mobile-open {
+  overflow: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 a {
   text-decoration: none;
 }
+
+img {
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   COMMON
+   ========================================================= */
 
 .card {
   border-radius: 12px;
@@ -17,17 +105,9 @@ a {
   border-radius: 8px;
 }
 
-.form-control {
+.form-control,
+.form-select {
   border-radius: 8px;
-  padding: 10px 12px;
-}
-
-.navbar-brand {
-  font-size: 22px;
-}
-
-.nav-link {
-  font-weight: 500;
 }
 
 .page-title {
@@ -35,10 +115,1176 @@ a {
 }
 
 .event-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .event-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   PUBLIC LAYOUT
+   ========================================================= */
+
+.public-layout {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.public-content {
+  flex: 1;
+}
+
+
+/* =========================================================
+   DASHBOARD LAYOUT
+   ========================================================= */
+
+.dashboard-layout {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.dashboard-main {
+  min-width: 0;
+  min-height: 100vh;
+
+  margin-left: var(--eventbook-sidebar-width);
+
+  display: flex;
+  flex-direction: column;
+
+  transition:
+    margin-left var(--eventbook-transition);
+}
+
+.dashboard-content {
+  flex: 1;
+  min-width: 0;
+
+  background: var(--eventbook-background);
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.eventbook-navbar {
+  position: sticky;
+  top: 0;
+
+  min-height: var(--eventbook-navbar-height);
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border-bottom: 1px solid var(--eventbook-border);
+
+  z-index: 1030;
+}
+
+.eventbook-navbar-inner {
+  width: 100%;
+  min-height: var(--eventbook-navbar-height);
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 22px;
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   NAVBAR BRAND
+   ========================================================= */
+
+.eventbook-navbar-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+
+  color: var(--eventbook-text);
+}
+
+.eventbook-navbar-brand:hover {
+  color: var(--eventbook-text);
+}
+
+.eventbook-navbar-logo {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
+
+  color: white;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.20);
+}
+
+.eventbook-navbar-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.eventbook-navbar-title {
+  color: #111827;
+
+  font-size: 19px;
+  line-height: 20px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.3px;
+}
+
+.eventbook-navbar-title span {
+  color: var(--eventbook-primary);
+}
+
+.eventbook-navbar-subtitle {
+  margin-top: 2px;
+
+  color: var(--eventbook-muted);
+
+  font-size: 8px;
+  line-height: 10px;
+
+  letter-spacing: 0.8px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   NAVBAR CENTER NAVIGATION
+   ========================================================= */
+
+.eventbook-navbar-navigation {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+}
+
+.eventbook-nav-link {
+  min-height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 12px;
+
+  border-radius: 9px;
+
+  color: var(--eventbook-text-secondary);
+
+  font-size: 13px;
+  font-weight: 550;
+
+  transition:
+    background var(--eventbook-transition),
+    color var(--eventbook-transition);
+}
+
+.eventbook-nav-link:hover {
+  color: var(--eventbook-primary);
+
+  background: #f8fafc;
+}
+
+.eventbook-nav-link.active {
+  color: var(--eventbook-primary);
+
+  background: var(--eventbook-primary-soft);
+
+  font-weight: 650;
+}
+
+.eventbook-nav-link svg {
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   ADMIN BADGE
+   ========================================================= */
+
+.eventbook-admin-badge {
+  padding: 3px 6px;
+
+  border-radius: 5px;
+
+  background: #dbeafe;
+  color: #2563eb;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   NAVBAR ACTIONS
+   ========================================================= */
+
+.eventbook-navbar-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.eventbook-profile {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 3px 8px 3px 3px;
+
+  border: 1px solid var(--eventbook-border);
+
+  border-radius: 11px;
+
+  background: white;
+}
+
+.eventbook-profile-avatar {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #eff6ff;
+  color: var(--eventbook-primary);
+
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.eventbook-profile-name {
+  color: var(--eventbook-text);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.eventbook-profile-role {
+  color: var(--eventbook-muted);
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   NAVBAR BUTTONS
+   ========================================================= */
+
+.eventbook-navbar-logout,
+.eventbook-login-btn,
+.eventbook-start-btn {
+  height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 0 13px;
+
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 650;
+
+  transition:
+    background var(--eventbook-transition),
+    border-color var(--eventbook-transition),
+    color var(--eventbook-transition),
+    transform var(--eventbook-transition);
+}
+
+.eventbook-navbar-logout {
+  border: 1px solid var(--eventbook-border);
+
+  background: white;
+  color: var(--eventbook-text-secondary);
+}
+
+.eventbook-navbar-logout:hover {
+  border-color: #fecaca;
+
+  background: #fff5f5;
+
+  color: #dc2626;
+}
+
+.eventbook-login-btn {
+  border: 1px solid #dbe3ee;
+
+  background: white;
+
+  color: var(--eventbook-text-secondary);
+}
+
+.eventbook-login-btn:hover {
+  border-color: var(--eventbook-primary);
+
+  color: var(--eventbook-primary);
+}
+
+.eventbook-start-btn {
+  border: 0;
+
+  background: var(--eventbook-primary);
+
+  color: white;
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.18);
+}
+
+.eventbook-start-btn:hover {
+  background: var(--eventbook-primary-dark);
+
+  color: white;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RIGHT NAVBAR HAMBURGER
+   PHONE ONLY
+   ========================================================= */
+
+.eventbook-navbar-mobile-toggle {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  padding: 0;
+
+  border: 1px solid var(--eventbook-border);
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #334155;
+}
+
+.eventbook-navbar-mobile-toggle span {
+  width: 19px;
+  height: 2px;
+
+  border-radius: 2px;
+
+  background: currentColor;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.eventbook-navbar-mobile-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.eventbook-navbar-mobile-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.eventbook-navbar-mobile-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.eventbook-sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: var(--eventbook-sidebar-width);
+
+  z-index: 1040;
+
+  display: flex;
+  flex-direction: column;
+
+  background: white;
+
+  border-right: 1px solid var(--eventbook-border);
+
+  box-shadow:
+    5px 0 24px rgba(15, 23, 42, 0.035);
+
+  transition:
+    width var(--eventbook-transition),
+    transform var(--eventbook-transition);
+}
+
+
+/* =========================================================
+   SIDEBAR TOP
+   NO LOGO
+   NO APP NAME
+   ========================================================= */
+
+.eventbook-sidebar-top {
+  height: 72px;
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 14px;
+
+  border-bottom: 1px solid #f0f2f5;
+}
+
+
+/* =========================================================
+   SIDEBAR ARROW
+   ========================================================= */
+
+.eventbook-sidebar-arrow {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--eventbook-border);
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #475569;
+
+  transition:
+    background var(--eventbook-transition),
+    border-color var(--eventbook-transition),
+    color var(--eventbook-transition);
+}
+
+.eventbook-sidebar-arrow:hover {
+  background: var(--eventbook-primary-soft);
+
+  border-color: #bfdbfe;
+
+  color: var(--eventbook-primary);
+}
+
+.arrow-left,
+.arrow-right {
+  width: 8px;
+  height: 8px;
+
+  border-top: 1.8px solid currentColor;
+  border-right: 1.8px solid currentColor;
+}
+
+.arrow-left {
+  transform: rotate(-135deg);
+
+  margin-left: 4px;
+}
+
+.arrow-right {
+  transform: rotate(45deg);
+
+  margin-right: 4px;
+}
+
+
+/* =========================================================
+   SIDEBAR BODY
+   ========================================================= */
+
+.eventbook-sidebar-body {
+  flex: 1;
+  min-height: 0;
+
+  padding: 22px 12px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.eventbook-sidebar-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.eventbook-sidebar-body::-webkit-scrollbar-thumb {
+  background: #dbe3ec;
+
+  border-radius: 10px;
+}
+
+.eventbook-menu-label {
+  padding: 0 10px 9px;
+
+  color: var(--eventbook-muted);
+
+  font-size: 9px;
+  font-weight: 750;
+
+  letter-spacing: 0.9px;
+
+  text-transform: uppercase;
+}
+
+.eventbook-navigation {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+/* =========================================================
+   SIDEBAR NAV ITEM
+   ========================================================= */
+
+.eventbook-nav-item {
+  min-height: 45px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 12px;
+
+  position: relative;
+
+  border-radius: 9px;
+
+  color: #64748b;
+
+  font-size: 13px;
+  font-weight: 550;
+
+  white-space: nowrap;
+
+  transition:
+    background var(--eventbook-transition),
+    color var(--eventbook-transition),
+    transform var(--eventbook-transition);
+}
+
+.eventbook-nav-item:hover {
+  background: #f8fafc;
+
+  color: var(--eventbook-primary);
+
+  transform: translateX(1px);
+}
+
+.eventbook-nav-item.active {
+  background: var(--eventbook-primary-soft);
+
+  color: var(--eventbook-primary);
+
+  font-weight: 650;
+}
+
+.eventbook-nav-item.active::before {
+  content: "";
+
+  position: absolute;
+
+  top: 9px;
+  bottom: 9px;
+  left: 0;
+
+  width: 3px;
+
+  border-radius: 0 4px 4px 0;
+
+  background: var(--eventbook-primary);
+}
+
+.eventbook-nav-icon {
+  width: 20px;
+  height: 20px;
+
+  flex: 0 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eventbook-nav-text {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   SIDEBAR FOOTER
+   ========================================================= */
+
+.eventbook-sidebar-footer {
+  padding: 13px;
+
+  border-top: 1px solid #f0f2f5;
+}
+
+.eventbook-user-card {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 8px;
+
+  margin-bottom: 8px;
+
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+  overflow: hidden;
+}
+
+.eventbook-user-avatar {
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #eaf2ff;
+
+  color: var(--eventbook-primary);
+
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.eventbook-user-info {
+  min-width: 0;
+
+  overflow: hidden;
+}
+
+.eventbook-user-name {
+  overflow: hidden;
+
+  color: var(--eventbook-text);
+
+  font-size: 12px;
+  font-weight: 650;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eventbook-user-role {
+  color: var(--eventbook-muted);
+
+  font-size: 9px;
+}
+
+.eventbook-logout {
+  width: 100%;
+  min-height: 39px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border: 1px solid var(--eventbook-border);
+
+  border-radius: 9px;
+
+  background: white;
+
+  color: #64748b;
+
+  font-size: 12px;
+  font-weight: 650;
+
+  transition:
+    background var(--eventbook-transition),
+    border-color var(--eventbook-transition),
+    color var(--eventbook-transition);
+}
+
+.eventbook-logout:hover {
+  background: #fff5f5;
+
+  border-color: #fecaca;
+
+  color: #dc2626;
+}
+
+.eventbook-logout-icon {
+  display: flex;
+}
+
+
+/* =========================================================
+   COLLAPSED SIDEBAR
+   ========================================================= */
+
+.eventbook-sidebar.collapsed {
+  width: 78px;
+}
+
+.eventbook-sidebar.collapsed .eventbook-sidebar-top {
+  justify-content: center;
+
+  padding: 0;
+}
+
+.eventbook-sidebar.collapsed .eventbook-menu-label,
+.eventbook-sidebar.collapsed .eventbook-nav-text,
+.eventbook-sidebar.collapsed .eventbook-user-info,
+.eventbook-sidebar.collapsed .eventbook-logout-text {
+  display: none;
+}
+
+.eventbook-sidebar.collapsed .eventbook-nav-item {
+  justify-content: center;
+
+  padding: 0;
+}
+
+.eventbook-sidebar.collapsed .eventbook-nav-item.active::before {
+  left: 0;
+}
+
+.eventbook-sidebar.collapsed .eventbook-user-card {
+  justify-content: center;
+
+  padding: 7px;
+}
+
+.eventbook-sidebar.collapsed .eventbook-logout {
+  padding: 0;
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR HAMBURGER
+   LEFT CORNER
+   ========================================================= */
+
+.eventbook-sidebar-mobile-toggle {
+  display: none;
+
+  position: fixed;
+
+  top: 15px;
+  left: 14px;
+
+  width: 42px;
+  height: 42px;
+
+  z-index: 1100;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  border: 1px solid var(--eventbook-border);
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #334155;
+
+  box-shadow:
+    0 5px 18px rgba(15, 23, 42, 0.08);
+}
+
+.eventbook-sidebar-mobile-toggle span {
+  width: 19px;
+  height: 2px;
+
+  border-radius: 2px;
+
+  background: currentColor;
+}
+
+
+/* =========================================================
+   SIDEBAR OVERLAY
+   ========================================================= */
+
+.eventbook-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1035;
+
+  border: 0;
+
+  background: rgba(15, 23, 42, 0.38);
+
+  backdrop-filter: blur(2px);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+  /* -----------------------------------------------
+     Dashboard takes full width
+     ----------------------------------------------- */
+
+  .dashboard-main {
+    margin-left: 0;
+  }
+
+
+  /* -----------------------------------------------
+     Sidebar
+     ----------------------------------------------- */
+
+  .eventbook-sidebar {
+    width: 270px;
+
+    transform: translateX(-100%);
+
+    box-shadow:
+      12px 0 35px rgba(15, 23, 42, 0.14);
+  }
+
+  .eventbook-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Never collapse sidebar width on phone */
+
+  .eventbook-sidebar.collapsed {
+    width: 270px;
+  }
+
+  .eventbook-sidebar.collapsed .eventbook-menu-label,
+  .eventbook-sidebar.collapsed .eventbook-nav-text,
+  .eventbook-sidebar.collapsed .eventbook-user-info,
+  .eventbook-sidebar.collapsed .eventbook-logout-text {
+    display: block;
+  }
+
+  .eventbook-sidebar.collapsed .eventbook-nav-item {
+    justify-content: flex-start;
+
+    padding: 0 12px;
+  }
+
+  .eventbook-sidebar.collapsed .eventbook-user-card {
+    justify-content: flex-start;
+
+    padding: 8px;
+  }
+
+
+  /* -----------------------------------------------
+     LEFT SIDEBAR HAMBURGER
+     ----------------------------------------------- */
+
+  .eventbook-sidebar-mobile-toggle {
+    display: flex;
+  }
+
+
+  /* -----------------------------------------------
+     Navbar
+     ----------------------------------------------- */
+
+  .eventbook-navbar {
+    min-height: 72px;
+  }
+
+  .eventbook-navbar-inner {
+    min-height: 72px;
+
+    padding: 0 14px;
+
+    gap: 10px;
+  }
+
+
+  /* -----------------------------------------------
+     Brand stays in the center area
+     ----------------------------------------------- */
+
+  .eventbook-navbar-brand {
+    flex: 1;
+
+    justify-content: center;
+
+    min-width: 0;
+  }
+
+  .eventbook-navbar-brand-text {
+    min-width: 0;
+  }
+
+  .eventbook-navbar-title {
+    font-size: 18px;
+  }
+
+  .eventbook-navbar-subtitle {
+    display: none;
+  }
+
+  .eventbook-navbar-logo {
+    width: 38px;
+    height: 38px;
+
+    flex-basis: 38px;
+  }
+
+
+  /* -----------------------------------------------
+     Hide desktop actions on phone
+     ----------------------------------------------- */
+
+  .eventbook-navbar-actions {
+    margin-left: 0;
+  }
+
+  .eventbook-navbar-actions > .eventbook-profile,
+  .eventbook-navbar-actions > .eventbook-navbar-logout,
+  .eventbook-navbar-actions > .eventbook-login-btn,
+  .eventbook-navbar-actions > .eventbook-start-btn {
+    display: none;
+  }
+
+
+  /* -----------------------------------------------
+     RIGHT NAVBAR HAMBURGER
+     ----------------------------------------------- */
+
+  .eventbook-navbar-mobile-toggle {
+    display: flex;
+
+    flex: 0 0 42px;
+  }
+
+
+  /* -----------------------------------------------
+     Mobile navigation dropdown
+     ----------------------------------------------- */
+
+  .eventbook-navbar-navigation {
+    display: none;
+
+    position: absolute;
+
+    top: 72px;
+    left: 12px;
+    right: 12px;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 3px;
+
+    padding: 10px;
+
+    border: 1px solid var(--eventbook-border);
+
+    border-radius: 13px;
+
+    background: white;
+
+    box-shadow:
+      0 14px 35px rgba(15, 23, 42, 0.12);
+  }
+
+  .eventbook-navbar-navigation.open {
+    display: flex;
+  }
+
+  .eventbook-nav-link {
+    min-height: 44px;
+
+    width: 100%;
+
+    justify-content: flex-start;
+
+    padding: 0 12px;
+  }
+
+  .eventbook-admin-badge {
+    margin-left: auto;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+
+  .eventbook-sidebar-mobile-toggle {
+    top: 13px;
+    left: 10px;
+
+    width: 42px;
+    height: 42px;
+  }
+
+  .eventbook-navbar-inner {
+    padding: 0 10px;
+  }
+
+  .eventbook-navbar-brand {
+    gap: 7px;
+  }
+
+  .eventbook-navbar-logo {
+    width: 36px;
+    height: 36px;
+
+    flex-basis: 36px;
+
+    border-radius: 9px;
+
+    font-size: 17px;
+  }
+
+  .eventbook-navbar-title {
+    font-size: 17px;
+  }
+
+  .eventbook-navbar-mobile-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .eventbook-navbar-navigation {
+    top: 68px;
+  }
+}
+
+
+/* =========================================================
+   EXTRA SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .eventbook-sidebar-mobile-toggle {
+    left: 8px;
+  }
+
+  .eventbook-navbar-title {
+    font-size: 16px;
+  }
+
+  .eventbook-navbar-logo {
+    width: 34px;
+    height: 34px;
+
+    flex-basis: 34px;
+  }
+
+  .eventbook-navbar-inner {
+    padding: 0 8px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
 }
