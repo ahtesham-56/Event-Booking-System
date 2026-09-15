@@ -1,0 +1,198 @@
+/* =====================================================
+   EVENTBOOK ADMIN LAYOUT
+   ===================================================== */
+
+.admin-layout {
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+  background: #f6f7fb;
+}
+
+.admin-content {
+  flex: 1;
+  min-width: 0;
+  width: calc(100% - 250px);
+}
+
+/* =====================================================
+   ADMIN SIDEBAR
+   ===================================================== */
+
+.admin-sidebar {
+  width: 250px;
+  min-width: 250px;
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #101d3b 0%,
+    #0a1730 100%
+  );
+  color: white;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 1045;
+}
+
+.admin-sidebar-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-brand {
+  min-height: 82px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-brand-icon,
+.admin-logo-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #5146e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.admin-brand small {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.admin-nav-wrapper {
+  flex: 1;
+  padding: 25px 13px;
+  overflow-y: auto;
+}
+
+.admin-menu-title {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: rgba(255, 255, 255, 0.42);
+  padding: 0 12px 10px;
+  font-weight: 700;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 44px;
+  padding: 10px 13px;
+  border-radius: 9px;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.admin-nav-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-nav-link.active {
+  color: white;
+  background: #5146e5;
+  box-shadow: 0 6px 18px rgba(81, 70, 229, 0.28);
+}
+
+.admin-nav-icon {
+  width: 22px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.admin-sidebar-bottom {
+  padding: 15px 13px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-logout {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  padding: 11px 13px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-align: left;
+  transition: 0.2s ease;
+}
+
+.admin-logout:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+/* =====================================================
+   MOBILE ADMIN HEADER
+   ===================================================== */
+
+.admin-mobile-header {
+  height: 64px;
+  padding: 10px 15px;
+  background: #101d3b;
+  color: white;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.admin-mobile-header small {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 991.98px) {
+  .admin-layout {
+    display: block;
+  }
+
+  .admin-content {
+    width: 100%;
+  }
+
+  .admin-sidebar {
+    width: 250px;
+    min-width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .admin-mobile-header {
+    display: none !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .admin-sidebar {
+    width: 280px;
+  }
+}
