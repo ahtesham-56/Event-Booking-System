@@ -1,0 +1,74 @@
+
+# EventBook Backend - Git Ignore
+
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Build / generated files
+dist/
+build/
+coverage/
+.tmp/
+temp/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime files
+*.pid
+*.pid.lock
+*.seed
+*.pid
+
+# Cache
+.cache/
+.parcel-cache/
+.npm/
+.eslintcache
+
+# Uploads / user-generated files
+uploads/
+public/uploads/
+storage/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE / editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.nyc_output/
+jest-coverage/
+
+# Local database / development data
+data/
+*.sqlite
+*.sqlite3
+*.db
+
+# Debug files
+*.tgz
+
+# Optional local configuration
+config.local.*
