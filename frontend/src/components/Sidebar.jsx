@@ -1,3 +1,4 @@
+
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCurrentUser, logoutUser } from "../services/authService";
@@ -106,6 +107,7 @@ function Sidebar({ role = "admin" }) {
   const user = getCurrentUser();
 
   const isAdmin = role === "admin";
+
 
   /* =======================================================
      MENU ITEMS
@@ -258,7 +260,6 @@ function Sidebar({ role = "admin" }) {
     <>
       {/* ===================================================
           MOBILE SIDEBAR BUTTON
-          LEFT CORNER
           =================================================== */}
 
       <button
@@ -302,12 +303,17 @@ function Sidebar({ role = "admin" }) {
 
         {/* =================================================
             SIDEBAR TOP
-            NO LOGO
-            NO APP NAME
-            ONLY COLLAPSE ARROW
             ================================================= */}
 
         <div className="eventbook-sidebar-top">
+
+          <div className="eventbook-sidebar-section-title">
+            <span className="eventbook-sidebar-section-dot"></span>
+
+            <span className="eventbook-sidebar-section-text">
+              {isAdmin ? "ADMIN PANEL" : "EVENTBOOK"}
+            </span>
+          </div>
 
           <button
             type="button"
@@ -375,6 +381,8 @@ function Sidebar({ role = "admin" }) {
                 <span className="eventbook-nav-text">
                   {item.label}
                 </span>
+
+                <span className="eventbook-nav-active-line"></span>
 
               </NavLink>
             ))}

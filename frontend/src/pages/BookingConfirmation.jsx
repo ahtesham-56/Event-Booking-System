@@ -1,13 +1,18 @@
+import { useState } from "react";
 import html2pdf from "html2pdf.js";
 import { Link, useLocation } from "react-router-dom";
 
 function BookingConfirmation() {
   const location = useLocation();
 
+  const [downloading, setDownloading] = useState(false);
+
   const booking = location.state?.booking;
   const eventFromState = location.state?.event;
 
-  /* booking data */
+  /* =========================================================
+     BOOKING DATA
+     ========================================================= */
 
   const bookingId =
     booking?._id ||
@@ -21,14 +26,16 @@ function BookingConfirmation() {
     "Event Booking";
 
   const seats =
-    booking?.seats?.length
+    Array.isArray(booking?.seats) &&
+    booking.seats.length > 0
       ? booking.seats.join(", ")
       : "Selected";
 
   const ticketCount =
     booking?.quantity ||
-    booking?.seats?.length ||
-    0;
+    (Array.isArray(booking?.seats)
+      ? booking.seats.length
+      : 0);
 
   const totalAmount =
     booking?.totalAmount ??
@@ -39,7 +46,12 @@ function BookingConfirmation() {
     booking?.status ||
     "Confirmed";
 
-  /* event information */
+  const statusLower =
+    String(status).toLowerCase();
+
+  /* =========================================================
+     EVENT INFORMATION
+     ========================================================= */
 
   const eventDate =
     booking?.event?.date ||
@@ -65,68 +77,9 @@ function BookingConfirmation() {
     eventFromState?.location ||
     "";
 
-  /* format date */
-
-  const formatDate = (date) => {
-    if (!date) {
-      return "Date not available";
-    }
-
-    const parsedDate = new Date(date);
-
-    if (isNaN(parsedDate.getTime())) {
-      return date;
-    }
-
-    return parsedDate.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  /* ================= FORMAT TIME ================= */
-
-  const formatTime = (time) => {
-    if (!time) {
-      return "Time not available";
-    }
-
-    // Already formatted like 06:30 PM
-    if (
-      time.toLowerCase().includes("am") ||
-      time.toLowerCase().includes("pm")
-    ) {
-      return time;
-    }
-
-    // Format 24-hour time like 18:30
-    const [hours, minutes] = time.split(":");
-
-    if (
-      hours === undefined ||
-      minutes === undefined
-    ) {
-      return time;
-    }
-
-    const date = new Date();
-
-    date.setHours(
-      Number(hours),
-      Number(minutes),
-      0,
-      0
-    );
-
-    return date.toLocaleTimeString("en-IN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
-  /* ================= DISPLAY BOOKING ID ================= */
+  /* =========================================================
+     BOOKING ID
+     ========================================================= */
 
   const displayBookingId =
     bookingId !== "N/A"
@@ -135,160 +88,754 @@ function BookingConfirmation() {
           .toUpperCase()}`
       : "N/A";
 
-  /* ================= DOWNLOAD RECEIPT ================= */
+  /* =========================================================
+     FORMAT DATE
+     ========================================================= */
 
-  const downloadReceipt = () => {
+  const formatDate = (date) => {
+    if (!date) {
+      return "Date not available";
+    }
+
+    /*
+      Handle YYYY-MM-DD manually so browser timezone
+      conversion does not move the date backward/forward.
+    */
+    if (
+      typeof date === "string" &&
+      /^\d{4}-\d{2}-\d{2}/.test(date)
+    ) {
+      const datePart = date.substring(0, 10);
+
+      const [year, month, day] =
+        datePart.split("-").map(Number);
+
+      if (
+        year &&
+        month &&
+        day
+      ) {
+        return new Date(
+          year,
+          month - 1,
+          day
+        ).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+      }
+    }
+
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return String(date);
+    }
+
+    return parsedDate.toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }
+    );
+  };
+
+  /* =========================================================
+     FORMAT TIME
+     ========================================================= */
+
+  const formatTime = (time) => {
+    if (!time) {
+      return "Time not available";
+    }
+
+    const timeString = String(time).trim();
+
+    /*
+      Already formatted:
+      06:30 PM
+      6:30 PM
+    */
+    if (
+      timeString.toLowerCase().includes("am") ||
+      timeString.toLowerCase().includes("pm")
+    ) {
+      return timeString;
+    }
+
+    /*
+      Handle:
+      18:30
+      18:30:00
+    */
+    const parts = timeString.split(":");
+
+    if (
+      parts.length < 2
+    ) {
+      return timeString;
+    }
+
+    const hours = Number(parts[0]);
+    const minutes = Number(parts[1]);
+
+    if (
+      Number.isNaN(hours) ||
+      Number.isNaN(minutes)
+    ) {
+      return timeString;
+    }
+
+    const date = new Date();
+
+    date.setHours(
+      hours,
+      minutes,
+      0,
+      0
+    );
+
+    return date.toLocaleTimeString(
+      "en-IN",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }
+    );
+  };
+
+  /* =========================================================
+     FORMAT CURRENCY
+     ========================================================= */
+
+  const formatCurrency = (amount) => {
+    const numericAmount = Number(amount);
+
+    if (Number.isNaN(numericAmount)) {
+      return String(amount || 0);
+    }
+
+    return numericAmount.toLocaleString(
+      "en-IN",
+      {
+        maximumFractionDigits: 2,
+      }
+    );
+  };
+
+  /* =========================================================
+     STATUS STYLING
+     ========================================================= */
+
+  const isCancelled =
+    statusLower === "cancelled" ||
+    statusLower === "canceled";
+
+  const statusConfig = isCancelled
+    ? {
+        background: "#fef2f2",
+        color: "#dc2626",
+        border: "#fecaca",
+        icon: "×",
+        label: "Cancelled",
+      }
+    : {
+        background: "#ecfdf5",
+        color: "#059669",
+        border: "#a7f3d0",
+        icon: "✓",
+        label: status,
+      };
+
+  /* =========================================================
+     DOWNLOAD RECEIPT
+     ========================================================= */
+
+  const downloadReceipt = async () => {
     const element =
-      document.getElementById("ticket-receipt");
+      document.getElementById(
+        "ticket-receipt"
+      );
 
     if (!element) {
-      alert("Unable to generate ticket receipt.");
+      alert(
+        "Unable to generate ticket receipt."
+      );
       return;
     }
 
-    const options = {
-      margin: 10,
-      filename: `EventBook-Ticket-${displayBookingId}.pdf`,
-      image: {
-        type: "jpeg",
-        quality: 0.98,
-      },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-      },
-      jsPDF: {
-        unit: "mm",
-        format: "a4",
-        orientation: "portrait",
-      },
-    };
+    try {
+      setDownloading(true);
 
-    html2pdf()
-      .set(options)
-      .from(element)
-      .save();
+      const options = {
+        margin: [8, 8, 8, 8],
+
+        filename:
+          `EventBook-Ticket-${displayBookingId}.pdf`,
+
+        image: {
+          type: "jpeg",
+          quality: 0.98,
+        },
+
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: "#ffffff",
+        },
+
+        jsPDF: {
+          unit: "mm",
+          format: "a4",
+          orientation: "portrait",
+        },
+
+        pagebreak: {
+          mode: [
+            "avoid-all",
+            "css",
+            "legacy",
+          ],
+        },
+      };
+
+      await html2pdf()
+        .set(options)
+        .from(element)
+        .save();
+    } catch (error) {
+      console.error(
+        "PDF DOWNLOAD ERROR:",
+        error
+      );
+
+      alert(
+        "Unable to download the ticket. Please try again."
+      );
+    } finally {
+      setDownloading(false);
+    }
   };
 
-  /* ================= NO BOOKING ================= */
+  /* =========================================================
+     NO BOOKING STATE
+     ========================================================= */
 
   if (!booking) {
     return (
-      <div className="bg-light min-vh-100">
-        <div className="container py-5">
-          <div className="row justify-content-center">
-            <div className="col-12 col-md-7 col-lg-6">
+      <>
+        <style>{`
+          .booking-empty-page {
+            min-height: 100vh;
+            background:
+              radial-gradient(
+                circle at top right,
+                rgba(37, 99, 235, 0.08),
+                transparent 35%
+              ),
+              #f8fafc;
+            display: flex;
+            align-items: center;
+          }
 
-              <div className="card border-0 shadow-sm rounded-4">
+          .booking-empty-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            background: #ffffff;
+            box-shadow:
+              0 20px 50px rgba(15, 23, 42, 0.08);
+          }
 
-                <div className="card-body text-center p-4 p-md-5">
+          .empty-icon {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: #fff7ed;
+            color: #f97316;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            margin: 0 auto 24px;
+          }
+        `}</style>
 
-                  <div
-                    className="bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4"
-                    style={{
-                      width: "80px",
-                      height: "80px",
-                      fontSize: "35px",
-                    }}
-                  >
-                    ⚠️
+        <div className="booking-empty-page">
+          <div className="container py-5">
+            <div className="row justify-content-center">
+              <div className="col-12 col-sm-10 col-md-8 col-lg-6">
+                <div className="booking-empty-card">
+                  <div className="p-4 p-md-5 text-center">
+
+                    <div className="empty-icon">
+                      !
+                    </div>
+
+                    <h2 className="fw-bold mb-2">
+                      Booking Details Not Found
+                    </h2>
+
+                    <p className="text-muted mb-4">
+                      We couldn't find the booking
+                      information for this page.
+                      Please open your booking from
+                      the My Bookings section.
+                    </p>
+
+                    <Link
+                      to="/my-bookings"
+                      className="btn btn-primary px-4 py-2 rounded-3 fw-semibold"
+                    >
+                      View My Bookings
+                    </Link>
+
                   </div>
-
-                  <h3 className="fw-bold mb-2">
-                    Booking Details Not Found
-                  </h3>
-
-                  <p className="text-muted mb-4">
-                    We couldn't find the booking information.
-                    Please check your bookings again.
-                  </p>
-
-                  <Link
-                    to="/my-bookings"
-                    className="btn btn-primary px-4"
-                  >
-                    Go to My Bookings
-                  </Link>
-
                 </div>
-
               </div>
-
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
+  /* =========================================================
+     MAIN PAGE
+     ========================================================= */
+
   return (
-    <div className="bg-light min-vh-100">
+    <>
+      <style>{`
+        .confirmation-page {
+          min-height: 100vh;
+          background:
+            radial-gradient(
+              circle at top right,
+              rgba(37, 99, 235, 0.08),
+              transparent 30%
+            ),
+            radial-gradient(
+              circle at bottom left,
+              rgba(16, 185, 129, 0.06),
+              transparent 30%
+            ),
+            #f8fafc;
+        }
 
-      <div className="container py-4 py-md-5">
+        .confirmation-wrapper {
+          max-width: 900px;
+          margin: 0 auto;
+        }
 
-        <div className="row justify-content-center">
+        .confirmation-header {
+          text-align: center;
+          margin-bottom: 28px;
+        }
 
-          <div className="col-12 col-md-10 col-lg-8">
+        .success-icon {
+          width: 78px;
+          height: 78px;
+          border-radius: 50%;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 34px;
+          font-weight: 800;
+          margin-bottom: 18px;
+          box-shadow:
+            0 12px 30px rgba(16, 185, 129, 0.22);
+        }
 
-            {/* ================= SUCCESS HEADER ================= */}
+        .confirmation-title {
+          color: #0f172a;
+          font-size: clamp(28px, 5vw, 40px);
+          line-height: 1.15;
+          letter-spacing: -0.8px;
+        }
 
-            <div className="text-center mb-4">
+        .confirmation-subtitle {
+          color: #64748b;
+          max-width: 600px;
+          margin: 0 auto;
+          font-size: 15px;
+        }
+
+        .ticket-card {
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow:
+            0 24px 60px rgba(15, 23, 42, 0.10);
+        }
+
+        .ticket-header {
+          position: relative;
+          background:
+            linear-gradient(
+              135deg,
+              #2563eb 0%,
+              #1d4ed8 55%,
+              #1e40af 100%
+            );
+          color: #ffffff;
+          padding: 30px;
+          overflow: hidden;
+        }
+
+        .ticket-header::after {
+          content: "";
+          position: absolute;
+          width: 180px;
+          height: 180px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.08);
+          right: -60px;
+          top: -80px;
+        }
+
+        .ticket-header::before {
+          content: "";
+          position: absolute;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.06);
+          left: -45px;
+          bottom: -45px;
+        }
+
+        .brand-label {
+          font-size: 12px;
+          letter-spacing: 2px;
+          font-weight: 700;
+          opacity: 0.75;
+        }
+
+        .ticket-event-title {
+          position: relative;
+          z-index: 1;
+          font-size: clamp(22px, 4vw, 30px);
+          line-height: 1.2;
+          font-weight: 800;
+          word-break: break-word;
+        }
+
+        .ticket-header-content {
+          position: relative;
+          z-index: 2;
+        }
+
+        .status-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          border: 1px solid;
+          border-radius: 999px;
+          padding: 8px 14px;
+          font-size: 13px;
+          font-weight: 700;
+          white-space: nowrap;
+        }
+
+        .ticket-body {
+          padding: 32px;
+        }
+
+        .section-title {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #0f172a;
+          font-size: 17px;
+          font-weight: 750;
+          margin-bottom: 16px;
+        }
+
+        .section-title-icon {
+          width: 34px;
+          height: 34px;
+          border-radius: 10px;
+          background: #eff6ff;
+          color: #2563eb;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          flex-shrink: 0;
+        }
+
+        .info-box {
+          height: 100%;
+          background: #f8fafc;
+          border: 1px solid #e5e7eb;
+          border-radius: 14px;
+          padding: 16px;
+          transition: 0.2s ease;
+        }
+
+        .info-box:hover {
+          border-color: #bfdbfe;
+          background: #f8fbff;
+        }
+
+        .info-label {
+          display: block;
+          color: #64748b;
+          font-size: 12px;
+          font-weight: 600;
+          margin-bottom: 6px;
+        }
+
+        .info-value {
+          display: block;
+          color: #0f172a;
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 1.45;
+          word-break: break-word;
+        }
+
+        .location-box {
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          border-radius: 14px;
+          padding: 16px;
+        }
+
+        .seat-box {
+          background:
+            linear-gradient(
+              135deg,
+              #f8fafc,
+              #ffffff
+            );
+          border: 1px dashed #cbd5e1;
+          border-radius: 14px;
+          padding: 18px;
+        }
+
+        .seat-list {
+          color: #0f172a;
+          font-weight: 750;
+          font-size: 15px;
+          word-break: break-word;
+        }
+
+        .amount-box {
+          background:
+            linear-gradient(
+              135deg,
+              #ecfdf5,
+              #f0fdf4
+            );
+          border: 1px solid #bbf7d0;
+          border-radius: 16px;
+          padding: 20px;
+        }
+
+        .amount-label {
+          color: #047857;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .amount-value {
+          color: #047857;
+          font-size: clamp(24px, 5vw, 32px);
+          font-weight: 800;
+          white-space: nowrap;
+        }
+
+        .ticket-footer {
+          border-top: 2px dashed #e2e8f0;
+          background: #f8fafc;
+          padding: 20px 28px;
+          text-align: center;
+        }
+
+        .action-button {
+          min-height: 48px;
+          border-radius: 12px;
+          font-weight: 700;
+          transition: all 0.2s ease;
+        }
+
+        .action-button:hover {
+          transform: translateY(-1px);
+        }
+
+        .download-button {
+          box-shadow:
+            0 8px 20px rgba(16, 185, 129, 0.18);
+        }
+
+        .bottom-note {
+          color: #94a3b8;
+          font-size: 12px;
+        }
+
+        .receipt-only {
+          width: 100%;
+        }
+
+        @media (max-width: 767.98px) {
+          .confirmation-page {
+            background: #f8fafc;
+          }
+
+          .ticket-card {
+            border-radius: 18px;
+          }
+
+          .ticket-header {
+            padding: 24px 20px;
+          }
+
+          .ticket-body {
+            padding: 22px 18px;
+          }
+
+          .ticket-footer {
+            padding: 18px;
+          }
+
+          .confirmation-header {
+            margin-bottom: 22px;
+          }
+
+          .success-icon {
+            width: 68px;
+            height: 68px;
+            font-size: 29px;
+          }
+
+          .confirmation-title {
+            font-size: 29px;
+          }
+
+          .status-badge {
+            padding: 7px 12px;
+          }
+
+          .action-button {
+            width: 100%;
+          }
+        }
+
+        @media print {
+          body {
+            background: #ffffff !important;
+          }
+
+          .confirmation-page {
+            background: #ffffff !important;
+          }
+        }
+      `}</style>
+
+      <div className="confirmation-page">
+        <div className="container py-4 py-md-5">
+
+          <div className="confirmation-wrapper">
+
+            {/* =================================================
+                SUCCESS HEADER
+                ================================================= */}
+
+            <div className="confirmation-header">
 
               <div
-                className="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm mb-3"
+                className="success-icon"
                 style={{
-                  width: "78px",
-                  height: "78px",
-                  fontSize: "36px",
+                  background:
+                    isCancelled
+                      ? "#fef2f2"
+                      : "#ecfdf5",
+                  color:
+                    isCancelled
+                      ? "#dc2626"
+                      : "#059669",
                 }}
               >
-                ✓
+                {isCancelled
+                  ? "×"
+                  : "✓"}
               </div>
 
-              <h1 className="fw-bold mb-2">
-                Booking Confirmed!
+              <h1 className="confirmation-title fw-bold mb-2">
+                {isCancelled
+                  ? "Booking Cancelled"
+                  : "Booking Confirmed!"}
               </h1>
 
-              <p className="text-muted mb-0">
-                Your event booking has been successfully created.
+              <p className="confirmation-subtitle mb-0">
+                {isCancelled
+                  ? "This booking has been cancelled."
+                  : "Your event booking has been successfully created. Keep your booking ID for future reference."}
               </p>
 
             </div>
 
-            {/* ================= TICKET RECEIPT ================= */}
+            {/* =================================================
+                TICKET RECEIPT
+                ================================================= */}
 
             <div
               id="ticket-receipt"
-              className="card border-0 shadow rounded-4 overflow-hidden"
+              className="ticket-card receipt-only"
             >
 
-              {/* ================= TICKET HEADER ================= */}
+              {/* =================================================
+                  TICKET HEADER
+                  ================================================= */}
 
-              <div className="bg-primary text-white p-4 p-md-5">
+              <div className="ticket-header">
 
-                <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+                <div className="ticket-header-content">
 
-                  <div>
+                  <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start gap-3">
 
-                    <small className="text-white-50 d-block mb-1">
-                      EVENTBOOK
-                    </small>
+                    <div className="flex-grow-1">
 
-                    <h3 className="fw-bold mb-1">
-                      {eventTitle}
-                    </h3>
+                      <div className="brand-label mb-2">
+                        EVENTBOOK
+                      </div>
 
-                    <p className="mb-0 text-white-50">
-                      Your event ticket
-                    </p>
+                      <div className="ticket-event-title">
+                        {eventTitle}
+                      </div>
 
-                  </div>
+                      <div className="small mt-2 text-white-50">
+                        Digital Event Ticket
+                      </div>
 
-                  <div>
+                    </div>
 
-                    <span className="badge bg-white text-success rounded-pill px-3 py-2">
-                      ✓ {status}
-                    </span>
+                    <div
+                      className="status-badge align-self-start"
+                      style={{
+                        background:
+                          statusConfig.background,
+                        color:
+                          statusConfig.color,
+                        borderColor:
+                          statusConfig.border,
+                      }}
+                    >
+                      <span>
+                        {statusConfig.icon}
+                      </span>
+
+                      <span>
+                        {statusConfig.label}
+                      </span>
+                    </div>
 
                   </div>
 
@@ -296,33 +843,41 @@ function BookingConfirmation() {
 
               </div>
 
-              {/* ================= TICKET BODY ================= */}
+              {/* =================================================
+                  TICKET BODY
+                  ================================================= */}
 
-              <div className="card-body p-4 p-md-5 bg-white">
+              <div className="ticket-body">
 
-                {/* ================= EVENT INFORMATION ================= */}
+                {/* EVENT INFORMATION */}
 
-                <div className="mb-4">
+                <section className="mb-4">
 
-                  <h5 className="fw-bold mb-3">
-                    📅 Event Information
-                  </h5>
+                  <div className="section-title">
+                    <span className="section-title-icon">
+                      📅
+                    </span>
+
+                    <span>
+                      Event Information
+                    </span>
+                  </div>
 
                   <div className="row g-3">
 
                     {/* DATE */}
 
-                    <div className="col-12 col-sm-4">
+                    <div className="col-12 col-sm-6 col-lg-4">
 
-                      <div className="bg-light rounded-3 p-3 h-100">
+                      <div className="info-box">
 
-                        <small className="text-muted d-block mb-1">
-                          📅 Date
-                        </small>
+                        <span className="info-label">
+                          Event Date
+                        </span>
 
-                        <strong>
+                        <span className="info-value">
                           {formatDate(eventDate)}
-                        </strong>
+                        </span>
 
                       </div>
 
@@ -330,17 +885,17 @@ function BookingConfirmation() {
 
                     {/* TIME */}
 
-                    <div className="col-12 col-sm-4">
+                    <div className="col-12 col-sm-6 col-lg-4">
 
-                      <div className="bg-light rounded-3 p-3 h-100">
+                      <div className="info-box">
 
-                        <small className="text-muted d-block mb-1">
-                          🕐 Time
-                        </small>
+                        <span className="info-label">
+                          Event Time
+                        </span>
 
-                        <strong>
+                        <span className="info-value">
                           {formatTime(eventTime)}
-                        </strong>
+                        </span>
 
                       </div>
 
@@ -348,17 +903,17 @@ function BookingConfirmation() {
 
                     {/* VENUE */}
 
-                    <div className="col-12 col-sm-4">
+                    <div className="col-12 col-lg-4">
 
-                      <div className="bg-light rounded-3 p-3 h-100">
+                      <div className="info-box">
 
-                        <small className="text-muted d-block mb-1">
-                          📍 Venue
-                        </small>
+                        <span className="info-label">
+                          Venue
+                        </span>
 
-                        <strong className="text-break">
+                        <span className="info-value">
                           {eventVenue}
-                        </strong>
+                        </span>
 
                       </div>
 
@@ -369,28 +924,38 @@ function BookingConfirmation() {
                   {/* LOCATION */}
 
                   {eventLocation && (
-                    <div className="border rounded-3 p-3 mt-3">
+                    <div className="location-box mt-3">
 
-                      <small className="text-muted d-block mb-1">
-                        📍 Location
-                      </small>
+                      <span className="info-label">
+                        Event Location
+                      </span>
 
-                      <strong className="text-break">
-                        {eventLocation}
-                      </strong>
+                      <span className="info-value">
+                        📍 {eventLocation}
+                      </span>
 
                     </div>
                   )}
 
-                </div>
+                </section>
 
-                {/* ================= BOOKING DETAILS ================= */}
+                {/* DIVIDER */}
 
-                <div className="mb-4">
+                <hr className="my-4 border-secondary-subtle" />
 
-                  <h5 className="fw-bold mb-3">
-                    🎫 Booking Details
-                  </h5>
+                {/* BOOKING INFORMATION */}
+
+                <section className="mb-4">
+
+                  <div className="section-title">
+                    <span className="section-title-icon">
+                      🎫
+                    </span>
+
+                    <span>
+                      Booking Details
+                    </span>
+                  </div>
 
                   <div className="row g-3">
 
@@ -398,33 +963,37 @@ function BookingConfirmation() {
 
                     <div className="col-12 col-sm-6">
 
-                      <div className="bg-light rounded-3 p-3 h-100">
+                      <div className="info-box">
 
-                        <small className="text-muted d-block mb-1">
+                        <span className="info-label">
                           Booking ID
-                        </small>
+                        </span>
 
-                        <strong className="text-break">
+                        <span className="info-value">
                           {displayBookingId}
-                        </strong>
+                        </span>
 
                       </div>
 
                     </div>
 
-                    {/* TICKETS */}
+                    {/* TICKET COUNT */}
 
                     <div className="col-12 col-sm-6">
 
-                      <div className="bg-light rounded-3 p-3 h-100">
+                      <div className="info-box">
 
-                        <small className="text-muted d-block mb-1">
-                          🎟️ Tickets
-                        </small>
+                        <span className="info-label">
+                          Number of Tickets
+                        </span>
 
-                        <strong>
+                        <span className="info-value">
                           {ticketCount}
-                        </strong>
+                          {" "}
+                          {ticketCount === 1
+                            ? "Ticket"
+                            : "Tickets"}
+                        </span>
 
                       </div>
 
@@ -432,115 +1001,157 @@ function BookingConfirmation() {
 
                   </div>
 
-                </div>
+                </section>
 
-                {/* ================= SELECTED SEATS ================= */}
+                {/* SELECTED SEATS */}
 
-                <div className="border rounded-3 p-3 mb-4">
+                <section className="mb-4">
 
-                  <div className="d-flex flex-column flex-sm-row justify-content-between gap-3">
+                  <div className="seat-box">
 
-                    <div>
+                    <div className="d-flex flex-column flex-sm-row justify-content-between gap-3">
 
-                      <small className="text-muted d-block mb-1">
-                        💺 Selected Seats
-                      </small>
+                      <div className="flex-grow-1">
 
-                      <strong className="text-break">
-                        {seats}
-                      </strong>
+                        <span className="info-label">
+                          Selected Seats
+                        </span>
 
-                    </div>
+                        <div className="seat-list">
+                          💺 {seats}
+                        </div>
 
-                    <div className="text-sm-end">
+                      </div>
 
-                      <small className="text-muted d-block mb-1">
-                        Number of Tickets
-                      </small>
+                      <div className="flex-shrink-0">
 
-                      <strong>
-                        {ticketCount}
-                      </strong>
+                        <span className="info-label">
+                          Tickets
+                        </span>
+
+                        <div className="seat-list">
+                          {ticketCount}
+                        </div>
+
+                      </div>
 
                     </div>
 
                   </div>
 
-                </div>
+                </section>
 
-                {/* ================= PAYMENT SUMMARY ================= */}
+                {/* PAYMENT SUMMARY */}
 
-                <div className="bg-success-subtle rounded-3 p-3 p-md-4">
+                <section>
 
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="amount-box">
 
-                    <div>
+                    <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
 
-                      <small className="text-success d-block">
-                        Total Amount
-                      </small>
+                      <div>
 
-                      <span className="text-muted small">
-                        Booking total
-                      </span>
+                        <div className="amount-label">
+                          TOTAL AMOUNT
+                        </div>
+
+                        <div className="small text-muted mt-1">
+                          Final booking amount
+                        </div>
+
+                      </div>
+
+                      <div className="amount-value">
+                        ₹{formatCurrency(totalAmount)}
+                      </div>
 
                     </div>
 
-                    <h3 className="fw-bold text-success mb-0">
-                      ₹{totalAmount}
-                    </h3>
-
                   </div>
 
-                </div>
+                </section>
 
               </div>
 
-              {/* ================= TICKET FOOTER ================= */}
+              {/* =================================================
+                  TICKET FOOTER
+                  ================================================= */}
 
-              <div className="border-top border-2 border-dashed p-4 bg-light text-center">
+              <div className="ticket-footer">
 
-                <p className="text-muted small mb-0">
-                  🎉 Thank you for choosing EventBook.
-                  Please keep your booking ID for future reference.
-                </p>
+                <div className="small text-muted">
+                  Thank you for choosing
+                  {" "}
+                  <strong className="text-dark">
+                    EventBook
+                  </strong>
+                  .
+                </div>
+
+                <div className="small text-muted mt-1">
+                  Please keep your booking ID
+                  for future reference.
+                </div>
 
               </div>
 
             </div>
 
-            {/* ================= ACTION BUTTONS ================= */}
+            {/* =================================================
+                ACTION BUTTONS
+                ================================================= */}
 
             <div className="row g-2 g-md-3 mt-4">
+
+              {/* DOWNLOAD */}
 
               <div className="col-12 col-md-4">
 
                 <button
                   type="button"
-                  className="btn btn-success w-100 py-2"
+                  className="btn btn-success action-button download-button w-100"
                   onClick={downloadReceipt}
+                  disabled={downloading}
                 >
-                  📥 Download Ticket
+                  {downloading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                      />
+
+                      Generating PDF...
+                    </>
+                  ) : (
+                    <>
+                      📥 Download Ticket
+                    </>
+                  )}
                 </button>
 
               </div>
+
+              {/* MY BOOKINGS */}
 
               <div className="col-12 col-md-4">
 
                 <Link
                   to="/my-bookings"
-                  className="btn btn-primary w-100 py-2"
+                  className="btn btn-primary action-button w-100 d-flex align-items-center justify-content-center"
                 >
                   🎫 My Bookings
                 </Link>
 
               </div>
 
+              {/* EVENTS */}
+
               <div className="col-12 col-md-4">
 
                 <Link
                   to="/events"
-                  className="btn btn-outline-secondary w-100 py-2"
+                  className="btn btn-outline-secondary action-button w-100 d-flex align-items-center justify-content-center"
                 >
                   Browse Events
                 </Link>
@@ -549,23 +1160,24 @@ function BookingConfirmation() {
 
             </div>
 
-            {/* ================= FOOTER NOTE ================= */}
+            {/* =================================================
+                FOOTER
+                ================================================= */}
 
             <div className="text-center mt-4">
 
-              <small className="text-muted">
-                EventBook • Discover events. Book tickets. Enjoy experiences.
-              </small>
+              <div className="bottom-note">
+                EventBook • Discover events.
+                Book tickets. Enjoy experiences.
+              </div>
 
             </div>
 
           </div>
 
         </div>
-
       </div>
-
-    </div>
+    </>
   );
 }
 

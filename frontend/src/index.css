@@ -1,57 +1,88 @@
+
 /* =========================================================
    EVENTBOOK
+
    GLOBAL + NAVBAR + SIDEBAR
+
+   PREMIUM RESPONSIVE UI
+
+   ========================================================= */
+
+
+/* =========================================================
+   ROOT VARIABLES
    ========================================================= */
 
 :root {
+
   --eventbook-primary: #2563eb;
+
   --eventbook-primary-dark: #1d4ed8;
+
   --eventbook-primary-soft: #eff6ff;
 
   --eventbook-text: #0f172a;
+
   --eventbook-text-secondary: #475569;
+
   --eventbook-muted: #94a3b8;
 
   --eventbook-border: #e5e7eb;
+
+  --eventbook-border-light: #eef1f5;
+
   --eventbook-background: #f8fafc;
+
   --eventbook-white: #ffffff;
 
-  --eventbook-sidebar-width: 260px;
+  --eventbook-sidebar-width: 280px;
 
-  --eventbook-navbar-height: 72px;
+  --eventbook-sidebar-collapsed: 78px;
+
+  --eventbook-navbar-height: 76px;
 
   --eventbook-radius-sm: 8px;
+
   --eventbook-radius-md: 11px;
+
   --eventbook-radius-lg: 16px;
 
   --eventbook-transition: 0.22s ease;
 
   --eventbook-shadow:
     0 8px 30px rgba(15, 23, 42, 0.07);
+
 }
 
 
 /* =========================================================
-   GLOBAL
+   GLOBAL RESET
    ========================================================= */
 
 *,
 *::before,
 *::after {
+
   box-sizing: border-box;
+
 }
 
 html,
 body,
 #root {
+
   min-height: 100%;
+
 }
 
 html {
+
   overflow-x: hidden;
+
 }
 
 body {
+
   margin: 0;
 
   font-family:
@@ -64,32 +95,50 @@ body {
     sans-serif;
 
   background: var(--eventbook-background);
+
   color: var(--eventbook-text);
 
   overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+
+  text-rendering: optimizeLegibility;
+
 }
 
 body.sidebar-mobile-open {
+
   overflow: hidden;
+
 }
 
 button,
 input,
 select,
 textarea {
+
   font: inherit;
+
 }
 
 button {
+
   cursor: pointer;
+
 }
 
 a {
+
   text-decoration: none;
+
 }
 
 img {
+
   max-width: 100%;
+
+  height: auto;
+
 }
 
 
@@ -98,33 +147,45 @@ img {
    ========================================================= */
 
 .card {
+
   border-radius: 12px;
+
 }
 
 .btn {
+
   border-radius: 8px;
+
 }
 
 .form-control,
 .form-select {
+
   border-radius: 8px;
+
 }
 
 .page-title {
+
   font-weight: 700;
+
 }
 
 .event-card {
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+
 }
 
 .event-card:hover {
+
   transform: translateY(-4px);
 
   box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.08);
+
 }
 
 
@@ -133,14 +194,19 @@ img {
    ========================================================= */
 
 .public-layout {
+
   min-height: 100vh;
 
   display: flex;
+
   flex-direction: column;
+
 }
 
 .public-content {
+
   flex: 1;
+
 }
 
 
@@ -149,194 +215,440 @@ img {
    ========================================================= */
 
 .dashboard-layout {
+
   width: 100%;
+
   min-height: 100vh;
+
 }
 
 .dashboard-main {
+
   min-width: 0;
+
   min-height: 100vh;
 
   margin-left: var(--eventbook-sidebar-width);
 
   display: flex;
+
   flex-direction: column;
 
   transition:
     margin-left var(--eventbook-transition);
+
 }
 
 .dashboard-content {
+
   flex: 1;
+
   min-width: 0;
 
   background: var(--eventbook-background);
+
 }
 
 
 /* =========================================================
-   NAVBAR
+   =========================================================
+
+   PREMIUM NAVBAR
+
+   =========================================================
+
    ========================================================= */
 
 .eventbook-navbar {
+
   position: sticky;
+
   top: 0;
 
+  left: 0;
+
+  width: 100%;
+
   min-height: var(--eventbook-navbar-height);
 
-  background: rgba(255, 255, 255, 0.97);
+  background:
+    rgba(255, 255, 255, 0.92);
 
-  border-bottom: 1px solid var(--eventbook-border);
+  border-bottom:
+    1px solid rgba(226, 232, 240, 0.85);
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8),
+    0 8px 30px rgba(15, 23, 42, 0.045);
+
+  backdrop-filter: blur(20px);
+
+  -webkit-backdrop-filter: blur(20px);
 
   z-index: 1030;
-}
 
-.eventbook-navbar-inner {
-  width: 100%;
-  min-height: var(--eventbook-navbar-height);
+  isolation: isolate;
 
-  display: flex;
-  align-items: center;
-
-  padding: 0 22px;
-
-  gap: 20px;
 }
 
 
 /* =========================================================
-   NAVBAR BRAND
+   NAVBAR INNER
+   ========================================================= */
+
+.eventbook-navbar-inner {
+
+  width: 100%;
+
+  min-height: var(--eventbook-navbar-height);
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 0 24px;
+
+  gap: 24px;
+
+}
+
+
+/* =========================================================
+   PREMIUM BRAND
    ========================================================= */
 
 .eventbook-navbar-brand {
-  display: flex;
+
+  position: relative;
+
+  display: inline-flex;
+
   align-items: center;
 
-  gap: 10px;
+  gap: 11px;
 
-  flex-shrink: 0;
+  flex: 0 0 auto;
+
+  min-width: 0;
 
   color: var(--eventbook-text);
+
+  transition:
+    transform var(--eventbook-transition),
+    opacity var(--eventbook-transition);
+
 }
 
 .eventbook-navbar-brand:hover {
+
   color: var(--eventbook-text);
-}
 
-.eventbook-navbar-logo {
-  width: 40px;
-  height: 40px;
+  transform: translateY(-1px);
 
-  flex: 0 0 40px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 11px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #3b82f6
-    );
-
-  color: white;
-
-  font-size: 18px;
-  font-weight: 800;
-
-  box-shadow:
-    0 7px 18px rgba(37, 99, 235, 0.20);
-}
-
-.eventbook-navbar-brand-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.eventbook-navbar-title {
-  color: #111827;
-
-  font-size: 19px;
-  line-height: 20px;
-
-  font-weight: 800;
-
-  letter-spacing: -0.3px;
-}
-
-.eventbook-navbar-title span {
-  color: var(--eventbook-primary);
-}
-
-.eventbook-navbar-subtitle {
-  margin-top: 2px;
-
-  color: var(--eventbook-muted);
-
-  font-size: 8px;
-  line-height: 10px;
-
-  letter-spacing: 0.8px;
-
-  text-transform: uppercase;
 }
 
 
 /* =========================================================
-   NAVBAR CENTER NAVIGATION
+   BRAND LOGO
+   ========================================================= */
+
+.eventbook-navbar-logo {
+
+  position: relative;
+
+  width: 42px;
+
+  height: 42px;
+
+  flex: 0 0 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #2563eb 0%,
+      #3b82f6 55%,
+      #60a5fa 100%
+    );
+
+  color: #ffffff;
+
+  font-size: 18px;
+
+  font-weight: 850;
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.22);
+
+  overflow: hidden;
+
+  user-select: none;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+}
+
+.eventbook-navbar-logo::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 25px;
+
+  height: 25px;
+
+  top: -13px;
+
+  right: -10px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.22);
+
+}
+
+.eventbook-navbar-logo span {
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
+.eventbook-navbar-brand:hover .eventbook-navbar-logo {
+
+  transform: rotate(-2deg) scale(1.03);
+
+  box-shadow:
+    0 11px 26px rgba(37, 99, 235, 0.28);
+
+}
+
+
+/* =========================================================
+   BRAND TEXT
+   ========================================================= */
+
+.eventbook-navbar-brand-text {
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+
+}
+
+.eventbook-navbar-title {
+
+  color: #111827;
+
+  font-size: 20px;
+
+  line-height: 21px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.55px;
+
+  white-space: nowrap;
+
+}
+
+.eventbook-navbar-title span {
+
+  color: var(--eventbook-primary);
+
+}
+
+.eventbook-navbar-subtitle {
+
+  margin-top: 3px;
+
+  color: #94a3b8;
+
+  font-size: 8px;
+
+  line-height: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.95px;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+
+}
+
+
+/* =========================================================
+   NAVIGATION WRAPPER
    ========================================================= */
 
 .eventbook-navbar-navigation {
-  flex: 1;
+
+  flex: 1 1 auto;
+
+  min-width: 0;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
-  gap: 3px;
+  overflow: visible;
+
 }
 
+.eventbook-navbar-nav-inner {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 4px;
+
+  padding: 5px;
+
+  border:
+    1px solid rgba(226, 232, 240, 0.85);
+
+  border-radius: 14px;
+
+  background:
+    rgba(248, 250, 252, 0.82);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+}
+
+
+/* =========================================================
+   NAVIGATION LINK
+   ========================================================= */
+
 .eventbook-nav-link {
-  min-height: 40px;
+
+  position: relative;
+
+  min-height: 38px;
 
   display: inline-flex;
+
   align-items: center;
+
+  justify-content: center;
 
   gap: 7px;
 
-  padding: 0 12px;
+  padding: 0 13px;
 
-  border-radius: 9px;
+  border-radius: 10px;
 
-  color: var(--eventbook-text-secondary);
+  color: #64748b;
 
-  font-size: 13px;
-  font-weight: 550;
+  font-size: 12.5px;
+
+  font-weight: 650;
+
+  white-space: nowrap;
 
   transition:
     background var(--eventbook-transition),
-    color var(--eventbook-transition);
+    color var(--eventbook-transition),
+    box-shadow var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
 }
 
 .eventbook-nav-link:hover {
+
   color: var(--eventbook-primary);
 
-  background: #f8fafc;
+  background:
+    rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 3px 10px rgba(15, 23, 42, 0.045);
+
+  transform: translateY(-1px);
+
 }
 
 .eventbook-nav-link.active {
-  color: var(--eventbook-primary);
 
-  background: var(--eventbook-primary-soft);
+  color: #1d4ed8;
 
-  font-weight: 650;
+  background: #ffffff;
+
+  font-weight: 750;
+
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.07),
+    inset 0 0 0 1px rgba(219, 234, 254, 0.9);
+
 }
 
-.eventbook-nav-link svg {
-  flex-shrink: 0;
+.eventbook-nav-link.active::after {
+
+  content: "";
+
+  position: absolute;
+
+  bottom: 3px;
+
+  left: 50%;
+
+  width: 15px;
+
+  height: 2px;
+
+  transform: translateX(-50%);
+
+  border-radius: 10px;
+
+  background: var(--eventbook-primary);
+
+}
+
+.eventbook-nav-icon {
+
+  width: 17px;
+
+  height: 17px;
+
+  flex: 0 0 17px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+.eventbook-nav-icon svg {
+
+  width: 16px;
+
+  height: 16px;
+
 }
 
 
@@ -345,19 +657,39 @@ img {
    ========================================================= */
 
 .eventbook-admin-badge {
-  padding: 3px 6px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 17px;
+
+  padding: 2px 6px;
+
+  margin-left: 1px;
 
   border-radius: 5px;
 
-  background: #dbeafe;
-  color: #2563eb;
+  background:
+    #dbeafe;
 
-  font-size: 8px;
-  font-weight: 700;
+  color:
+    #2563eb;
 
-  letter-spacing: 0.3px;
+  font-size: 7px;
+
+  line-height: 1;
+
+  font-weight: 850;
+
+  letter-spacing: 0.45px;
 
   text-transform: uppercase;
+
+  white-space: nowrap;
+
 }
 
 
@@ -366,62 +698,165 @@ img {
    ========================================================= */
 
 .eventbook-navbar-actions {
+
   display: flex;
+
   align-items: center;
+
+  justify-content: flex-end;
 
   gap: 8px;
 
-  flex-shrink: 0;
+  flex: 0 0 auto;
+
+  min-width: 0;
+
 }
 
 
 /* =========================================================
-   PROFILE
+   PREMIUM PROFILE
    ========================================================= */
 
 .eventbook-profile {
+
+  min-width: 0;
+
+  max-width: 185px;
+
+  height: 46px;
+
   display: flex;
+
   align-items: center;
 
-  gap: 8px;
+  gap: 9px;
 
-  padding: 3px 8px 3px 3px;
+  padding: 4px 12px 4px 5px;
 
-  border: 1px solid var(--eventbook-border);
+  border:
+    1px solid #e2e8f0;
 
-  border-radius: 11px;
+  border-radius: 13px;
 
-  background: white;
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 3px 12px rgba(15, 23, 42, 0.045);
+
+  overflow: hidden;
+
+  transition:
+    border-color var(--eventbook-transition),
+    box-shadow var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
 }
 
+.eventbook-profile:hover {
+
+  border-color: #cbd5e1;
+
+  box-shadow:
+    0 7px 18px rgba(15, 23, 42, 0.07);
+
+  transform: translateY(-1px);
+
+}
+
+
+/* =========================================================
+   PROFILE AVATAR
+   ========================================================= */
+
 .eventbook-profile-avatar {
+
   width: 35px;
+
   height: 35px;
 
+  flex: 0 0 35px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
-  border-radius: 9px;
+  border-radius: 10px;
 
-  background: #eff6ff;
+  background:
+    linear-gradient(
+      145deg,
+      #eff6ff,
+      #dbeafe
+    );
+
   color: var(--eventbook-primary);
 
   font-size: 13px;
-  font-weight: 750;
+
+  font-weight: 850;
+
+  border:
+    1px solid #dbeafe;
+
+  user-select: none;
+
+}
+
+
+/* =========================================================
+   PROFILE TEXT
+   ========================================================= */
+
+.eventbook-profile-info {
+
+  min-width: 0;
+
 }
 
 .eventbook-profile-name {
+
+  max-width: 112px;
+
+  overflow: hidden;
+
   color: var(--eventbook-text);
 
   font-size: 12px;
-  font-weight: 700;
+
+  line-height: 15px;
+
+  font-weight: 750;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
 }
 
 .eventbook-profile-role {
+
+  display: block;
+
+  max-width: 112px;
+
+  overflow: hidden;
+
   color: var(--eventbook-muted);
 
   font-size: 9px;
+
+  line-height: 12px;
+
+  font-weight: 650;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
 }
 
 
@@ -432,89 +867,190 @@ img {
 .eventbook-navbar-logout,
 .eventbook-login-btn,
 .eventbook-start-btn {
-  height: 38px;
+
+  height: 41px;
 
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
 
   gap: 7px;
 
-  padding: 0 13px;
+  padding: 0 14px;
 
-  border-radius: 9px;
+  border-radius: 10px;
 
   font-size: 12px;
-  font-weight: 650;
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  white-space: nowrap;
 
   transition:
     background var(--eventbook-transition),
     border-color var(--eventbook-transition),
     color var(--eventbook-transition),
+    box-shadow var(--eventbook-transition),
     transform var(--eventbook-transition);
-}
 
-.eventbook-navbar-logout {
-  border: 1px solid var(--eventbook-border);
-
-  background: white;
-  color: var(--eventbook-text-secondary);
-}
-
-.eventbook-navbar-logout:hover {
-  border-color: #fecaca;
-
-  background: #fff5f5;
-
-  color: #dc2626;
-}
-
-.eventbook-login-btn {
-  border: 1px solid #dbe3ee;
-
-  background: white;
-
-  color: var(--eventbook-text-secondary);
-}
-
-.eventbook-login-btn:hover {
-  border-color: var(--eventbook-primary);
-
-  color: var(--eventbook-primary);
-}
-
-.eventbook-start-btn {
-  border: 0;
-
-  background: var(--eventbook-primary);
-
-  color: white;
-
-  box-shadow:
-    0 5px 15px rgba(37, 99, 235, 0.18);
-}
-
-.eventbook-start-btn:hover {
-  background: var(--eventbook-primary-dark);
-
-  color: white;
-
-  transform: translateY(-1px);
 }
 
 
 /* =========================================================
-   RIGHT NAVBAR HAMBURGER
-   PHONE ONLY
+   LOGOUT
+   ========================================================= */
+
+.eventbook-navbar-logout {
+
+  min-width: 84px;
+
+  border:
+    1px solid #e2e8f0;
+
+  background:
+    #ffffff;
+
+  color:
+    #475569;
+
+  box-shadow:
+    0 3px 9px rgba(15, 23, 42, 0.035);
+
+}
+
+.eventbook-navbar-logout:hover {
+
+  border-color: #fecaca;
+
+  background:
+    #fff5f5;
+
+  color:
+    #dc2626;
+
+  box-shadow:
+    0 6px 15px rgba(220, 38, 38, 0.08);
+
+  transform: translateY(-1px);
+
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+.eventbook-login-btn {
+
+  border:
+    1px solid #dbe3ee;
+
+  background:
+    #ffffff;
+
+  color:
+    #475569;
+
+  box-shadow:
+    0 3px 9px rgba(15, 23, 42, 0.025);
+
+}
+
+.eventbook-login-btn:hover {
+
+  border-color:
+    #93c5fd;
+
+  background:
+    #eff6ff;
+
+  color:
+    #2563eb;
+
+  transform: translateY(-1px);
+
+}
+
+
+/* =========================================================
+   GET STARTED
+   ========================================================= */
+
+.eventbook-start-btn {
+
+  border:
+    1px solid #2563eb;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 7px 17px rgba(37, 99, 235, 0.19);
+
+}
+
+.eventbook-start-btn:hover {
+
+  border-color:
+    #1d4ed8;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8,
+      #1e40af
+    );
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 9px 21px rgba(37, 99, 235, 0.27);
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+/* =========================================================
+   MOBILE USER SECTION
+   ========================================================= */
+
+.eventbook-mobile-user {
+
+  display: none;
+
+}
+
+
+/* =========================================================
+   MOBILE NAVBAR TOGGLE
    ========================================================= */
 
 .eventbook-navbar-mobile-toggle {
+
   display: none;
 
   width: 42px;
+
   height: 42px;
 
+  flex: 0 0 42px;
+
   align-items: center;
+
   justify-content: center;
 
   flex-direction: column;
@@ -523,50 +1059,101 @@ img {
 
   padding: 0;
 
-  border: 1px solid var(--eventbook-border);
+  border:
+    1px solid #e2e8f0;
 
-  border-radius: 10px;
+  border-radius: 11px;
 
-  background: white;
+  background:
+    #ffffff;
 
-  color: #334155;
+  color:
+    #334155;
+
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.045);
+
+  transition:
+    background var(--eventbook-transition),
+    border-color var(--eventbook-transition),
+    color var(--eventbook-transition),
+    box-shadow var(--eventbook-transition);
+
+}
+
+.eventbook-navbar-mobile-toggle:hover {
+
+  background:
+    #eff6ff;
+
+  border-color:
+    #bfdbfe;
+
+  color:
+    #2563eb;
+
+  box-shadow:
+    0 6px 15px rgba(37, 99, 235, 0.09);
+
 }
 
 .eventbook-navbar-mobile-toggle span {
+
   width: 19px;
+
   height: 2px;
 
-  border-radius: 2px;
+  border-radius: 4px;
 
-  background: currentColor;
+  background:
+    currentColor;
 
   transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
+    transform 0.22s ease,
+    opacity 0.22s ease;
+
 }
 
 .eventbook-navbar-mobile-toggle.active span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+
+  transform:
+    translateY(7px)
+    rotate(45deg);
+
 }
 
 .eventbook-navbar-mobile-toggle.active span:nth-child(2) {
+
   opacity: 0;
+
 }
 
 .eventbook-navbar-mobile-toggle.active span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+
+  transform:
+    translateY(-7px)
+    rotate(-45deg);
+
 }
 
 
 /* =========================================================
-   SIDEBAR
+   =========================================================
+
+   PREMIUM SIDEBAR
+
+   =========================================================
+
    ========================================================= */
 
 .eventbook-sidebar {
+
   position: fixed;
 
   top: 0;
+
   left: 0;
+
   bottom: 0;
 
   width: var(--eventbook-sidebar-width);
@@ -574,37 +1161,114 @@ img {
   z-index: 1040;
 
   display: flex;
+
   flex-direction: column;
 
-  background: white;
+  background:
+    rgba(255, 255, 255, 0.98);
 
-  border-right: 1px solid var(--eventbook-border);
+  border-right:
+    1px solid var(--eventbook-border-light);
 
   box-shadow:
-    5px 0 24px rgba(15, 23, 42, 0.035);
+    8px 0 30px rgba(15, 23, 42, 0.035);
 
   transition:
     width var(--eventbook-transition),
-    transform var(--eventbook-transition);
+    transform var(--eventbook-transition),
+    box-shadow var(--eventbook-transition);
+
+  isolation: isolate;
+
 }
 
 
 /* =========================================================
    SIDEBAR TOP
-   NO LOGO
-   NO APP NAME
    ========================================================= */
 
 .eventbook-sidebar-top {
-  height: 72px;
-  min-height: 72px;
+
+  height: var(--eventbook-navbar-height);
+
+  min-height: var(--eventbook-navbar-height);
 
   display: flex;
+
   align-items: center;
 
-  padding: 0 14px;
+  justify-content: space-between;
 
-  border-bottom: 1px solid #f0f2f5;
+  padding: 0 16px;
+
+  border-bottom:
+    1px solid var(--eventbook-border-light);
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f8fafc 100%
+    );
+
+  flex-shrink: 0;
+
+}
+
+
+/* =========================================================
+   SIDEBAR SECTION TITLE
+   ========================================================= */
+
+.eventbook-sidebar-section-title {
+
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  transition:
+    opacity var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
+}
+
+
+.eventbook-sidebar-section-dot {
+
+  width: 9px;
+
+  height: 9px;
+
+  flex: 0 0 9px;
+
+  border-radius: 50%;
+
+  background:
+    var(--eventbook-primary);
+
+  box-shadow:
+    0 0 0 4px var(--eventbook-primary-soft),
+    0 4px 10px rgba(37, 99, 235, 0.2);
+
+}
+
+
+.eventbook-sidebar-section-text {
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.14em;
+
+  color: var(--eventbook-muted);
+
+  white-space: nowrap;
+
 }
 
 
@@ -613,54 +1277,112 @@ img {
    ========================================================= */
 
 .eventbook-sidebar-arrow {
-  width: 38px;
-  height: 38px;
+
+  width: 36px;
+
+  height: 36px;
+
+  flex: 0 0 36px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
-  border: 1px solid var(--eventbook-border);
+  border:
+    1px solid var(--eventbook-border);
 
   border-radius: 10px;
 
-  background: white;
+  background:
+    #ffffff;
 
-  color: #475569;
+  color:
+    var(--eventbook-text-secondary);
+
+  cursor: pointer;
 
   transition:
     background var(--eventbook-transition),
     border-color var(--eventbook-transition),
-    color var(--eventbook-transition);
+    color var(--eventbook-transition),
+    box-shadow var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
 }
+
 
 .eventbook-sidebar-arrow:hover {
-  background: var(--eventbook-primary-soft);
 
-  border-color: #bfdbfe;
+  background:
+    var(--eventbook-primary-soft);
 
-  color: var(--eventbook-primary);
+  border-color:
+    rgba(37, 99, 235, 0.2);
+
+  color:
+    var(--eventbook-primary);
+
+  box-shadow:
+    0 5px 14px rgba(37, 99, 235, 0.1);
+
+  transform:
+    translateY(-1px);
+
 }
+
+
+.eventbook-sidebar-arrow:active {
+
+  transform:
+    translateY(0);
+
+}
+
+
+/* =========================================================
+   ARROW SHAPE
+   ========================================================= */
 
 .arrow-left,
 .arrow-right {
+
   width: 8px;
+
   height: 8px;
 
-  border-top: 1.8px solid currentColor;
-  border-right: 1.8px solid currentColor;
+  display: block;
+
+  border-top:
+    1.8px solid currentColor;
+
+  border-left:
+    1.8px solid currentColor;
+
+  transition:
+    transform var(--eventbook-transition);
+
 }
+
 
 .arrow-left {
-  transform: rotate(-135deg);
 
-  margin-left: 4px;
+  transform:
+    rotate(-45deg);
+
+  margin-left: 3px;
+
 }
 
-.arrow-right {
-  transform: rotate(45deg);
 
-  margin-right: 4px;
+.arrow-right {
+
+  transform:
+    rotate(135deg);
+
+  margin-right: 3px;
+
 }
 
 
@@ -669,43 +1391,97 @@ img {
    ========================================================= */
 
 .eventbook-sidebar-body {
+
   flex: 1;
+
   min-height: 0;
 
-  padding: 22px 12px;
+  padding: 20px 13px 16px;
 
   overflow-y: auto;
+
   overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #dbe3ef
+    transparent;
+
 }
+
 
 .eventbook-sidebar-body::-webkit-scrollbar {
-  width: 4px;
+
+  width: 5px;
+
 }
+
 
 .eventbook-sidebar-body::-webkit-scrollbar-thumb {
-  background: #dbe3ec;
 
-  border-radius: 10px;
+  background:
+    #dbe3ef;
+
+  border-radius:
+    20px;
+
 }
+
+
+.eventbook-sidebar-body::-webkit-scrollbar-track {
+
+  background:
+    transparent;
+
+}
+
+
+/* =========================================================
+   MENU LABEL
+   ========================================================= */
 
 .eventbook-menu-label {
-  padding: 0 10px 9px;
 
-  color: var(--eventbook-muted);
+  padding:
+    0 11px 10px;
 
-  font-size: 9px;
-  font-weight: 750;
+  color:
+    var(--eventbook-muted);
 
-  letter-spacing: 0.9px;
+  font-size:
+    10px;
 
-  text-transform: uppercase;
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.12em;
+
+  text-transform:
+    uppercase;
+
+  white-space:
+    nowrap;
+
 }
 
-.eventbook-navigation {
-  display: flex;
-  flex-direction: column;
 
-  gap: 4px;
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.eventbook-navigation {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    5px;
+
 }
 
 
@@ -714,79 +1490,255 @@ img {
    ========================================================= */
 
 .eventbook-nav-item {
-  min-height: 45px;
 
-  display: flex;
-  align-items: center;
+  position:
+    relative;
 
-  gap: 12px;
+  min-height:
+    48px;
 
-  padding: 0 12px;
+  display:
+    flex;
 
-  position: relative;
+  align-items:
+    center;
 
-  border-radius: 9px;
+  gap:
+    13px;
 
-  color: #64748b;
+  padding:
+    0 13px;
 
-  font-size: 13px;
-  font-weight: 550;
+  border:
+    1px solid transparent;
 
-  white-space: nowrap;
+  border-radius:
+    12px;
+
+  color:
+    var(--eventbook-text-secondary);
+
+  font-size:
+    14px;
+
+  font-weight:
+    600;
+
+  text-decoration:
+    none;
+
+  white-space:
+    nowrap;
+
+  overflow:
+    hidden;
+
+  transition:
+    background var(--eventbook-transition),
+    color var(--eventbook-transition),
+    border-color var(--eventbook-transition),
+    box-shadow var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
+}
+
+
+.eventbook-nav-item:hover {
+
+  background:
+    #f8fafc;
+
+  border-color:
+    #edf1f6;
+
+  color:
+    var(--eventbook-primary);
+
+  transform:
+    translateX(2px);
+
+}
+
+
+.eventbook-nav-item.active {
+
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff 0%,
+      #f5f8ff 100%
+    );
+
+  border-color:
+    rgba(37, 99, 235, 0.12);
+
+  color:
+    var(--eventbook-primary);
+
+  font-weight:
+    700;
+
+  box-shadow:
+    0 5px 16px rgba(37, 99, 235, 0.07);
+
+}
+
+
+/* =========================================================
+   SIDEBAR ICON
+   ========================================================= */
+
+.eventbook-nav-icon {
+
+  width:
+    34px;
+
+  height:
+    34px;
+
+  flex:
+    0 0 34px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    9px;
+
+  color:
+    #64748b;
 
   transition:
     background var(--eventbook-transition),
     color var(--eventbook-transition),
     transform var(--eventbook-transition);
+
 }
 
-.eventbook-nav-item:hover {
-  background: #f8fafc;
 
-  color: var(--eventbook-primary);
-
-  transform: translateX(1px);
-}
-
-.eventbook-nav-item.active {
-  background: var(--eventbook-primary-soft);
-
-  color: var(--eventbook-primary);
-
-  font-weight: 650;
-}
-
-.eventbook-nav-item.active::before {
-  content: "";
-
-  position: absolute;
-
-  top: 9px;
-  bottom: 9px;
-  left: 0;
-
-  width: 3px;
-
-  border-radius: 0 4px 4px 0;
-
-  background: var(--eventbook-primary);
-}
-
+.eventbook-nav-item:hover
 .eventbook-nav-icon {
-  width: 20px;
-  height: 20px;
 
-  flex: 0 0 20px;
+  color:
+    var(--eventbook-primary);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background:
+    rgba(37, 99, 235, 0.07);
+
 }
+
+
+.eventbook-nav-item.active
+.eventbook-nav-icon {
+
+  color:
+    var(--eventbook-primary);
+
+  background:
+    rgba(37, 99, 235, 0.11);
+
+  transform:
+    scale(1.02);
+
+}
+
+
+.eventbook-nav-icon svg {
+
+  width:
+    19px;
+
+  height:
+    19px;
+
+  display:
+    block;
+
+}
+
+
+/* =========================================================
+   SIDEBAR NAV TEXT
+   ========================================================= */
 
 .eventbook-nav-text {
-  overflow: hidden;
 
-  text-overflow: ellipsis;
+  flex:
+    1;
+
+  min-width:
+    0;
+
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+
+  transition:
+    opacity var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
+}
+
+
+/* =========================================================
+   SIDEBAR ACTIVE INDICATOR
+   ========================================================= */
+
+.eventbook-nav-active-line {
+
+  position:
+    absolute;
+
+  right:
+    -1px;
+
+  top:
+    50%;
+
+  width:
+    3px;
+
+  height:
+    22px;
+
+  border-radius:
+    5px 0 0 5px;
+
+  background:
+    var(--eventbook-primary);
+
+  opacity:
+    0;
+
+  transform:
+    translateY(-50%)
+    scaleY(0.4);
+
+  transition:
+    opacity var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
+}
+
+
+.eventbook-nav-item.active
+.eventbook-nav-active-line {
+
+  opacity:
+    1;
+
+  transform:
+    translateY(-50%)
+    scaleY(1);
+
 }
 
 
@@ -795,109 +1747,298 @@ img {
    ========================================================= */
 
 .eventbook-sidebar-footer {
-  padding: 13px;
 
-  border-top: 1px solid #f0f2f5;
+  padding:
+    14px 13px 16px;
+
+  border-top:
+    1px solid var(--eventbook-border-light);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(248, 250, 252, 0.72),
+      #ffffff
+    );
+
+  flex-shrink:
+    0;
+
 }
+
+
+/* =========================================================
+   USER CARD
+   ========================================================= */
 
 .eventbook-user-card {
-  display: flex;
-  align-items: center;
 
-  gap: 9px;
+  min-height:
+    58px;
 
-  padding: 8px;
+  display:
+    flex;
 
-  margin-bottom: 8px;
+  align-items:
+    center;
 
-  border-radius: 10px;
+  gap:
+    11px;
 
-  background: #f8fafc;
+  padding:
+    9px 10px;
 
-  overflow: hidden;
+  margin-bottom:
+    9px;
+
+  border:
+    1px solid var(--eventbook-border-light);
+
+  border-radius:
+    13px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 4px 14px rgba(15, 23, 42, 0.035);
+
+  overflow:
+    hidden;
+
 }
+
 
 .eventbook-user-avatar {
-  width: 34px;
-  height: 34px;
 
-  flex: 0 0 34px;
+  width:
+    36px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height:
+    36px;
 
-  border-radius: 9px;
+  flex:
+    0 0 36px;
 
-  background: #eaf2ff;
+  display:
+    flex;
 
-  color: var(--eventbook-primary);
+  align-items:
+    center;
 
-  font-size: 13px;
-  font-weight: 750;
+  justify-content:
+    center;
+
+  border-radius:
+    11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #dbeafe
+    );
+
+  color:
+    var(--eventbook-primary);
+
+  font-size:
+    14px;
+
+  font-weight:
+    800;
+
+  border:
+    1px solid #dbeafe;
+
+  box-shadow:
+    0 4px 10px rgba(37, 99, 235, 0.08);
+
 }
+
 
 .eventbook-user-info {
-  min-width: 0;
 
-  overflow: hidden;
+  min-width:
+    0;
+
+  flex:
+    1;
+
+  overflow:
+    hidden;
+
 }
+
 
 .eventbook-user-name {
-  overflow: hidden;
 
-  color: var(--eventbook-text);
+  overflow:
+    hidden;
 
-  font-size: 12px;
-  font-weight: 650;
+  color:
+    var(--eventbook-text);
 
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size:
+    13px;
+
+  font-weight:
+    700;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+
 }
+
 
 .eventbook-user-role {
-  color: var(--eventbook-muted);
 
-  font-size: 9px;
+  margin-top:
+    2px;
+
+  color:
+    var(--eventbook-muted);
+
+  font-size:
+    10px;
+
+  font-weight:
+    600;
+
+  white-space:
+    nowrap;
+
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+
 }
 
+
+/* =========================================================
+   SIDEBAR LOGOUT
+   ========================================================= */
+
 .eventbook-logout {
-  width: 100%;
-  min-height: 39px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width:
+    100%;
 
-  gap: 8px;
+  min-height:
+    44px;
 
-  border: 1px solid var(--eventbook-border);
+  display:
+    flex;
 
-  border-radius: 9px;
+  align-items:
+    center;
 
-  background: white;
+  gap:
+    12px;
 
-  color: #64748b;
+  padding:
+    0 12px;
 
-  font-size: 12px;
-  font-weight: 650;
+  border:
+    1px solid transparent;
+
+  border-radius:
+    11px;
+
+  background:
+    transparent;
+
+  color:
+    #64748b;
+
+  font-size:
+    13px;
+
+  font-weight:
+    600;
+
+  cursor:
+    pointer;
+
+  text-align:
+    left;
 
   transition:
     background var(--eventbook-transition),
+    color var(--eventbook-transition),
     border-color var(--eventbook-transition),
-    color var(--eventbook-transition);
+    transform var(--eventbook-transition);
+
 }
+
 
 .eventbook-logout:hover {
-  background: #fff5f5;
 
-  border-color: #fecaca;
+  background:
+    #fff1f2;
 
-  color: #dc2626;
+  color:
+    #e11d48;
+
+  border-color:
+    #ffe4e6;
+
+  transform:
+    translateX(2px);
+
 }
 
+
 .eventbook-logout-icon {
-  display: flex;
+
+  width:
+    32px;
+
+  height:
+    32px;
+
+  flex:
+    0 0 32px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    8px;
+
+  transition:
+    background var(--eventbook-transition),
+    color var(--eventbook-transition);
+
+}
+
+
+.eventbook-logout:hover
+.eventbook-logout-icon {
+
+  background:
+    #ffe4e6;
+
+}
+
+
+.eventbook-logout-text {
+
+  transition:
+    opacity var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
 }
 
 
@@ -906,87 +2047,358 @@ img {
    ========================================================= */
 
 .eventbook-sidebar.collapsed {
-  width: 78px;
-}
 
-.eventbook-sidebar.collapsed .eventbook-sidebar-top {
-  justify-content: center;
+  width:
+    var(--eventbook-sidebar-collapsed);
 
-  padding: 0;
-}
-
-.eventbook-sidebar.collapsed .eventbook-menu-label,
-.eventbook-sidebar.collapsed .eventbook-nav-text,
-.eventbook-sidebar.collapsed .eventbook-user-info,
-.eventbook-sidebar.collapsed .eventbook-logout-text {
-  display: none;
-}
-
-.eventbook-sidebar.collapsed .eventbook-nav-item {
-  justify-content: center;
-
-  padding: 0;
-}
-
-.eventbook-sidebar.collapsed .eventbook-nav-item.active::before {
-  left: 0;
-}
-
-.eventbook-sidebar.collapsed .eventbook-user-card {
-  justify-content: center;
-
-  padding: 7px;
-}
-
-.eventbook-sidebar.collapsed .eventbook-logout {
-  padding: 0;
 }
 
 
 /* =========================================================
-   MOBILE SIDEBAR HAMBURGER
-   LEFT CORNER
+   COLLAPSED TOP
+   ========================================================= */
+
+.eventbook-sidebar.collapsed
+.eventbook-sidebar-top {
+
+  padding:
+    0;
+
+  justify-content:
+    center;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-sidebar-section-title {
+
+  display:
+    none;
+
+}
+
+
+/* =========================================================
+   COLLAPSED BODY
+   ========================================================= */
+
+.eventbook-sidebar.collapsed
+.eventbook-sidebar-body {
+
+  padding-left:
+    11px;
+
+  padding-right:
+    11px;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-menu-label {
+
+  height:
+    8px;
+
+  padding:
+    0;
+
+  opacity:
+    0;
+
+  overflow:
+    hidden;
+
+}
+
+
+/* =========================================================
+   COLLAPSED NAV
+   ========================================================= */
+
+.eventbook-sidebar.collapsed
+.eventbook-nav-item {
+
+  width:
+    56px;
+
+  height:
+    48px;
+
+  min-height:
+    48px;
+
+  padding:
+    0;
+
+  justify-content:
+    center;
+
+  gap:
+    0;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-nav-item:hover {
+
+  transform:
+    none;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-nav-icon {
+
+  width:
+    36px;
+
+  height:
+    36px;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-nav-text {
+
+  position:
+    absolute;
+
+  width:
+    1px;
+
+  height:
+    1px;
+
+  overflow:
+    hidden;
+
+  opacity:
+    0;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-nav-active-line {
+
+  right:
+    0;
+
+  width:
+    3px;
+
+}
+
+
+/* =========================================================
+   COLLAPSED FOOTER
+   ========================================================= */
+
+.eventbook-sidebar.collapsed
+.eventbook-sidebar-footer {
+
+  padding-left:
+    11px;
+
+  padding-right:
+    11px;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-user-card {
+
+  min-height:
+    52px;
+
+  padding:
+    7px;
+
+  justify-content:
+    center;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-user-avatar {
+
+  width:
+    36px;
+
+  height:
+    36px;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-user-info {
+
+  display:
+    none;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-logout {
+
+  width:
+    56px;
+
+  padding:
+    0;
+
+  justify-content:
+    center;
+
+  gap:
+    0;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-logout:hover {
+
+  transform:
+    none;
+
+}
+
+
+.eventbook-sidebar.collapsed
+.eventbook-logout-text {
+
+  position:
+    absolute;
+
+  width:
+    1px;
+
+  height:
+    1px;
+
+  overflow:
+    hidden;
+
+  opacity:
+    0;
+
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR TOGGLE
    ========================================================= */
 
 .eventbook-sidebar-mobile-toggle {
-  display: none;
 
-  position: fixed;
+  display:
+    none;
 
-  top: 15px;
-  left: 14px;
+  position:
+    fixed;
 
-  width: 42px;
-  height: 42px;
+  top:
+    15px;
 
-  z-index: 1100;
+  left:
+    14px;
 
-  align-items: center;
-  justify-content: center;
+  width:
+    42px;
 
-  flex-direction: column;
+  height:
+    42px;
 
-  gap: 4px;
+  z-index:
+    1100;
 
-  border: 1px solid var(--eventbook-border);
+  align-items:
+    center;
 
-  border-radius: 10px;
+  justify-content:
+    center;
 
-  background: white;
+  flex-direction:
+    column;
 
-  color: #334155;
+  gap:
+    5px;
+
+  border:
+    1px solid var(--eventbook-border);
+
+  border-radius:
+    11px;
+
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  color:
+    #334155;
 
   box-shadow:
-    0 5px 18px rgba(15, 23, 42, 0.08);
+    0 8px 24px rgba(15, 23, 42, 0.1);
+
+  cursor:
+    pointer;
+
+  transition:
+    background var(--eventbook-transition),
+    border-color var(--eventbook-transition),
+    color var(--eventbook-transition),
+    box-shadow var(--eventbook-transition),
+    transform var(--eventbook-transition);
+
 }
 
+
+.eventbook-sidebar-mobile-toggle:hover {
+
+  background:
+    var(--eventbook-primary-soft);
+
+  border-color:
+    rgba(37, 99, 235, 0.18);
+
+  color:
+    var(--eventbook-primary);
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.1);
+
+  transform:
+    translateY(-1px);
+
+}
+
+
 .eventbook-sidebar-mobile-toggle span {
-  width: 19px;
-  height: 2px;
 
-  border-radius: 2px;
+  width:
+    17px;
 
-  background: currentColor;
+  height:
+    2px;
+
+  display:
+    block;
+
+  border-radius:
+    5px;
+
+  background:
+    currentColor;
+
 }
 
 
@@ -995,209 +2407,729 @@ img {
    ========================================================= */
 
 .eventbook-sidebar-overlay {
-  position: fixed;
-  inset: 0;
 
-  z-index: 1035;
+  position:
+    fixed;
 
-  border: 0;
+  inset:
+    0;
 
-  background: rgba(15, 23, 42, 0.38);
+  width:
+    100%;
 
-  backdrop-filter: blur(2px);
+  height:
+    100%;
+
+  padding:
+    0;
+
+  margin:
+    0;
+
+  border:
+    0;
+
+  background:
+    rgba(15, 23, 42, 0.42);
+
+  backdrop-filter:
+    blur(3px);
+
+  -webkit-backdrop-filter:
+    blur(3px);
+
+  cursor:
+    pointer;
+
+  z-index:
+    1035;
+
 }
 
 
 /* =========================================================
-   MOBILE
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1400px) {
+
+  .eventbook-navbar-inner {
+
+    padding-left:
+      30px;
+
+    padding-right:
+      30px;
+
+    gap:
+      30px;
+
+  }
+
+  .eventbook-navbar-nav-inner {
+
+    gap:
+      5px;
+
+  }
+
+  .eventbook-nav-link {
+
+    padding-left:
+      15px;
+
+    padding-right:
+      15px;
+
+  }
+
+  .eventbook-profile {
+
+    max-width:
+      195px;
+
+  }
+
+}
+
+
+/* =========================================================
+   LAPTOP / SMALL DESKTOP
+   ========================================================= */
+
+@media (max-width: 1199.98px) {
+
+  .eventbook-navbar-inner {
+
+    padding-left:
+      16px;
+
+    padding-right:
+      16px;
+
+    gap:
+      14px;
+
+  }
+
+  .eventbook-navbar-nav-inner {
+
+    gap:
+      2px;
+
+  }
+
+  .eventbook-nav-link {
+
+    padding-left:
+      9px;
+
+    padding-right:
+      9px;
+
+    font-size:
+      11.5px;
+
+    gap:
+      5px;
+
+  }
+
+  .eventbook-profile {
+
+    max-width:
+      150px;
+
+  }
+
+  .eventbook-profile-name,
+  .eventbook-profile-role {
+
+    max-width:
+      82px;
+
+  }
+
+  .eventbook-navbar-logout,
+  .eventbook-login-btn,
+  .eventbook-start-btn {
+
+    padding-left:
+      10px;
+
+    padding-right:
+      10px;
+
+  }
+
+  .eventbook-admin-badge {
+
+    display:
+      none;
+
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
    ========================================================= */
 
 @media (max-width: 991.98px) {
 
-  /* -----------------------------------------------
-     Dashboard takes full width
-     ----------------------------------------------- */
+  /* -------------------------------------------------------
+     DASHBOARD
+     ------------------------------------------------------- */
 
   .dashboard-main {
-    margin-left: 0;
+
+    margin-left:
+      0;
+
   }
 
 
-  /* -----------------------------------------------
-     Sidebar
-     ----------------------------------------------- */
+  /* -------------------------------------------------------
+     SIDEBAR
+     ------------------------------------------------------- */
 
   .eventbook-sidebar {
-    width: 270px;
 
-    transform: translateX(-100%);
+    width:
+      280px;
+
+    top:
+      0;
+
+    bottom:
+      0;
+
+    transform:
+      translateX(-105%);
 
     box-shadow:
-      12px 0 35px rgba(15, 23, 42, 0.14);
+      15px 0 40px rgba(15, 23, 42, 0.15);
+
+    z-index:
+      1050;
+
   }
 
   .eventbook-sidebar.mobile-open {
-    transform: translateX(0);
-  }
 
-  /* Never collapse sidebar width on phone */
+    transform:
+      translateX(0);
+
+  }
 
   .eventbook-sidebar.collapsed {
-    width: 270px;
+
+    width:
+      280px;
+
   }
 
-  .eventbook-sidebar.collapsed .eventbook-menu-label,
-  .eventbook-sidebar.collapsed .eventbook-nav-text,
-  .eventbook-sidebar.collapsed .eventbook-user-info,
-  .eventbook-sidebar.collapsed .eventbook-logout-text {
-    display: block;
+  .eventbook-sidebar.collapsed
+  .eventbook-sidebar-top {
+
+    padding:
+      0 16px;
+
+    justify-content:
+      space-between;
+
   }
 
-  .eventbook-sidebar.collapsed .eventbook-nav-item {
-    justify-content: flex-start;
+  .eventbook-sidebar.collapsed
+  .eventbook-sidebar-section-title {
 
-    padding: 0 12px;
+    display:
+      flex;
+
   }
 
-  .eventbook-sidebar.collapsed .eventbook-user-card {
-    justify-content: flex-start;
+  .eventbook-sidebar.collapsed
+  .eventbook-menu-label {
 
-    padding: 8px;
+    height:
+      auto;
+
+    padding:
+      0 11px 10px;
+
+    opacity:
+      1;
+
+  }
+
+  .eventbook-sidebar.collapsed
+  .eventbook-sidebar-body {
+
+    padding-left:
+      13px;
+
+    padding-right:
+      13px;
+
+  }
+
+  .eventbook-sidebar.collapsed
+  .eventbook-nav-item {
+
+    width:
+      100%;
+
+    height:
+      auto;
+
+    min-height:
+      48px;
+
+    padding:
+      0 13px;
+
+    justify-content:
+      flex-start;
+
+    gap:
+      13px;
+
+  }
+
+  .eventbook-sidebar.collapsed
+  .eventbook-nav-text {
+
+    position:
+      static;
+
+    width:
+      auto;
+
+    height:
+      auto;
+
+    overflow:
+      visible;
+
+    opacity:
+      1;
+
+  }
+
+  .eventbook-sidebar.collapsed
+  .eventbook-user-card {
+
+    min-height:
+      58px;
+
+    padding:
+      9px 10px;
+
+    justify-content:
+      flex-start;
+
+  }
+
+  .eventbook-sidebar.collapsed
+  .eventbook-user-info {
+
+    display:
+      block;
+
+  }
+
+  .eventbook-sidebar.collapsed
+  .eventbook-logout {
+
+    width:
+      100%;
+
+    padding:
+      0 12px;
+
+    justify-content:
+      flex-start;
+
+    gap:
+      12px;
+
+  }
+
+  .eventbook-sidebar.collapsed
+  .eventbook-logout-text {
+
+    position:
+      static;
+
+    width:
+      auto;
+
+    height:
+      auto;
+
+    overflow:
+      visible;
+
+    opacity:
+      1;
+
   }
 
 
-  /* -----------------------------------------------
-     LEFT SIDEBAR HAMBURGER
-     ----------------------------------------------- */
+  /* -------------------------------------------------------
+     SIDEBAR MOBILE BUTTON
+     ------------------------------------------------------- */
 
   .eventbook-sidebar-mobile-toggle {
-    display: flex;
+
+    display:
+      flex;
+
   }
 
 
-  /* -----------------------------------------------
-     Navbar
-     ----------------------------------------------- */
+  /* -------------------------------------------------------
+     NAVBAR
+     ------------------------------------------------------- */
 
   .eventbook-navbar {
-    min-height: 72px;
+
+    min-height:
+      72px;
+
   }
 
   .eventbook-navbar-inner {
-    min-height: 72px;
 
-    padding: 0 14px;
+    min-height:
+      72px;
 
-    gap: 10px;
+    padding:
+      0 14px;
+
+    gap:
+      10px;
+
   }
 
 
-  /* -----------------------------------------------
-     Brand stays in the center area
-     ----------------------------------------------- */
+  /* -------------------------------------------------------
+     MOBILE BRAND
+     ------------------------------------------------------- */
 
   .eventbook-navbar-brand {
-    flex: 1;
 
-    justify-content: center;
+    flex:
+      1 1 auto;
 
-    min-width: 0;
+    justify-content:
+      center;
+
+    min-width:
+      0;
+
   }
 
   .eventbook-navbar-brand-text {
-    min-width: 0;
+
+    min-width:
+      0;
+
   }
 
   .eventbook-navbar-title {
-    font-size: 18px;
+
+    font-size:
+      18px;
+
   }
 
   .eventbook-navbar-subtitle {
-    display: none;
+
+    display:
+      none;
+
   }
 
   .eventbook-navbar-logo {
-    width: 38px;
-    height: 38px;
 
-    flex-basis: 38px;
+    width:
+      38px;
+
+    height:
+      38px;
+
+    flex-basis:
+      38px;
+
   }
 
 
-  /* -----------------------------------------------
-     Hide desktop actions on phone
-     ----------------------------------------------- */
+  /* -------------------------------------------------------
+     MOBILE NAVIGATION
+     ------------------------------------------------------- */
 
-  .eventbook-navbar-actions {
-    margin-left: 0;
+  .eventbook-navbar-navigation {
+
+    display:
+      none;
+
+    position:
+      absolute;
+
+    top:
+      calc(100% + 9px);
+
+    left:
+      12px;
+
+    right:
+      12px;
+
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+
+    gap:
+      10px;
+
+    padding:
+      10px;
+
+    border:
+      1px solid rgba(226, 232, 240, 0.95);
+
+    border-radius:
+      17px;
+
+    background:
+      rgba(255, 255, 255, 0.97);
+
+    box-shadow:
+      0 18px 45px rgba(15, 23, 42, 0.13);
+
+    backdrop-filter:
+      blur(18px);
+
+    -webkit-backdrop-filter:
+      blur(18px);
+
+    overflow:
+      visible;
+
   }
+
+  .eventbook-navbar-navigation.open {
+
+    display:
+      flex;
+
+  }
+
+  .eventbook-navbar-nav-inner {
+
+    width:
+      100%;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+
+    gap:
+      3px;
+
+    padding:
+      4px;
+
+    border:
+      0;
+
+    background:
+      transparent;
+
+    box-shadow:
+      none;
+
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE NAV LINKS
+     ------------------------------------------------------- */
+
+  .eventbook-nav-link {
+
+    width:
+      100%;
+
+    min-height:
+      45px;
+
+    justify-content:
+      flex-start;
+
+    padding:
+      0 12px;
+
+    font-size:
+      13px;
+
+  }
+
+  .eventbook-nav-link.active {
+
+    background:
+      var(--eventbook-primary-soft);
+
+    box-shadow:
+      none;
+
+  }
+
+  .eventbook-nav-link.active::after {
+
+    left:
+      auto;
+
+    right:
+      10px;
+
+    bottom:
+      50%;
+
+    width:
+      4px;
+
+    height:
+      18px;
+
+    transform:
+      translateY(50%);
+
+    border-radius:
+      8px;
+
+  }
+
+  .eventbook-admin-badge {
+
+    display:
+      inline-flex;
+
+    margin-left:
+      auto;
+
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE USER
+     ------------------------------------------------------- */
+
+  .eventbook-mobile-user {
+
+    display:
+      block;
+
+    padding:
+      12px 5px 4px;
+
+    border-top:
+      1px solid var(--eventbook-border-light);
+
+  }
+
+  .eventbook-mobile-user-info {
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      9px;
+
+    padding:
+      5px 7px 10px;
+
+  }
+
+  .eventbook-mobile-logout {
+
+    width:
+      100%;
+
+    min-height:
+      42px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      7px;
+
+    border:
+      1px solid #fecaca;
+
+    border-radius:
+      10px;
+
+    background:
+      #fff5f5;
+
+    color:
+      #dc2626;
+
+    font-size:
+      12px;
+
+    font-weight:
+      700;
+
+  }
+
+
+  /* -------------------------------------------------------
+     DESKTOP ACTIONS HIDDEN
+     ------------------------------------------------------- */
 
   .eventbook-navbar-actions > .eventbook-profile,
   .eventbook-navbar-actions > .eventbook-navbar-logout,
   .eventbook-navbar-actions > .eventbook-login-btn,
   .eventbook-navbar-actions > .eventbook-start-btn {
-    display: none;
+
+    display:
+      none;
+
   }
 
 
-  /* -----------------------------------------------
-     RIGHT NAVBAR HAMBURGER
-     ----------------------------------------------- */
+  /* -------------------------------------------------------
+     MOBILE MENU BUTTON
+     ------------------------------------------------------- */
 
   .eventbook-navbar-mobile-toggle {
-    display: flex;
 
-    flex: 0 0 42px;
+    display:
+      flex;
+
   }
 
-
-  /* -----------------------------------------------
-     Mobile navigation dropdown
-     ----------------------------------------------- */
-
-  .eventbook-navbar-navigation {
-    display: none;
-
-    position: absolute;
-
-    top: 72px;
-    left: 12px;
-    right: 12px;
-
-    flex-direction: column;
-    align-items: stretch;
-
-    gap: 3px;
-
-    padding: 10px;
-
-    border: 1px solid var(--eventbook-border);
-
-    border-radius: 13px;
-
-    background: white;
-
-    box-shadow:
-      0 14px 35px rgba(15, 23, 42, 0.12);
-  }
-
-  .eventbook-navbar-navigation.open {
-    display: flex;
-  }
-
-  .eventbook-nav-link {
-    min-height: 44px;
-
-    width: 100%;
-
-    justify-content: flex-start;
-
-    padding: 0 12px;
-  }
-
-  .eventbook-admin-badge {
-    margin-left: auto;
-  }
 }
 
 
@@ -1207,45 +3139,119 @@ img {
 
 @media (max-width: 575.98px) {
 
-  .eventbook-sidebar-mobile-toggle {
-    top: 13px;
-    left: 10px;
+  /* -------------------------------------------------------
+     SIDEBAR
+     ------------------------------------------------------- */
 
-    width: 42px;
-    height: 42px;
+  .eventbook-sidebar {
+
+    width:
+      min(300px, 88vw);
+
   }
 
+  .eventbook-sidebar.collapsed {
+
+    width:
+      min(300px, 88vw);
+
+  }
+
+
+  /* -------------------------------------------------------
+     SIDEBAR TOGGLE
+     ------------------------------------------------------- */
+
+  .eventbook-sidebar-mobile-toggle {
+
+    top:
+      13px;
+
+    left:
+      10px;
+
+    width:
+      42px;
+
+    height:
+      42px;
+
+  }
+
+
+  /* -------------------------------------------------------
+     NAVBAR
+     ------------------------------------------------------- */
+
   .eventbook-navbar-inner {
-    padding: 0 10px;
+
+    padding:
+      0 10px;
+
+    gap:
+      7px;
+
   }
 
   .eventbook-navbar-brand {
-    gap: 7px;
+
+    gap:
+      7px;
+
   }
 
   .eventbook-navbar-logo {
-    width: 36px;
-    height: 36px;
 
-    flex-basis: 36px;
+    width:
+      36px;
 
-    border-radius: 9px;
+    height:
+      36px;
 
-    font-size: 17px;
+    flex-basis:
+      36px;
+
+    border-radius:
+      10px;
+
+    font-size:
+      17px;
+
   }
 
   .eventbook-navbar-title {
-    font-size: 17px;
+
+    font-size:
+      17px;
+
   }
 
   .eventbook-navbar-mobile-toggle {
-    width: 42px;
-    height: 42px;
+
+    width:
+      42px;
+
+    height:
+      42px;
+
+    flex-basis:
+      42px;
+
   }
 
   .eventbook-navbar-navigation {
-    top: 68px;
+
+    top:
+      calc(100% + 7px);
+
+    left:
+      8px;
+
+    right:
+      8px;
+
   }
+
 }
 
 
@@ -1256,23 +3262,95 @@ img {
 @media (max-width: 380px) {
 
   .eventbook-sidebar-mobile-toggle {
-    left: 8px;
-  }
 
-  .eventbook-navbar-title {
-    font-size: 16px;
-  }
+    left:
+      8px;
 
-  .eventbook-navbar-logo {
-    width: 34px;
-    height: 34px;
-
-    flex-basis: 34px;
   }
 
   .eventbook-navbar-inner {
-    padding: 0 8px;
+
+    padding:
+      0 8px;
+
   }
+
+  .eventbook-navbar-title {
+
+    font-size:
+      16px;
+
+  }
+
+  .eventbook-navbar-logo {
+
+    width:
+      34px;
+
+    height:
+      34px;
+
+    flex-basis:
+      34px;
+
+  }
+
+  .eventbook-navbar-brand {
+
+    gap:
+      6px;
+
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREEN
+   ========================================================= */
+
+@media (max-width: 320px) {
+
+  .eventbook-navbar-title {
+
+    font-size:
+      15px;
+
+  }
+
+  .eventbook-navbar-logo {
+
+    width:
+      32px;
+
+    height:
+      32px;
+
+    flex-basis:
+      32px;
+
+  }
+
+  .eventbook-navbar-inner {
+
+    gap:
+      5px;
+
+  }
+
+  .eventbook-navbar-mobile-toggle {
+
+    width:
+      40px;
+
+    height:
+      40px;
+
+    flex-basis:
+      40px;
+
+  }
+
 }
 
 
@@ -1281,10 +3359,17 @@ img {
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
-    transition: none !important;
+
+    scroll-behavior:
+      auto !important;
+
+    transition:
+      none !important;
+
   }
+
 }

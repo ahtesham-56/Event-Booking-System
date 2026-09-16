@@ -1,98 +1,196 @@
-
 import { Link } from "react-router-dom";
 
 function AdminDashboard() {
   return (
-    <div className="container-fluid py-4 px-3 px-md-4">
+    <div className="container-fluid px-3 px-md-4 py-4">
 
-      {/* ================= HEADER ================= */}
-      <div className="mb-4">
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+      {/* =========================================================
+          PAGE HEADER
+      ========================================================= */}
+      <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
 
-          <div>
-            <div className="d-flex align-items-center gap-2 mb-2">
-              <span
-                className="badge bg-primary bg-opacity-10 text-primary px-3 py-2"
-                style={{ fontSize: "12px" }}
-              >
-                ADMIN PANEL
-              </span>
+        <div>
+          <div className="d-flex align-items-center gap-2 mb-2">
+            <span
+              className="badge rounded-pill px-3 py-2"
+              style={{
+                background: "#eff6ff",
+                color: "#2563eb",
+                fontSize: "11px",
+                fontWeight: "700",
+                letterSpacing: "0.6px",
+              }}
+            >
+              ADMIN PANEL
+            </span>
 
-              <span className="text-muted small">
-                Event Booking System
-              </span>
-            </div>
-
-            <h2 className="fw-bold mb-1">
-              Admin Dashboard
-            </h2>
-
-            <p className="text-muted mb-0">
-              Manage your events and keep your booking platform organized.
-            </p>
+            <span className="text-muted small">
+              EventBook
+            </span>
           </div>
 
-          <Link
-            to="/admin/events/add"
-            className="btn btn-primary px-4 py-2 shadow-sm"
+          <h2
+            className="fw-bold mb-1"
+            style={{
+              color: "#0f172a",
+              letterSpacing: "-0.5px",
+            }}
           >
-            + Create Event
-          </Link>
+            Dashboard
+          </h2>
 
+          <p className="text-muted mb-0">
+            Manage your events, bookings and platform activity.
+          </p>
         </div>
+
+        <Link
+          to="/admin/events/add"
+          className="btn px-4 py-2 d-inline-flex align-items-center justify-content-center gap-2 shadow-sm"
+          style={{
+            background: "#2563eb",
+            color: "#fff",
+            borderRadius: "10px",
+            border: "none",
+            fontWeight: "600",
+          }}
+        >
+          <span style={{ fontSize: "18px" }}>+</span>
+          Create Event
+        </Link>
+
       </div>
 
-      {/* ================= WELCOME CARD ================= */}
+
+      {/* =========================================================
+          WELCOME / HERO CARD
+      ========================================================= */}
       <div
-        className="card border-0 shadow-sm mb-4 overflow-hidden"
+        className="position-relative overflow-hidden mb-4"
         style={{
-          borderRadius: "16px",
+          borderRadius: "20px",
+          background:
+            "linear-gradient(135deg, #1d4ed8 0%, #2563eb 55%, #3b82f6 100%)",
+          minHeight: "220px",
+          boxShadow: "0 12px 30px rgba(37, 99, 235, 0.18)",
         }}
       >
-        <div className="card-body p-4 p-md-5">
+
+        {/* Decorative circles */}
+        <div
+          className="position-absolute rounded-circle"
+          style={{
+            width: "220px",
+            height: "220px",
+            background: "rgba(255,255,255,0.08)",
+            right: "-70px",
+            top: "-90px",
+          }}
+        />
+
+        <div
+          className="position-absolute rounded-circle"
+          style={{
+            width: "140px",
+            height: "140px",
+            background: "rgba(255,255,255,0.06)",
+            right: "180px",
+            bottom: "-80px",
+          }}
+        />
+
+        <div className="position-relative p-4 p-md-5">
 
           <div className="row align-items-center">
 
             <div className="col-lg-8">
 
-              <span className="badge bg-success bg-opacity-10 text-success px-3 py-2 mb-3">
-                ● System Active
-              </span>
+              <div
+                className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill mb-3"
+                style={{
+                  background: "rgba(255,255,255,0.14)",
+                  color: "#fff",
+                  fontSize: "12px",
+                  fontWeight: "600",
+                }}
+              >
+                <span
+                  style={{
+                    width: "7px",
+                    height: "7px",
+                    borderRadius: "50%",
+                    background: "#4ade80",
+                    display: "inline-block",
+                  }}
+                />
 
-              <h3 className="fw-bold mb-2">
-                Welcome back, Admin! 👋
+                System Active
+              </div>
+
+              <h3
+                className="fw-bold text-white mb-2"
+                style={{
+                  fontSize: "clamp(24px, 4vw, 32px)",
+                  letterSpacing: "-0.6px",
+                }}
+              >
+                Welcome back, Admin 👋
               </h3>
 
-              <p className="text-muted mb-0">
-                From here you can create new events, manage existing
-                events and keep track of your event booking system.
+              <p
+                className="mb-0"
+                style={{
+                  color: "rgba(255,255,255,0.78)",
+                  maxWidth: "650px",
+                  lineHeight: "1.7",
+                }}
+              >
+                Everything you need to manage your EventBook platform
+                is available from your dashboard.
               </p>
 
             </div>
 
+
             <div className="col-lg-4 mt-4 mt-lg-0">
 
               <div
-                className="bg-light rounded-4 p-4 text-center"
+                className="p-4 text-center"
+                style={{
+                  background: "rgba(255,255,255,0.12)",
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  borderRadius: "16px",
+                  backdropFilter: "blur(8px)",
+                }}
               >
+
                 <div
-                  className="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white mb-3"
+                  className="mx-auto mb-3 d-flex align-items-center justify-content-center"
                   style={{
-                    width: "65px",
-                    height: "65px",
-                    fontSize: "28px",
+                    width: "60px",
+                    height: "60px",
+                    borderRadius: "16px",
+                    background: "#fff",
+                    color: "#2563eb",
+                    fontSize: "26px",
+                    fontWeight: "700",
                   }}
                 >
-                  👤
+                  A
                 </div>
 
-                <h6 className="fw-bold mb-1">
+                <h6 className="text-white fw-bold mb-1">
                   Administrator
                 </h6>
 
-                <small className="text-muted">
+                <small
+                  style={{
+                    color: "rgba(255,255,255,0.7)",
+                  }}
+                >
                   Full system access
                 </small>
+
               </div>
 
             </div>
@@ -102,249 +200,548 @@ function AdminDashboard() {
         </div>
       </div>
 
-      {/* ================= QUICK STATS ================= */}
-      <div className="row g-4 mb-4">
 
-        {/* Events */}
-        <div className="col-md-4">
+      {/* =========================================================
+          DASHBOARD CARDS
+      ========================================================= */}
+      <div className="row g-3 g-lg-4 mb-4">
 
-          <div className="card border-0 shadow-sm h-100">
-            <div className="card-body p-4">
+        {/* Manage Events */}
+        <div className="col-12 col-sm-6 col-xl-3">
+          <Link
+            to="/admin/events"
+            className="text-decoration-none"
+          >
+            <div
+              className="h-100 p-4 bg-white"
+              style={{
+                border: "1px solid #e5e7eb",
+                borderRadius: "16px",
+                transition: "all 0.2s ease",
+              }}
+            >
 
-              <div className="d-flex justify-content-between align-items-start">
-
-                <div>
-                  <p className="text-muted small mb-2">
-                    EVENT MANAGEMENT
-                  </p>
-
-                  <h5 className="fw-bold mb-2">
-                    Manage Events
-                  </h5>
-
-                  <p className="text-muted small mb-0">
-                    View, edit and manage all events.
-                  </p>
-                </div>
+              <div className="d-flex justify-content-between align-items-start mb-4">
 
                 <div
-                  className="rounded-3 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
+                  className="d-flex align-items-center justify-content-center"
                   style={{
-                    width: "50px",
-                    height: "50px",
-                    fontSize: "23px",
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "12px",
+                    background: "#eff6ff",
+                    color: "#2563eb",
+                    fontSize: "22px",
                   }}
                 >
                   📅
                 </div>
 
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
-        {/* Create */}
-        <div className="col-md-4">
-
-          <div className="card border-0 shadow-sm h-100">
-            <div className="card-body p-4">
-
-              <div className="d-flex justify-content-between align-items-start">
-
-                <div>
-                  <p className="text-muted small mb-2">
-                    EVENT CREATION
-                  </p>
-
-                  <h5 className="fw-bold mb-2">
-                    Add New Event
-                  </h5>
-
-                  <p className="text-muted small mb-0">
-                    Create and publish a new event.
-                  </p>
-                </div>
-
-                <div
-                  className="rounded-3 bg-success bg-opacity-10 d-flex align-items-center justify-content-center"
+                <span
                   style={{
-                    width: "50px",
-                    height: "50px",
-                    fontSize: "23px",
+                    color: "#94a3b8",
+                    fontSize: "20px",
                   }}
                 >
-                  ➕
-                </div>
+                  →
+                </span>
 
               </div>
 
-            </div>
-          </div>
+              <div
+                className="text-uppercase mb-1"
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "10px",
+                  fontWeight: "700",
+                  letterSpacing: "0.8px",
+                }}
+              >
+                Event Management
+              </div>
 
+              <h5
+                className="fw-bold mb-2"
+                style={{ color: "#0f172a" }}
+              >
+                Manage Events
+              </h5>
+
+              <p className="text-muted small mb-0">
+                View, edit and manage your events.
+              </p>
+
+            </div>
+          </Link>
         </div>
+
+
+        {/* Create Event */}
+        <div className="col-12 col-sm-6 col-xl-3">
+          <Link
+            to="/admin/events/add"
+            className="text-decoration-none"
+          >
+            <div
+              className="h-100 p-4 bg-white"
+              style={{
+                border: "1px solid #e5e7eb",
+                borderRadius: "16px",
+                transition: "all 0.2s ease",
+              }}
+            >
+
+              <div className="d-flex justify-content-between align-items-start mb-4">
+
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "12px",
+                    background: "#ecfdf5",
+                    color: "#16a34a",
+                    fontSize: "22px",
+                  }}
+                >
+                  +
+                </div>
+
+                <span
+                  style={{
+                    color: "#94a3b8",
+                    fontSize: "20px",
+                  }}
+                >
+                  →
+                </span>
+
+              </div>
+
+              <div
+                className="text-uppercase mb-1"
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "10px",
+                  fontWeight: "700",
+                  letterSpacing: "0.8px",
+                }}
+              >
+                Event Creation
+              </div>
+
+              <h5
+                className="fw-bold mb-2"
+                style={{ color: "#0f172a" }}
+              >
+                Add New Event
+              </h5>
+
+              <p className="text-muted small mb-0">
+                Create and publish a new event.
+              </p>
+
+            </div>
+          </Link>
+        </div>
+
 
         {/* Bookings */}
-        <div className="col-md-4">
+        <div className="col-12 col-sm-6 col-xl-3">
+          <Link
+            to="/admin/bookings"
+            className="text-decoration-none"
+          >
+            <div
+              className="h-100 p-4 bg-white"
+              style={{
+                border: "1px solid #e5e7eb",
+                borderRadius: "16px",
+                transition: "all 0.2s ease",
+              }}
+            >
 
-          <div className="card border-0 shadow-sm h-100">
-            <div className="card-body p-4">
-
-              <div className="d-flex justify-content-between align-items-start">
-
-                <div>
-                  <p className="text-muted small mb-2">
-                    BOOKING SYSTEM
-                  </p>
-
-                  <h5 className="fw-bold mb-2">
-                    Event Bookings
-                  </h5>
-
-                  <p className="text-muted small mb-0">
-                    Monitor bookings from your events.
-                  </p>
-                </div>
+              <div className="d-flex justify-content-between align-items-start mb-4">
 
                 <div
-                  className="rounded-3 bg-warning bg-opacity-10 d-flex align-items-center justify-content-center"
+                  className="d-flex align-items-center justify-content-center"
                   style={{
-                    width: "50px",
-                    height: "50px",
-                    fontSize: "23px",
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "12px",
+                    background: "#fff7ed",
+                    color: "#ea580c",
+                    fontSize: "21px",
                   }}
                 >
-                  🎟️
+                  🎟
                 </div>
+
+                <span
+                  style={{
+                    color: "#94a3b8",
+                    fontSize: "20px",
+                  }}
+                >
+                  →
+                </span>
 
               </div>
 
-            </div>
-          </div>
+              <div
+                className="text-uppercase mb-1"
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "10px",
+                  fontWeight: "700",
+                  letterSpacing: "0.8px",
+                }}
+              >
+                Booking System
+              </div>
 
+              <h5
+                className="fw-bold mb-2"
+                style={{ color: "#0f172a" }}
+              >
+                Event Bookings
+              </h5>
+
+              <p className="text-muted small mb-0">
+                Monitor bookings from your events.
+              </p>
+
+            </div>
+          </Link>
+        </div>
+
+
+        {/* Reports */}
+        <div className="col-12 col-sm-6 col-xl-3">
+          <Link
+            to="/admin/reports"
+            className="text-decoration-none"
+          >
+            <div
+              className="h-100 p-4 bg-white"
+              style={{
+                border: "1px solid #e5e7eb",
+                borderRadius: "16px",
+                transition: "all 0.2s ease",
+              }}
+            >
+
+              <div className="d-flex justify-content-between align-items-start mb-4">
+
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "12px",
+                    background: "#f5f3ff",
+                    color: "#7c3aed",
+                    fontSize: "21px",
+                  }}
+                >
+                  📊
+                </div>
+
+                <span
+                  style={{
+                    color: "#94a3b8",
+                    fontSize: "20px",
+                  }}
+                >
+                  →
+                </span>
+
+              </div>
+
+              <div
+                className="text-uppercase mb-1"
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "10px",
+                  fontWeight: "700",
+                  letterSpacing: "0.8px",
+                }}
+              >
+                Analytics
+              </div>
+
+              <h5
+                className="fw-bold mb-2"
+                style={{ color: "#0f172a" }}
+              >
+                Reports
+              </h5>
+
+              <p className="text-muted small mb-0">
+                Review platform activity and reports.
+              </p>
+
+            </div>
+          </Link>
         </div>
 
       </div>
 
-      {/* ================= QUICK ACTIONS ================= */}
-      <div className="card border-0 shadow-sm mb-4">
 
-        <div className="card-body p-4 p-md-5">
+      {/* =========================================================
+          QUICK ACTIONS + PLATFORM STATUS
+      ========================================================= */}
+      <div className="row g-4 mb-4">
 
-          <div className="mb-4">
+        {/* Quick Actions */}
+        <div className="col-lg-8">
 
-            <h5 className="fw-bold mb-1">
-              Quick Actions
-            </h5>
+          <div
+            className="bg-white h-100 p-4 p-md-5"
+            style={{
+              border: "1px solid #e5e7eb",
+              borderRadius: "18px",
+            }}
+          >
 
-            <p className="text-muted small mb-0">
-              Frequently used administrator actions.
-            </p>
-
-          </div>
-
-          <div className="row g-3">
-
-            {/* Manage Events */}
-            <div className="col-md-6">
-
-              <Link
-                to="/admin/events"
-                className="text-decoration-none"
+            <div className="mb-4">
+              <h5
+                className="fw-bold mb-1"
+                style={{ color: "#0f172a" }}
               >
-                <div
-                  className="border rounded-4 p-4 h-100"
-                  style={{
-                    transition: "all 0.2s ease",
-                  }}
+                Quick Actions
+              </h5>
+
+              <p className="text-muted small mb-0">
+                Access your frequently used administrator tools.
+              </p>
+            </div>
+
+
+            <div className="row g-3">
+
+              <div className="col-md-6">
+
+                <Link
+                  to="/admin/events"
+                  className="text-decoration-none"
                 >
 
-                  <div className="d-flex align-items-center gap-3">
+                  <div
+                    className="p-3 p-md-4 d-flex align-items-center gap-3"
+                    style={{
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "14px",
+                      background: "#fff",
+                    }}
+                  >
 
                     <div
-                      className="bg-primary text-white rounded-3 d-flex align-items-center justify-content-center"
+                      className="d-flex align-items-center justify-content-center flex-shrink-0"
                       style={{
-                        width: "52px",
-                        height: "52px",
-                        fontSize: "22px",
-                        flexShrink: 0,
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "12px",
+                        background: "#eff6ff",
+                        color: "#2563eb",
+                        fontSize: "20px",
                       }}
                     >
                       📋
                     </div>
 
-                    <div>
+                    <div className="flex-grow-1">
 
-                      <h6 className="fw-bold text-dark mb-1">
+                      <h6
+                        className="fw-bold mb-1"
+                        style={{ color: "#0f172a" }}
+                      >
                         Manage Events
                       </h6>
 
                       <p className="text-muted small mb-0">
-                        View and manage all your events
+                        View and update events
                       </p>
 
                     </div>
 
-                    <div className="ms-auto text-muted fs-5">
+                    <span className="text-muted">
                       →
-                    </div>
+                    </span>
 
                   </div>
 
-                </div>
-              </Link>
+                </Link>
 
-            </div>
+              </div>
 
-            {/* Add Event */}
-            <div className="col-md-6">
 
-              <Link
-                to="/admin/events/add"
-                className="text-decoration-none"
-              >
-                <div
-                  className="border rounded-4 p-4 h-100"
-                  style={{
-                    transition: "all 0.2s ease",
-                  }}
+              <div className="col-md-6">
+
+                <Link
+                  to="/admin/events/add"
+                  className="text-decoration-none"
                 >
 
-                  <div className="d-flex align-items-center gap-3">
+                  <div
+                    className="p-3 p-md-4 d-flex align-items-center gap-3"
+                    style={{
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "14px",
+                      background: "#fff",
+                    }}
+                  >
 
                     <div
-                      className="bg-success text-white rounded-3 d-flex align-items-center justify-content-center"
+                      className="d-flex align-items-center justify-content-center flex-shrink-0"
                       style={{
-                        width: "52px",
-                        height: "52px",
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "12px",
+                        background: "#ecfdf5",
+                        color: "#16a34a",
                         fontSize: "22px",
-                        flexShrink: 0,
                       }}
                     >
                       +
                     </div>
 
-                    <div>
+                    <div className="flex-grow-1">
 
-                      <h6 className="fw-bold text-dark mb-1">
-                        Create New Event
+                      <h6
+                        className="fw-bold mb-1"
+                        style={{ color: "#0f172a" }}
+                      >
+                        Create Event
                       </h6>
 
                       <p className="text-muted small mb-0">
-                        Add a new event to the platform
+                        Publish a new event
                       </p>
 
                     </div>
 
-                    <div className="ms-auto text-muted fs-5">
+                    <span className="text-muted">
                       →
-                    </div>
+                    </span>
 
                   </div>
 
-                </div>
-              </Link>
+                </Link>
+
+              </div>
+
+
+              <div className="col-md-6">
+
+                <Link
+                  to="/admin/bookings"
+                  className="text-decoration-none"
+                >
+
+                  <div
+                    className="p-3 p-md-4 d-flex align-items-center gap-3"
+                    style={{
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "14px",
+                      background: "#fff",
+                    }}
+                  >
+
+                    <div
+                      className="d-flex align-items-center justify-content-center flex-shrink-0"
+                      style={{
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "12px",
+                        background: "#fff7ed",
+                        color: "#ea580c",
+                        fontSize: "20px",
+                      }}
+                    >
+                      🎟
+                    </div>
+
+                    <div className="flex-grow-1">
+
+                      <h6
+                        className="fw-bold mb-1"
+                        style={{ color: "#0f172a" }}
+                      >
+                        Manage Bookings
+                      </h6>
+
+                      <p className="text-muted small mb-0">
+                        Review customer bookings
+                      </p>
+
+                    </div>
+
+                    <span className="text-muted">
+                      →
+                    </span>
+
+                  </div>
+
+                </Link>
+
+              </div>
+
+
+              <div className="col-md-6">
+
+                <Link
+                  to="/admin/reports"
+                  className="text-decoration-none"
+                >
+
+                  <div
+                    className="p-3 p-md-4 d-flex align-items-center gap-3"
+                    style={{
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "14px",
+                      background: "#fff",
+                    }}
+                  >
+
+                    <div
+                      className="d-flex align-items-center justify-content-center flex-shrink-0"
+                      style={{
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "12px",
+                        background: "#f5f3ff",
+                        color: "#7c3aed",
+                        fontSize: "20px",
+                      }}
+                    >
+                      📈
+                    </div>
+
+                    <div className="flex-grow-1">
+
+                      <h6
+                        className="fw-bold mb-1"
+                        style={{ color: "#0f172a" }}
+                      >
+                        View Reports
+                      </h6>
+
+                      <p className="text-muted small mb-0">
+                        Check platform analytics
+                      </p>
+
+                    </div>
+
+                    <span className="text-muted">
+                      →
+                    </span>
+
+                  </div>
+
+                </Link>
+
+              </div>
 
             </div>
 
@@ -352,38 +749,131 @@ function AdminDashboard() {
 
         </div>
 
-      </div>
 
-      {/* ================= ADMIN TIPS ================= */}
-      <div className="card border-0 shadow-sm">
+        {/* Platform Status */}
+        <div className="col-lg-4">
 
-        <div className="card-body p-4">
+          <div
+            className="bg-white h-100 p-4 p-md-5"
+            style={{
+              border: "1px solid #e5e7eb",
+              borderRadius: "18px",
+            }}
+          >
 
-          <div className="d-flex align-items-start gap-3">
+            <div className="d-flex align-items-center justify-content-between mb-4">
+
+              <div>
+                <h5
+                  className="fw-bold mb-1"
+                  style={{ color: "#0f172a" }}
+                >
+                  Platform Status
+                </h5>
+
+                <p className="text-muted small mb-0">
+                  Current system overview
+                </p>
+              </div>
+
+              <span
+                className="d-flex align-items-center justify-content-center"
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  borderRadius: "10px",
+                  background: "#ecfdf5",
+                  color: "#16a34a",
+                  fontSize: "18px",
+                }}
+              >
+                ✓
+              </span>
+
+            </div>
+
 
             <div
-              className="rounded-3 bg-info bg-opacity-10 d-flex align-items-center justify-content-center"
+              className="d-flex align-items-center justify-content-between py-3"
               style={{
-                width: "45px",
-                height: "45px",
-                flexShrink: 0,
-                fontSize: "20px",
+                borderBottom: "1px solid #f1f5f9",
               }}
             >
-              💡
+              <span className="text-muted small">
+                Event system
+              </span>
+
+              <span
+                className="badge rounded-pill"
+                style={{
+                  background: "#ecfdf5",
+                  color: "#15803d",
+                }}
+              >
+                Active
+              </span>
             </div>
 
-            <div>
 
-              <h6 className="fw-bold mb-1">
-                Admin Tip
-              </h6>
+            <div
+              className="d-flex align-items-center justify-content-between py-3"
+              style={{
+                borderBottom: "1px solid #f1f5f9",
+              }}
+            >
+              <span className="text-muted small">
+                Booking system
+              </span>
 
-              <p className="text-muted small mb-0">
-                Keep your event information accurate and up to date.
-                Make sure event dates, ticket prices and available
-                seats are correct before publishing.
-              </p>
+              <span
+                className="badge rounded-pill"
+                style={{
+                  background: "#ecfdf5",
+                  color: "#15803d",
+                }}
+              >
+                Active
+              </span>
+            </div>
+
+
+            <div
+              className="d-flex align-items-center justify-content-between py-3"
+              style={{
+                borderBottom: "1px solid #f1f5f9",
+              }}
+            >
+              <span className="text-muted small">
+                Database
+              </span>
+
+              <span
+                className="badge rounded-pill"
+                style={{
+                  background: "#ecfdf5",
+                  color: "#15803d",
+                }}
+              >
+                Connected
+              </span>
+            </div>
+
+
+            <div className="d-flex align-items-center justify-content-between py-3">
+
+              <span className="text-muted small">
+                Admin access
+              </span>
+
+              <span
+                className="badge rounded-pill"
+                style={{
+                  background: "#eff6ff",
+                  color: "#2563eb",
+                }}
+              >
+                Full Access
+              </span>
 
             </div>
 
@@ -393,10 +883,77 @@ function AdminDashboard() {
 
       </div>
 
-      <div style={{ height: "30px" }}></div>
+
+      {/* =========================================================
+          ADMIN GUIDANCE
+      ========================================================= */}
+      <div
+        className="p-4 p-md-5 mb-4"
+        style={{
+          borderRadius: "18px",
+          background: "#f8fafc",
+          border: "1px solid #e5e7eb",
+        }}
+      >
+
+        <div className="d-flex flex-column flex-md-row align-items-md-center gap-3">
+
+          <div
+            className="d-flex align-items-center justify-content-center flex-shrink-0"
+            style={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "14px",
+              background: "#fff",
+              border: "1px solid #e2e8f0",
+              fontSize: "21px",
+            }}
+          >
+            💡
+          </div>
+
+          <div className="flex-grow-1">
+
+            <h6
+              className="fw-bold mb-1"
+              style={{ color: "#0f172a" }}
+            >
+              Admin Tip
+            </h6>
+
+            <p className="text-muted small mb-0">
+              Keep event dates, ticket prices, descriptions and
+              seat availability accurate so users always receive
+              reliable booking information.
+            </p>
+
+          </div>
+
+          <Link
+            to="/admin/events"
+            className="btn btn-sm px-3"
+            style={{
+              border: "1px solid #dbeafe",
+              background: "#eff6ff",
+              color: "#2563eb",
+              borderRadius: "9px",
+              fontWeight: "600",
+            }}
+          >
+            Review Events
+          </Link>
+
+        </div>
+
+      </div>
+
+
+      {/* Bottom spacing */}
+      <div style={{ height: "20px" }} />
 
     </div>
   );
 }
 
 export default AdminDashboard;
+

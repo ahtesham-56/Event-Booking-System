@@ -1,8 +1,11 @@
-
 const Booking = require("../models/Booking");
 const Event = require("../models/Event");
 
+
+// =========================================================
 // CREATE BOOKING
+// =========================================================
+
 const createBooking = async (req, res) => {
   try {
     const { eventId, seats } = req.body;
@@ -19,7 +22,9 @@ const createBooking = async (req, res) => {
     }
 
     // Remove duplicate seats
-    const uniqueSeats = [...new Set(seats.map(Number))];
+    const uniqueSeats = [
+      ...new Set(seats.map(Number)),
+    ];
 
     if (uniqueSeats.length !== seats.length) {
       return res.status(400).json({
@@ -55,7 +60,7 @@ const createBooking = async (req, res) => {
       status: "Confirmed",
     });
 
-    // Get all already booked seats
+    // Get already booked seats
     const bookedSeats = [];
 
     existingBookings.forEach((booking) => {
@@ -66,26 +71,34 @@ const createBooking = async (req, res) => {
       }
     });
 
-    // Check if selected seats are already booked
-    const alreadyBooked = uniqueSeats.filter((seat) =>
-      bookedSeats.includes(seat)
+    // Check already booked seats
+    const alreadyBooked = uniqueSeats.filter(
+      (seat) =>
+        bookedSeats.includes(seat)
     );
 
     if (alreadyBooked.length > 0) {
-  return res.status(400).json({
-    message: "Some selected seats are already booked: " + alreadyBooked.join(", "),
-  });
-}
+      return res.status(400).json({
+        message:
+          "Some selected seats are already booked: " +
+          alreadyBooked.join(", "),
+      });
+    }
 
     // Check available seats
-    if (uniqueSeats.length > event.availableSeats) {
+    if (
+      uniqueSeats.length >
+      event.availableSeats
+    ) {
       return res.status(400).json({
         message: "Not enough seats available",
       });
     }
 
     // Calculate price
-    const ticketPrice = Number(event.ticketPrice || 0);
+    const ticketPrice = Number(
+      event.ticketPrice || 0
+    );
 
     const totalAmount =
       uniqueSeats.length * ticketPrice;
@@ -102,7 +115,8 @@ const createBooking = async (req, res) => {
 
     // Decrease available seats
     event.availableSeats =
-      event.availableSeats - uniqueSeats.length;
+      event.availableSeats -
+      uniqueSeats.length;
 
     await event.save();
 
@@ -111,7 +125,10 @@ const createBooking = async (req, res) => {
       booking,
     });
   } catch (error) {
-    console.error(error);
+    console.error(
+      "CREATE BOOKING ERROR:",
+      error
+    );
 
     res.status(500).json({
       message: error.message,
@@ -119,7 +136,11 @@ const createBooking = async (req, res) => {
   }
 };
 
+
+// =========================================================
 // GET LOGGED-IN USER'S BOOKINGS
+// =========================================================
+
 const getMyBookings = async (req, res) => {
   try {
     const bookings = await Booking.find({
@@ -132,18 +153,70 @@ const getMyBookings = async (req, res) => {
       bookings,
     });
   } catch (error) {
+    console.error(
+      "GET MY BOOKINGS ERROR:",
+      error
+    );
+
     res.status(500).json({
       message: error.message,
     });
   }
 };
 
+
+// =========================================================
+// GET ALL BOOKINGS - ADMIN
+// =========================================================
+
+const getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find()
+      .populate(
+        "user",
+        "name email"
+      )
+      .populate(
+        "event",
+        "title category date time venue location ticketPrice totalSeats availableSeats"
+      )
+      .sort({
+        createdAt: -1,
+      });
+
+    res.status(200).json({
+      success: true,
+      bookings,
+    });
+  } catch (error) {
+    console.error(
+      "GET ALL BOOKINGS ERROR:",
+      error
+    );
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch all bookings",
+    });
+  }
+};
+
+
+// =========================================================
 // GET SINGLE BOOKING
+// =========================================================
+
 const getBookingById = async (req, res) => {
   try {
-    const booking = await Booking.findById(req.params.id)
-      .populate("event")
-      .populate("user", "name email");
+    const booking =
+      await Booking.findById(
+        req.params.id
+      )
+        .populate("event")
+        .populate(
+          "user",
+          "name email"
+        );
 
     if (!booking) {
       return res.status(404).json({
@@ -155,15 +228,25 @@ const getBookingById = async (req, res) => {
       booking,
     });
   } catch (error) {
+    console.error(
+      "GET BOOKING ERROR:",
+      error
+    );
+
     res.status(500).json({
       message: error.message,
     });
   }
 };
 
+
+// =========================================================
+// EXPORT
+// =========================================================
+
 module.exports = {
   createBooking,
   getMyBookings,
+  getAllBookings,
   getBookingById,
 };
-

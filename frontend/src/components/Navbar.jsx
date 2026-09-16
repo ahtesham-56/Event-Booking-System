@@ -1,7 +1,7 @@
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { getCurrentUser, logoutUser } from "../services/authService";
-
 
 /* =========================================================
    ICON COMPONENT
@@ -72,7 +72,6 @@ function Icon({ name, size = 17 }) {
   return icons[name] || null;
 }
 
-
 /* =========================================================
    NAVBAR
    ========================================================= */
@@ -85,7 +84,6 @@ function Navbar() {
 
   const user = getCurrentUser();
 
-
   /* =======================================================
      LOGOUT
      ======================================================= */
@@ -96,7 +94,6 @@ function Navbar() {
     navigate("/login");
   };
 
-
   /* =======================================================
      ACTIVE ROUTE
      ======================================================= */
@@ -105,25 +102,20 @@ function Navbar() {
     return location.pathname === path;
   };
 
-
   /* =======================================================
-     CLOSE MOBILE NAV
+     CLOSE MOBILE NAVIGATION
      ======================================================= */
 
   const closeNavigation = () => {
     setNavOpen(false);
   };
 
-
   return (
     <nav className="eventbook-navbar">
-
       <div className="eventbook-navbar-inner">
 
-
         {/* =================================================
-            LEFT
-            MOBILE SIDEBAR BUTTON IS OUTSIDE THIS NAVBAR
+            BRAND
             ================================================= */}
 
         <Link
@@ -131,13 +123,11 @@ function Navbar() {
           to="/"
           onClick={closeNavigation}
         >
-
           <div className="eventbook-navbar-logo">
-            E
+            <span>E</span>
           </div>
 
           <div className="eventbook-navbar-brand-text">
-
             <span className="eventbook-navbar-title">
               Event<span>Book</span>
             </span>
@@ -145,14 +135,11 @@ function Navbar() {
             <small className="eventbook-navbar-subtitle">
               Discover • Book • Enjoy
             </small>
-
           </div>
-
         </Link>
 
-
         {/* =================================================
-            CENTER / DESKTOP NAVIGATION
+            DESKTOP / MOBILE NAVIGATION
             ================================================= */}
 
         <div
@@ -160,83 +147,136 @@ function Navbar() {
             navOpen ? "open" : ""
           }`}
         >
+          <div className="eventbook-navbar-nav-inner">
 
-          <Link
-            className={`eventbook-nav-link ${
-              isActive("/") ? "active" : ""
-            }`}
-            to="/"
-            onClick={closeNavigation}
-          >
-            <Icon name="home" />
-            <span>Home</span>
-          </Link>
+            {/* HOME */}
 
+            <Link
+              className={`eventbook-nav-link ${
+                isActive("/") ? "active" : ""
+              }`}
+              to="/"
+              onClick={closeNavigation}
+            >
+              <span className="eventbook-nav-icon">
+                <Icon name="home" />
+              </span>
 
-          <Link
-            className={`eventbook-nav-link ${
-              isActive("/events") ? "active" : ""
-            }`}
-            to="/events"
-            onClick={closeNavigation}
-          >
-            <Icon name="events" />
-            <span>Events</span>
-          </Link>
+              <span>Home</span>
+            </Link>
 
+            {/* EVENTS */}
 
-          {user && (
-            <>
+            <Link
+              className={`eventbook-nav-link ${
+                isActive("/events") ? "active" : ""
+              }`}
+              to="/events"
+              onClick={closeNavigation}
+            >
+              <span className="eventbook-nav-icon">
+                <Icon name="events" />
+              </span>
 
-              <Link
-                className={`eventbook-nav-link ${
-                  isActive("/my-bookings") ? "active" : ""
-                }`}
-                to="/my-bookings"
-                onClick={closeNavigation}
-              >
-                <Icon name="bookings" />
-                <span>My Bookings</span>
-              </Link>
+              <span>Events</span>
+            </Link>
 
+            {user && (
+              <>
+                {/* MY BOOKINGS */}
 
-              <Link
-                className={`eventbook-nav-link ${
-                  isActive("/dashboard") ? "active" : ""
-                }`}
-                to="/dashboard"
-                onClick={closeNavigation}
-              >
-                <Icon name="dashboard" />
-                <span>Dashboard</span>
-              </Link>
-
-
-              {user.role === "admin" && (
                 <Link
                   className={`eventbook-nav-link ${
-                    location.pathname.startsWith("/admin")
-                      ? "active"
-                      : ""
+                    isActive("/my-bookings") ? "active" : ""
                   }`}
-                  to="/admin"
+                  to="/my-bookings"
                   onClick={closeNavigation}
                 >
-                  <Icon name="settings" />
-
-                  <span>Admin</span>
-
-                  <span className="eventbook-admin-badge">
-                    Admin
+                  <span className="eventbook-nav-icon">
+                    <Icon name="bookings" />
                   </span>
+
+                  <span>My Bookings</span>
                 </Link>
-              )}
 
-            </>
+                {/* DASHBOARD */}
+
+                <Link
+                  className={`eventbook-nav-link ${
+                    isActive("/dashboard") ? "active" : ""
+                  }`}
+                  to="/dashboard"
+                  onClick={closeNavigation}
+                >
+                  <span className="eventbook-nav-icon">
+                    <Icon name="dashboard" />
+                  </span>
+
+                  <span>Dashboard</span>
+                </Link>
+
+                {/* ADMIN */}
+
+                {user.role === "admin" && (
+                  <Link
+                    className={`eventbook-nav-link ${
+                      location.pathname.startsWith("/admin")
+                        ? "active"
+                        : ""
+                    }`}
+                    to="/admin"
+                    onClick={closeNavigation}
+                  >
+                    <span className="eventbook-nav-icon">
+                      <Icon name="settings" />
+                    </span>
+
+                    <span>Admin</span>
+
+                    <span className="eventbook-admin-badge">
+                      ADMIN
+                    </span>
+                  </Link>
+                )}
+              </>
+            )}
+          </div>
+
+          {/* MOBILE USER AREA */}
+
+          {user && (
+            <div className="eventbook-mobile-user">
+              <div className="eventbook-mobile-user-info">
+                <div className="eventbook-profile-avatar">
+                  {user.name
+                    ? user.name.charAt(0).toUpperCase()
+                    : "U"}
+                </div>
+
+                <div>
+                  <div className="eventbook-profile-name">
+                    {user.name || "User"}
+                  </div>
+
+                  <div className="eventbook-profile-role">
+                    {user.role === "admin"
+                      ? "Administrator"
+                      : "Event User"}
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="eventbook-mobile-logout"
+                onClick={handleLogout}
+              >
+                <Icon name="logout" size={16} />
+                Logout
+              </button>
+            </div>
           )}
-
         </div>
-
 
         {/* =================================================
             RIGHT SIDE
@@ -246,9 +286,9 @@ function Navbar() {
 
           {user ? (
             <>
+              {/* PROFILE */}
 
               <div className="eventbook-profile">
-
                 <div className="eventbook-profile-avatar">
                   {user.name
                     ? user.name.charAt(0).toUpperCase()
@@ -256,9 +296,8 @@ function Navbar() {
                 </div>
 
                 <div className="eventbook-profile-info">
-
                   <div className="eventbook-profile-name">
-                    {user.name}
+                    {user.name || "User"}
                   </div>
 
                   <small className="eventbook-profile-role">
@@ -266,11 +305,10 @@ function Navbar() {
                       ? "Administrator"
                       : "Event User"}
                   </small>
-
                 </div>
-
               </div>
 
+              {/* LOGOUT */}
 
               <button
                 className="eventbook-navbar-logout"
@@ -280,11 +318,9 @@ function Navbar() {
                 <Icon name="logout" size={16} />
                 <span>Logout</span>
               </button>
-
             </>
           ) : (
             <>
-
               <Link
                 to="/login"
                 className="eventbook-login-btn"
@@ -300,14 +336,11 @@ function Navbar() {
               >
                 Get Started
               </Link>
-
             </>
           )}
 
-
           {/* =================================================
-              NAVBAR HAMBURGER
-              RIGHT CORNER ON PHONE
+              MOBILE MENU BUTTON
               ================================================= */}
 
           <button
@@ -323,11 +356,8 @@ function Navbar() {
             <span></span>
             <span></span>
           </button>
-
         </div>
-
       </div>
-
     </nav>
   );
 }
