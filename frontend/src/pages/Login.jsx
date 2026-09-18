@@ -24,7 +24,6 @@ function Login() {
       [e.target.name]: e.target.value,
     });
 
-    // Remove error when user starts typing again
     if (error) {
       setError("");
     }
@@ -69,6 +68,7 @@ function Login() {
 
         .eventbook-login-page {
           min-height: calc(100vh - 70px);
+
           background:
             radial-gradient(
               circle at 10% 10%,
@@ -84,6 +84,7 @@ function Login() {
 
           display: flex;
           align-items: center;
+
           padding: 45px 15px;
         }
 
@@ -99,8 +100,11 @@ function Login() {
 
         .eventbook-login-card {
           background: #ffffff;
+
           border: 1px solid #e2e8f0;
+
           border-radius: 26px;
+
           overflow: hidden;
 
           box-shadow:
@@ -147,6 +151,7 @@ function Login() {
 
         .eventbook-brand-panel::before {
           content: "";
+
           position: absolute;
 
           width: 260px;
@@ -162,6 +167,7 @@ function Login() {
 
         .eventbook-brand-panel::after {
           content: "";
+
           position: absolute;
 
           width: 220px;
@@ -187,6 +193,7 @@ function Login() {
         .eventbook-logo {
           display: flex;
           align-items: center;
+
           gap: 12px;
 
           margin-bottom: 45px;
@@ -214,7 +221,9 @@ function Login() {
 
         .eventbook-logo-text {
           font-size: 23px;
+
           font-weight: 800;
+
           letter-spacing: -0.5px;
         }
 
@@ -224,6 +233,7 @@ function Login() {
 
         .brand-heading {
           font-size: clamp(32px, 4vw, 45px);
+
           line-height: 1.12;
 
           font-weight: 800;
@@ -251,18 +261,23 @@ function Login() {
 
         .brand-features {
           display: flex;
+
           flex-direction: column;
+
           gap: 14px;
         }
 
         .brand-feature {
           display: flex;
+
           align-items: center;
+
           gap: 13px;
 
           color: rgba(255, 255, 255, 0.92);
 
           font-size: 14px;
+
           font-weight: 600;
         }
 
@@ -273,6 +288,7 @@ function Login() {
           border-radius: 10px;
 
           display: flex;
+
           align-items: center;
           justify-content: center;
 
@@ -285,6 +301,7 @@ function Login() {
 
         .brand-footer {
           position: relative;
+
           z-index: 2;
 
           color: rgba(255, 255, 255, 0.62);
@@ -299,9 +316,10 @@ function Login() {
            ===================================================== */
 
         .eventbook-login-panel {
-          padding: 48px 48px;
+          padding: 48px;
 
           display: flex;
+
           align-items: center;
 
           min-height: 620px;
@@ -309,7 +327,9 @@ function Login() {
 
         .login-form-wrapper {
           width: 100%;
+
           max-width: 420px;
+
           margin: 0 auto;
         }
 
@@ -355,7 +375,9 @@ function Login() {
 
         .login-error {
           display: flex;
+
           align-items: flex-start;
+
           gap: 10px;
 
           background: #fef2f2;
@@ -384,6 +406,7 @@ function Login() {
           background: #fee2e2;
 
           display: flex;
+
           align-items: center;
           justify-content: center;
 
@@ -420,6 +443,7 @@ function Login() {
           position: absolute;
 
           left: 15px;
+
           top: 50%;
 
           transform: translateY(-50%);
@@ -483,6 +507,7 @@ function Login() {
           position: absolute;
 
           right: 13px;
+
           top: 50%;
 
           transform: translateY(-50%);
@@ -506,6 +531,38 @@ function Login() {
           color: #2563eb;
 
           background: #eff6ff;
+        }
+
+        /* =====================================================
+           FORGOT PASSWORD
+           ===================================================== */
+
+        .forgot-password-wrapper {
+          display: flex;
+
+          justify-content: flex-end;
+
+          margin-top: -8px;
+
+          margin-bottom: 20px;
+        }
+
+        .forgot-password-link {
+          color: #2563eb;
+
+          font-size: 13px;
+
+          font-weight: 700;
+
+          text-decoration: none;
+
+          transition: color 0.2s ease;
+        }
+
+        .forgot-password-link:hover {
+          color: #1d4ed8;
+
+          text-decoration: underline;
         }
 
         /* =====================================================
@@ -620,7 +677,9 @@ function Login() {
 
         .login-security {
           display: flex;
+
           align-items: center;
+
           justify-content: center;
 
           gap: 7px;
@@ -672,11 +731,6 @@ function Login() {
           .eventbook-login-card {
             border-radius: 20px;
           }
-
-          /*
-            Hide large desktop branding panel
-            on mobile to keep login compact.
-          */
 
           .eventbook-brand-panel {
             min-height: auto;
@@ -758,6 +812,10 @@ function Login() {
 
           .login-submit-button {
             min-height: 50px;
+          }
+
+          .forgot-password-link {
+            font-size: 12px;
           }
         }
       `}</style>
@@ -1000,6 +1058,21 @@ function Login() {
 
                       </div>
 
+                      {/* =================================================
+                          FORGOT PASSWORD
+                          ================================================= */}
+
+                      <div className="forgot-password-wrapper">
+
+                        <Link
+                          to="/forgot-password"
+                          className="forgot-password-link"
+                        >
+                          Forgot Password?
+                        </Link>
+
+                      </div>
+
                       {/* LOGIN BUTTON */}
 
                       <button
@@ -1011,6 +1084,7 @@ function Login() {
                         {loading ? (
                           <>
                             <span className="login-spinner" />
+
                             <span>
                               Signing in...
                             </span>
@@ -1049,12 +1123,14 @@ function Login() {
                     {/* SECURITY */}
 
                     <div className="login-security">
+
                       <span>🔒</span>
 
                       <span>
                         Your login information is securely
                         protected
                       </span>
+
                     </div>
 
                   </div>

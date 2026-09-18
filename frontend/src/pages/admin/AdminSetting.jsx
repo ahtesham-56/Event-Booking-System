@@ -69,9 +69,7 @@ function AdminSetting() {
     }, 3000);
   };
 
-  /* =========================================================
-     SETTING SWITCH
-     ========================================================= */
+  /*  SETTING SWITCH*/
 
   const SettingSwitch = ({
     name,
@@ -124,9 +122,7 @@ function AdminSetting() {
   return (
     <>
       <style>{`
-        /* =========================================================
-           EVENTBOOK ADMIN SETTINGS
-           ========================================================= */
+        /*  EVENTBOOK ADMIN SETTINGS*/
 
         .admin-settings-page {
           min-height: calc(100vh - 70px);
@@ -555,9 +551,7 @@ function AdminSetting() {
           text-transform: uppercase;
         }
 
-        /* =========================================================
-           MODERN SWITCH
-           ========================================================= */
+        /* MODERN SWITCH */
 
         .modern-switch {
           position: relative;
@@ -618,9 +612,7 @@ function AdminSetting() {
           background: #4338ca;
         }
 
-        /* =========================================================
-           MAINTENANCE BOX
-           ========================================================= */
+        /*  MAINTENANCE BOX */
 
         .maintenance-box {
           padding: 17px 18px;
@@ -656,9 +648,7 @@ function AdminSetting() {
           line-height: 1.5;
         }
 
-        /* =========================================================
-           BOTTOM ACTIONS
-           ========================================================= */
+        /* BOTTOM ACTIONS */
 
         .settings-actions {
           display: flex;
@@ -719,9 +709,7 @@ function AdminSetting() {
           transform: translateY(0);
         }
 
-        /* =========================================================
-           TABLET
-           ========================================================= */
+        /* TABLET */
 
         @media (max-width: 1000px) {
           .admin-settings-page {
@@ -847,9 +835,7 @@ function AdminSetting() {
           }
         }
 
-        /* =========================================================
-           SMALL MOBILE
-           ========================================================= */
+        /*SMALL MOBILE */
 
         @media (max-width: 430px) {
           .admin-settings-page {
@@ -941,9 +927,7 @@ function AdminSetting() {
       <div className="admin-settings-page">
         <div className="settings-container">
 
-          {/* =====================================================
-              HEADER
-              ===================================================== */}
+          /* HEADER*/
 
           <div className="settings-header">
 
@@ -970,9 +954,7 @@ function AdminSetting() {
 
           </div>
 
-          {/* =====================================================
-              SUCCESS MESSAGE
-              ===================================================== */}
+          /* SUCCESS MESSAGE*/
 
           {saved && (
             <div className="success-alert">
@@ -995,15 +977,11 @@ function AdminSetting() {
             </div>
           )}
 
-          {/* =====================================================
-              SETTINGS GRID
-              ===================================================== */}
+          /* SETTINGS GRID*/
 
           <div className="settings-grid">
 
-            {/* ===================================================
-                GENERAL SETTINGS
-                =================================================== */}
+            /*GENERAL SETTINGS */
 
             <div className="settings-card">
 
@@ -1086,9 +1064,9 @@ function AdminSetting() {
 
             </div>
 
-            {/* ===================================================
+            /*
                 BOOKING SETTINGS
-                =================================================== */}
+                 */
 
             <div className="settings-card">
 
@@ -1141,9 +1119,7 @@ function AdminSetting() {
 
             </div>
 
-            {/* ===================================================
-                NOTIFICATION SETTINGS
-                =================================================== */}
+            /* NOTIFICATION SETTINGS*/
 
             <div className="settings-card full-width">
 
@@ -1188,9 +1164,7 @@ function AdminSetting() {
 
             </div>
 
-            {/* ===================================================
-                SYSTEM SETTINGS
-                =================================================== */}
+            /* SYSTEM SETTINGS*/
 
             <div className="settings-card full-width">
 
@@ -1243,10 +1217,7 @@ function AdminSetting() {
 
           </div>
 
-          {/* =====================================================
-              ACTION BUTTONS
-              ===================================================== */}
-
+          /* ACTION BUTTONS*/
           <div className="settings-actions">
 
             <button

@@ -1,4 +1,3 @@
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { getCurrentUser, logoutUser } from "../services/authService";
@@ -60,6 +59,13 @@ function Icon({ name, size = 17 }) {
       </svg>
     ),
 
+    user: (
+      <svg {...common}>
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21c.8-4 3.4-6 8-6s7.2 2 8 6" />
+      </svg>
+    ),
+
     logout: (
       <svg {...common}>
         <path d="M10 17l5-5-5-5" />
@@ -81,6 +87,7 @@ function Navbar() {
   const location = useLocation();
 
   const [navOpen, setNavOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const user = getCurrentUser();
 
@@ -90,7 +97,10 @@ function Navbar() {
 
   const handleLogout = () => {
     logoutUser();
+
     setNavOpen(false);
+    setProfileOpen(false);
+
     navigate("/login");
   };
 
@@ -103,12 +113,41 @@ function Navbar() {
   };
 
   /* =======================================================
-     CLOSE MOBILE NAVIGATION
+     CLOSE NAVIGATION
      ======================================================= */
 
   const closeNavigation = () => {
     setNavOpen(false);
+    setProfileOpen(false);
   };
+
+  /* =======================================================
+     PROFILE
+     ======================================================= */
+
+  const openProfile = () => {
+    setProfileOpen(false);
+    setNavOpen(false);
+    navigate("/profile");
+  };
+
+  /* =======================================================
+     SETTINGS
+     ======================================================= */
+
+  const openSettings = () => {
+    setProfileOpen(false);
+    setNavOpen(false);
+    navigate("/settings");
+  };
+
+  /* =======================================================
+     USER INITIAL
+     ======================================================= */
+
+  const userInitial = user?.name
+    ? user.name.charAt(0).toUpperCase()
+    : "U";
 
   return (
     <nav className="eventbook-navbar">
@@ -139,7 +178,7 @@ function Navbar() {
         </Link>
 
         {/* =================================================
-            DESKTOP / MOBILE NAVIGATION
+            NAVIGATION
             ================================================= */}
 
         <div
@@ -181,10 +220,10 @@ function Navbar() {
               <span>Events</span>
             </Link>
 
+            {/* USER LINKS */}
+
             {user && (
               <>
-                {/* MY BOOKINGS */}
-
                 <Link
                   className={`eventbook-nav-link ${
                     isActive("/my-bookings") ? "active" : ""
@@ -198,8 +237,6 @@ function Navbar() {
 
                   <span>My Bookings</span>
                 </Link>
-
-                {/* DASHBOARD */}
 
                 <Link
                   className={`eventbook-nav-link ${
@@ -242,15 +279,20 @@ function Navbar() {
             )}
           </div>
 
-          {/* MOBILE USER AREA */}
+          {/* =================================================
+              MOBILE USER AREA
+              ================================================= */}
 
           {user && (
             <div className="eventbook-mobile-user">
-              <div className="eventbook-mobile-user-info">
+
+              <button
+                type="button"
+                className="eventbook-mobile-user-info"
+                onClick={openProfile}
+              >
                 <div className="eventbook-profile-avatar">
-                  {user.name
-                    ? user.name.charAt(0).toUpperCase()
-                    : "U"}
+                  {userInitial}
                 </div>
 
                 <div>
@@ -264,16 +306,36 @@ function Navbar() {
                       : "Event User"}
                   </div>
                 </div>
-              </div>
-
-              <button
-                type="button"
-                className="eventbook-mobile-logout"
-                onClick={handleLogout}
-              >
-                <Icon name="logout" size={16} />
-                Logout
               </button>
+
+              <div className="eventbook-mobile-user-actions">
+
+                <button
+                  type="button"
+                  onClick={openProfile}
+                >
+                  <Icon name="user" size={16} />
+                  Profile
+                </button>
+
+                <button
+                  type="button"
+                  onClick={openSettings}
+                >
+                  <Icon name="settings" size={16} />
+                  Settings
+                </button>
+
+                <button
+                  type="button"
+                  className="eventbook-mobile-logout"
+                  onClick={handleLogout}
+                >
+                  <Icon name="logout" size={16} />
+                  Logout
+                </button>
+
+              </div>
             </div>
           )}
         </div>
@@ -286,38 +348,134 @@ function Navbar() {
 
           {user ? (
             <>
-              {/* PROFILE */}
+              {/* PROFILE BUTTON */}
 
-              <div className="eventbook-profile">
-                <div className="eventbook-profile-avatar">
-                  {user.name
-                    ? user.name.charAt(0).toUpperCase()
-                    : "U"}
-                </div>
+              <div className="eventbook-profile-wrapper">
 
-                <div className="eventbook-profile-info">
-                  <div className="eventbook-profile-name">
-                    {user.name || "User"}
+                <button
+                  type="button"
+                  className={`eventbook-profile-button ${
+                    profileOpen ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    setProfileOpen((previous) => !previous)
+                  }
+                  aria-label="Open account menu"
+                  aria-expanded={profileOpen}
+                >
+                  <div className="eventbook-profile-avatar">
+                    {userInitial}
                   </div>
 
-                  <small className="eventbook-profile-role">
-                    {user.role === "admin"
-                      ? "Administrator"
-                      : "Event User"}
-                  </small>
-                </div>
+                  <div className="eventbook-profile-info">
+                    <div className="eventbook-profile-name">
+                      {user.name || "User"}
+                    </div>
+
+                    <small className="eventbook-profile-role">
+                      {user.role === "admin"
+                        ? "Administrator"
+                        : "Event User"}
+                    </small>
+                  </div>
+
+                  <span className="eventbook-profile-chevron">
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </span>
+                </button>
+
+                {/* PROFILE DROPDOWN */}
+
+                {profileOpen && (
+                  <div className="eventbook-profile-dropdown">
+
+                    <div className="eventbook-profile-dropdown-header">
+
+                      <div className="eventbook-profile-avatar large">
+                        {userInitial}
+                      </div>
+
+                      <div className="eventbook-profile-dropdown-user">
+                        <strong>
+                          {user.name || "User"}
+                        </strong>
+
+                        <span>
+                          {user.email || "No email available"}
+                        </span>
+                      </div>
+
+                    </div>
+
+                    <div className="eventbook-profile-dropdown-divider" />
+
+                    <button
+                      type="button"
+                      className="eventbook-profile-dropdown-item"
+                      onClick={openProfile}
+                    >
+                      <span className="dropdown-item-icon">
+                        <Icon name="user" size={17} />
+                      </span>
+
+                      <span className="dropdown-item-content">
+                        <strong>My Profile</strong>
+                        <small>
+                          View and edit your profile
+                        </small>
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      className="eventbook-profile-dropdown-item"
+                      onClick={openSettings}
+                    >
+                      <span className="dropdown-item-icon">
+                        <Icon name="settings" size={17} />
+                      </span>
+
+                      <span className="dropdown-item-content">
+                        <strong>Settings</strong>
+                        <small>
+                          Manage account preferences
+                        </small>
+                      </span>
+                    </button>
+
+                    <div className="eventbook-profile-dropdown-divider" />
+
+                    <button
+                      type="button"
+                      className="eventbook-profile-dropdown-item logout"
+                      onClick={handleLogout}
+                    >
+                      <span className="dropdown-item-icon">
+                        <Icon name="logout" size={17} />
+                      </span>
+
+                      <span className="dropdown-item-content">
+                        <strong>Logout</strong>
+                        <small>
+                          Sign out of EventBook
+                        </small>
+                      </span>
+                    </button>
+
+                  </div>
+                )}
               </div>
-
-              {/* LOGOUT */}
-
-              <button
-                className="eventbook-navbar-logout"
-                onClick={handleLogout}
-                type="button"
-              >
-                <Icon name="logout" size={16} />
-                <span>Logout</span>
-              </button>
             </>
           ) : (
             <>
@@ -339,16 +497,17 @@ function Navbar() {
             </>
           )}
 
-          {/* =================================================
-              MOBILE MENU BUTTON
-              ================================================= */}
+          {/* MOBILE MENU */}
 
           <button
             type="button"
             className={`eventbook-navbar-mobile-toggle ${
               navOpen ? "active" : ""
             }`}
-            onClick={() => setNavOpen((previous) => !previous)}
+            onClick={() => {
+              setNavOpen((previous) => !previous);
+              setProfileOpen(false);
+            }}
             aria-label="Toggle navigation"
             aria-expanded={navOpen}
           >
@@ -356,6 +515,7 @@ function Navbar() {
             <span></span>
             <span></span>
           </button>
+
         </div>
       </div>
     </nav>
@@ -363,3 +523,4 @@ function Navbar() {
 }
 
 export default Navbar;
+

@@ -736,7 +736,7 @@ function AddEvent() {
             </div>
           </div>
 
-          {/* ================= ERROR ================= */}
+          /*ERroR*/
           {error && (
             <div className="add-event-error d-flex align-items-center gap-3 mb-4">
               <div className="add-event-error-icon">
@@ -766,7 +766,7 @@ function AddEvent() {
 
             <div className="add-event-layout">
 
-              {/* ================= LEFT FORM ================= */}
+              /*  LEFT FORM*/
               <div className="add-event-card">
 
                 {/* Card Header */}
@@ -790,7 +790,7 @@ function AddEvent() {
                   </div>
                 </div>
 
-                {/* ================= BASIC INFORMATION ================= */}
+                /* BASIC INFORMATION  */
                 <div className="add-event-section">
 
                   <div className="add-event-section-title">
@@ -966,7 +966,7 @@ function AddEvent() {
                   </div>
                 </div>
 
-                {/* ================= TICKETS ================= */}
+                /*TICKETS*/
                 <div className="add-event-section">
 
                   <div className="add-event-section-title">
@@ -1119,7 +1119,7 @@ function AddEvent() {
 
                 </div>
 
-                {/* ================= DESCRIPTION ================= */}
+                /*DESCRIPTION ================= */
                 <div className="add-event-section">
 
                   <div className="add-event-section-title">
@@ -1151,7 +1151,7 @@ function AddEvent() {
 
                 </div>
 
-                {/* ================= FOOTER ================= */}
+                /* FOOTER*/
                 <div className="add-event-footer">
 
                   <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
@@ -1204,7 +1204,7 @@ function AddEvent() {
 
               </div>
 
-              {/* ================= LIVE PREVIEW ================= */}
+              /*LIVE PREVIEW */
               <div className="add-event-preview-card">
 
                 <div className="add-event-card">

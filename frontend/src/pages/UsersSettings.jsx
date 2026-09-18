@@ -26,7 +26,7 @@ function UsersSettings() {
 
   /* =========================================================
      LOAD USER
-     ========================================================= */
+  ========================================================= */
 
   useEffect(() => {
     const loadUser = async () => {
@@ -43,8 +43,7 @@ function UsersSettings() {
         );
 
         setEmail(
-          storedUser.email ||
-            ""
+          storedUser.email || ""
         );
 
         const preferences =
@@ -81,8 +80,8 @@ function UsersSettings() {
   }, []);
 
   /* =========================================================
-     SAVE SETTINGS
-     ========================================================= */
+     SAVE PROFILE SETTINGS
+  ========================================================= */
 
   const handleSave = async (event) => {
     event.preventDefault();
@@ -91,19 +90,21 @@ function UsersSettings() {
     setMessage("");
     setMessageType("success");
 
-    const notificationPreferences = {
-      bookingNotifications,
-      eventNotifications,
-      promotionalNotifications,
-    };
-
     try {
+      /*
+        Profile API currently supports:
+        - name
+        - phone
+        - profileImage
+
+        Email and notification preferences are kept
+        locally for now.
+      */
+
       const response = await api.put(
-        "/users/profile",
+        "/users/profile/me",
         {
           name,
-          email,
-          notificationPreferences,
         }
       );
 
@@ -111,11 +112,21 @@ function UsersSettings() {
         response.data?.user ||
         response.data;
 
+      const currentUser =
+        JSON.parse(
+          localStorage.getItem("user")
+        ) || {};
+
       const finalUser = {
+        ...currentUser,
         ...updatedUser,
         name,
         email,
-        notificationPreferences,
+        notificationPreferences: {
+          bookingNotifications,
+          eventNotifications,
+          promotionalNotifications,
+        },
       };
 
       localStorage.setItem(
@@ -136,33 +147,9 @@ function UsersSettings() {
         error
       );
 
-      /*
-        Local fallback.
-        This keeps the settings usable even when
-        the backend profile endpoint is not connected.
-      */
-
-      const currentUser =
-        JSON.parse(
-          localStorage.getItem("user")
-        ) || {};
-
-      const updatedUser = {
-        ...currentUser,
-        name,
-        email,
-        notificationPreferences,
-      };
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(updatedUser)
-      );
-
-      setUser(updatedUser);
-
       setMessage(
-        "Settings saved on this device."
+        error.response?.data?.message ||
+          "Failed to update account settings."
       );
 
       setMessageType("warning");
@@ -177,7 +164,7 @@ function UsersSettings() {
 
   /* =========================================================
      LOADING
-     ========================================================= */
+  ========================================================= */
 
   if (loading) {
     return (
@@ -234,7 +221,7 @@ function UsersSettings() {
 
   /* =========================================================
      USER AVATAR
-     ========================================================= */
+  ========================================================= */
 
   const avatarLetter =
     (name || "U")
@@ -247,7 +234,7 @@ function UsersSettings() {
 
         /* =====================================================
            USER SETTINGS PAGE
-           ===================================================== */
+        ===================================================== */
 
         .user-settings-page {
           min-height: calc(100vh - 70px);
@@ -269,7 +256,7 @@ function UsersSettings() {
 
         /* =====================================================
            HEADER
-           ===================================================== */
+        ===================================================== */
 
         .user-settings-header {
           display: flex;
@@ -365,7 +352,7 @@ function UsersSettings() {
 
         /* =====================================================
            ALERT
-           ===================================================== */
+        ===================================================== */
 
         .settings-alert {
           display: flex;
@@ -423,18 +410,20 @@ function UsersSettings() {
 
         /* =====================================================
            MAIN GRID
-           ===================================================== */
+        ===================================================== */
 
         .settings-content-grid {
           display: grid;
-          grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
+          grid-template-columns:
+            minmax(0, 1.45fr)
+            minmax(320px, 0.85fr);
           gap: 20px;
           align-items: start;
         }
 
         /* =====================================================
            CARDS
-           ===================================================== */
+        ===================================================== */
 
         .user-settings-card {
           overflow: hidden;
@@ -523,7 +512,7 @@ function UsersSettings() {
 
         /* =====================================================
            PROFILE FORM
-           ===================================================== */
+        ===================================================== */
 
         .form-group {
           margin-bottom: 21px;
@@ -595,9 +584,15 @@ function UsersSettings() {
           color: #a4acb9;
         }
 
+        .user-input:disabled {
+          background: #f8f9fb;
+          color: #667085;
+          cursor: not-allowed;
+        }
+
         /* =====================================================
            SAVE BUTTON
-           ===================================================== */
+        ===================================================== */
 
         .save-changes-button {
           display: inline-flex;
@@ -651,7 +646,7 @@ function UsersSettings() {
 
         /* =====================================================
            ACCOUNT CARD
-           ===================================================== */
+        ===================================================== */
 
         .account-profile {
           display: flex;
@@ -720,8 +715,44 @@ function UsersSettings() {
         }
 
         /* =====================================================
+           VIEW PROFILE BUTTON
+        ===================================================== */
+
+        .profile-view-button {
+          width: 100%;
+          height: 42px;
+          margin-top: 14px;
+          padding: 0 14px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border: 1px solid #e0e3eb;
+          border-radius: 10px;
+          background: #ffffff;
+          color: #4f46e5;
+          font-family: inherit;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          transition:
+            border-color 0.2s ease,
+            background 0.2s ease,
+            transform 0.2s ease;
+        }
+
+        .profile-view-button:hover {
+          border-color: #4f46e5;
+          background: #f5f5ff;
+          transform: translateY(-1px);
+        }
+
+        .profile-view-button:active {
+          transform: translateY(0);
+        }
+
+        /* =====================================================
            NOTIFICATION SETTINGS
-           ===================================================== */
+        ===================================================== */
 
         .notification-list {
           display: flex;
@@ -782,7 +813,7 @@ function UsersSettings() {
 
         /* =====================================================
            CUSTOM SWITCH
-           ===================================================== */
+        ===================================================== */
 
         .notification-switch {
           position: relative;
@@ -851,7 +882,7 @@ function UsersSettings() {
 
         /* =====================================================
            INFORMATION BOX
-           ===================================================== */
+        ===================================================== */
 
         .settings-info-box {
           display: flex;
@@ -874,7 +905,7 @@ function UsersSettings() {
 
         /* =====================================================
            MOBILE / TABLET
-           ===================================================== */
+        ===================================================== */
 
         @media (max-width: 1000px) {
           .user-settings-page {
@@ -1030,7 +1061,7 @@ function UsersSettings() {
 
           {/* =====================================================
               HEADER
-              ===================================================== */}
+          ===================================================== */}
 
           <div className="user-settings-header">
 
@@ -1070,7 +1101,7 @@ function UsersSettings() {
 
           {/* =====================================================
               MESSAGE
-              ===================================================== */}
+          ===================================================== */}
 
           {message && (
             <div
@@ -1094,13 +1125,13 @@ function UsersSettings() {
 
           {/* =====================================================
               CONTENT
-              ===================================================== */}
+          ===================================================== */}
 
           <div className="settings-content-grid">
 
             {/* ===================================================
                 PROFILE INFORMATION
-                =================================================== */}
+            =================================================== */}
 
             <div className="user-settings-card">
 
@@ -1111,6 +1142,7 @@ function UsersSettings() {
                 </div>
 
                 <div className="card-heading-content">
+
                   <h5>
                     Profile Information
                   </h5>
@@ -1118,6 +1150,7 @@ function UsersSettings() {
                   <p>
                     Update your personal account information
                   </p>
+
                 </div>
 
                 <span className="card-heading-badge">
@@ -1135,6 +1168,7 @@ function UsersSettings() {
                   <div className="form-group">
 
                     <label className="user-form-label">
+
                       <span>
                         Full Name
                       </span>
@@ -1142,6 +1176,7 @@ function UsersSettings() {
                       <span className="label-hint">
                         Required
                       </span>
+
                     </label>
 
                     <div className="user-input-wrapper">
@@ -1170,13 +1205,15 @@ function UsersSettings() {
                   <div className="form-group">
 
                     <label className="user-form-label">
+
                       <span>
                         Email Address
                       </span>
 
                       <span className="label-hint">
-                        Required
+                        Cannot be changed
                       </span>
+
                     </label>
 
                     <div className="user-input-wrapper">
@@ -1189,11 +1226,8 @@ function UsersSettings() {
                         type="email"
                         className="user-input"
                         value={email}
-                        onChange={(e) =>
-                          setEmail(e.target.value)
-                        }
-                        placeholder="Enter your email address"
-                        required
+                        disabled
+                        readOnly
                       />
 
                     </div>
@@ -1230,13 +1264,13 @@ function UsersSettings() {
 
             {/* ===================================================
                 RIGHT COLUMN
-                =================================================== */}
+            =================================================== */}
 
             <div>
 
               {/* =================================================
                   ACCOUNT
-                  ================================================= */}
+              ================================================= */}
 
               <div className="user-settings-card mb-3">
 
@@ -1247,6 +1281,7 @@ function UsersSettings() {
                   </div>
 
                   <div className="card-heading-content">
+
                     <h5>
                       Account
                     </h5>
@@ -1254,6 +1289,7 @@ function UsersSettings() {
                     <p>
                       Your EventBook account
                     </p>
+
                   </div>
 
                 </div>
@@ -1286,13 +1322,29 @@ function UsersSettings() {
 
                   </div>
 
+                  {/* VIEW PROFILE */}
+
+                  <button
+                    type="button"
+                    className="profile-view-button"
+                    onClick={() => navigate("/profile")}
+                  >
+                    <span>
+                      View Profile
+                    </span>
+
+                    <span>
+                      →
+                    </span>
+                  </button>
+
                 </div>
 
               </div>
 
               {/* =================================================
                   NOTIFICATIONS
-                  ================================================= */}
+              ================================================= */}
 
               <div className="user-settings-card">
 
@@ -1303,6 +1355,7 @@ function UsersSettings() {
                   </div>
 
                   <div className="card-heading-content">
+
                     <h5>
                       Notifications
                     </h5>
@@ -1310,6 +1363,7 @@ function UsersSettings() {
                     <p>
                       Manage your notification preferences
                     </p>
+
                   </div>
 
                   <span className="card-heading-badge">
@@ -1333,6 +1387,7 @@ function UsersSettings() {
                         </div>
 
                         <div>
+
                           <div className="notification-title">
                             Booking Notifications
                           </div>
@@ -1340,6 +1395,7 @@ function UsersSettings() {
                           <div className="notification-description">
                             Updates about your bookings and tickets.
                           </div>
+
                         </div>
 
                       </div>
@@ -1373,6 +1429,7 @@ function UsersSettings() {
                         </div>
 
                         <div>
+
                           <div className="notification-title">
                             Event Updates
                           </div>
@@ -1380,6 +1437,7 @@ function UsersSettings() {
                           <div className="notification-description">
                             Important updates about your events.
                           </div>
+
                         </div>
 
                       </div>
@@ -1413,6 +1471,7 @@ function UsersSettings() {
                         </div>
 
                         <div>
+
                           <div className="notification-title">
                             Event Recommendations
                           </div>
@@ -1420,6 +1479,7 @@ function UsersSettings() {
                           <div className="notification-description">
                             Discover events that may interest you.
                           </div>
+
                         </div>
 
                       </div>
@@ -1476,3 +1536,4 @@ function UsersSettings() {
 }
 
 export default UsersSettings;
+

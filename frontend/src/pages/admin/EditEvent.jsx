@@ -19,9 +19,9 @@ function EditEvent() {
   const [error, setError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // =========================================================
+  
   // FETCH EVENT
-  // =========================================================
+  
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -56,9 +56,9 @@ function EditEvent() {
     fetchEvent();
   }, [id]);
 
-  // =========================================================
+
   // HANDLE INPUT CHANGE
-  // =========================================================
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,9 +74,9 @@ function EditEvent() {
     }
   };
 
-  // =========================================================
+
   // UPDATE EVENT
-  // =========================================================
+  
 
   const handleUpdate = async () => {
     if (updating) return;
@@ -118,9 +118,8 @@ function EditEvent() {
     try {
       setUpdating(true);
 
-      // =====================================================
+   
       // ONLY THESE FIELDS ARE UPDATED
-      // =====================================================
 
       const updatedData = {
         title: event.title.trim(),
@@ -155,9 +154,8 @@ function EditEvent() {
     }
   };
 
-  // =========================================================
+
   // LOADING
-  // =========================================================
 
   if (loading) {
     return (

@@ -35,39 +35,3 @@ export const changePassword = async (passwordData) => {
 
   return response.data;
 };
-
-// =========================================================
-// FORGOT PASSWORD
-// =========================================================
-
-export const forgotPassword = async (email) => {
-  const response = await api.post(
-    "/users/forgot-password",
-    {
-      email,
-    }
-  );
-
-  return response.data;
-};
-
-// =========================================================
-// RESET PASSWORD
-// =========================================================
-
-export const resetPassword = async (
-  token,
-  password,
-  confirmPassword
-) => {
-  const response = await api.put(
-    `/users/reset-password/${token}`,
-    {
-      password,
-      confirmPassword,
-    }
-  );
-
-  return response.data;
-};
-

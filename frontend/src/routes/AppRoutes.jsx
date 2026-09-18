@@ -1,17 +1,23 @@
 import { Routes, Route } from "react-router-dom";
 
-/* ================= LAYOUTS ================= */
+/* =========================================================
+   LAYOUTS
+   ========================================================= */
 
 import PublicLayout from "../components/PublicLayout";
 import UserLayout from "../components/UserLayout";
 import AdminLayout from "../components/AdminLayout";
 
-/* ================= PROTECTION ================= */
+/* =========================================================
+   ROUTE PROTECTION
+   ========================================================= */
 
 import ProtectedRoute from "../components/ProtectedRoute";
 import AdminRoute from "../components/AdminRoute";
 
-/* ================= PUBLIC / COMMON PAGES ================= */
+/* =========================================================
+   PUBLIC / COMMON PAGES
+   ========================================================= */
 
 import Home from "../pages/Home";
 import Events from "../pages/Events";
@@ -19,15 +25,28 @@ import EventDetails from "../pages/EventDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 
-/* ================= USER PAGES ================= */
+/* =========================================================
+   PASSWORD / AUTHENTICATION PAGES
+   ========================================================= */
+
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
+
+/* =========================================================
+   USER PAGES
+   ========================================================= */
 
 import Dashboard from "../pages/Dashboard";
 import BookingPage from "../pages/BookingPage";
 import BookingConfirmation from "../pages/BookingConfirmation";
 import MyBookings from "../pages/MyBookings";
+import Profile from "../pages/Profile";
+import ProfileSetting from "../pages/ProfileSetting";
 import UsersSettings from "../pages/UsersSettings";
 
-/* ================= ADMIN PAGES ================= */
+/* =========================================================
+   ADMIN PAGES
+   ========================================================= */
 
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import ManageEvents from "../pages/admin/ManageEvents";
@@ -45,22 +64,25 @@ function AppRoutes() {
   return (
     <Routes>
 
-      {/* ==================================================
-          PUBLIC PAGES WITH SIDEBAR
-      ================================================== */}
+      {/* =====================================================
+          PUBLIC PAGES
+          ===================================================== */}
 
       <Route element={<PublicLayout />}>
 
+        {/* Home */}
         <Route
           path="/"
           element={<Home />}
         />
 
+        {/* Events */}
         <Route
           path="/events"
           element={<Events />}
         />
 
+        {/* Event Details */}
         <Route
           path="/events/:id"
           element={<EventDetails />}
@@ -69,25 +91,40 @@ function AppRoutes() {
       </Route>
 
 
-      {/* ==================================================
+      {/* =====================================================
           AUTHENTICATION PAGES
           NO SIDEBAR
-      ================================================== */}
+          ===================================================== */}
 
+      {/* Login */}
       <Route
         path="/login"
         element={<Login />}
       />
 
+      {/* Register */}
       <Route
         path="/register"
         element={<Register />}
       />
 
+      {/* Forgot Password */}
+      <Route
+        path="/forgot-password"
+        element={<ForgotPassword />}
+      />
 
-      {/* ==================================================
-          USER PAGES WITH SIDEBAR
-      ================================================== */}
+      {/* Reset Password */}
+      <Route
+        path="/reset-password/:token"
+        element={<ResetPassword />}
+      />
+
+
+      {/* =====================================================
+          USER PAGES
+          PROTECTED + USER SIDEBAR
+          ===================================================== */}
 
       <Route
         element={
@@ -97,25 +134,70 @@ function AppRoutes() {
         }
       >
 
+        {/* ---------------------------------------------------
+            USER DASHBOARD
+            --------------------------------------------------- */}
+
         <Route
           path="/dashboard"
           element={<Dashboard />}
         />
+
+
+        {/* ---------------------------------------------------
+            BOOKING
+            --------------------------------------------------- */}
 
         <Route
           path="/booking/:id"
           element={<BookingPage />}
         />
 
+
+        {/* ---------------------------------------------------
+            BOOKING CONFIRMATION
+            --------------------------------------------------- */}
+
         <Route
           path="/booking-confirmation/:id"
           element={<BookingConfirmation />}
         />
 
+
+        {/* ---------------------------------------------------
+            MY BOOKINGS
+            --------------------------------------------------- */}
+
         <Route
           path="/my-bookings"
           element={<MyBookings />}
         />
+
+
+        {/* ---------------------------------------------------
+            USER PROFILE
+            --------------------------------------------------- */}
+
+        <Route
+          path="/profile"
+          element={<Profile />}
+        />
+
+
+        {/* ---------------------------------------------------
+            PROFILE SETTINGS
+            Personal information + password
+            --------------------------------------------------- */}
+
+        <Route
+          path="/profile-settings"
+          element={<ProfileSetting />}
+        />
+
+
+        {/* ---------------------------------------------------
+            GENERAL USER SETTINGS
+            --------------------------------------------------- */}
 
         <Route
           path="/settings"
@@ -125,9 +207,10 @@ function AppRoutes() {
       </Route>
 
 
-      {/* ==================================================
-          ADMIN PAGES WITH ADMIN SIDEBAR
-      ================================================== */}
+      {/* =====================================================
+          ADMIN PAGES
+          ADMIN ONLY + ADMIN SIDEBAR
+          ===================================================== */}
 
       <Route
         path="/admin"
@@ -138,66 +221,92 @@ function AppRoutes() {
         }
       >
 
-        {/* Dashboard */}
+        {/* ---------------------------------------------------
+            ADMIN DASHBOARD
+            /admin
+            --------------------------------------------------- */}
 
         <Route
           index
           element={<AdminDashboard />}
         />
 
-        {/* Events */}
+
+        {/* ---------------------------------------------------
+            EVENT MANAGEMENT
+            --------------------------------------------------- */}
 
         <Route
           path="events"
           element={<ManageEvents />}
         />
 
+        {/* Add Event */}
         <Route
           path="events/add"
           element={<AddEvent />}
         />
 
+        {/* Edit Event */}
         <Route
           path="events/edit/:id"
           element={<EditEvent />}
         />
 
-        {/* Bookings */}
+
+        {/* ---------------------------------------------------
+            BOOKING MANAGEMENT
+            --------------------------------------------------- */}
 
         <Route
           path="bookings"
           element={<ManageBookings />}
         />
 
-        {/* Users */}
+
+        {/* ---------------------------------------------------
+            USER MANAGEMENT
+            --------------------------------------------------- */}
 
         <Route
           path="users"
           element={<Users />}
         />
 
-        {/* Venues */}
+
+        {/* ---------------------------------------------------
+            VENUE MANAGEMENT
+            --------------------------------------------------- */}
 
         <Route
           path="venues"
           element={<Venues />}
         />
 
-        {/* Reports */}
+
+        {/* ---------------------------------------------------
+            REPORTS & ANALYTICS
+            --------------------------------------------------- */}
 
         <Route
           path="reports"
           element={<Reports />}
         />
 
-        {/* Notifications */}
+
+        {/* ---------------------------------------------------
+            NOTIFICATIONS
+            --------------------------------------------------- */}
 
         <Route
           path="notifications"
           element={<Notifications />}
         />
 
-        {/* Settings */}
+
+        {/* ---------------------------------------------------
+            ADMIN SETTINGS
+            --------------------------------------------------- */}
 
         <Route
           path="settings"
