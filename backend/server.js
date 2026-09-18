@@ -33,11 +33,11 @@ app.get("/", (req, res) => {
   });
 });
 
-// ================= DATABASE =================
+//DATABASE 
 
 connectDB();
 
-// ================= SERVER =================
+//SERVER 
 
 const PORT = process.env.PORT || 5000;
 
