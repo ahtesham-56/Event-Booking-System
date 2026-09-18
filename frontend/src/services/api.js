@@ -1,13 +1,12 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://eventbook-backend.vercel.app/api",
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Automatically attach JWT token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
