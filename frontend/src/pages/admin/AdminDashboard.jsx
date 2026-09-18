@@ -4,7 +4,7 @@ function AdminDashboard() {
   return (
     <div className="container-fluid px-3 px-md-4 py-4">
 
-      /*PAGE HEADER*/
+      {/* PAGE HEADER */}
       <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
 
         <div>
@@ -60,7 +60,7 @@ function AdminDashboard() {
       </div>
 
 
-      /* Welcome / Hero Card*/
+      {/* Welcome / Hero Card */}
       <div
         className="position-relative overflow-hidden mb-4"
         style={{
@@ -197,7 +197,7 @@ function AdminDashboard() {
       </div>
 
 
-      /*  DASHBOARD CARDS*/
+      {/* DASHBOARD CARDS */}
       <div className="row g-3 g-lg-4 mb-4">
 
         {/* Manage Events */}
@@ -482,7 +482,7 @@ function AdminDashboard() {
       </div>
 
 
-      /*  QUICK ACTIONS + PLATFORM STATUS */
+      {/* QUICK ACTIONS + PLATFORM STATUS */}
       <div className="row g-4 mb-4">
 
         {/* Quick Actions */}
@@ -876,7 +876,7 @@ function AdminDashboard() {
       </div>
 
 
-      /*  ADMIN GUIDANCE */
+      {/* ADMIN GUIDANCE */}
       <div
         className="p-4 p-md-5 mb-4"
         style={{
@@ -946,4 +946,3 @@ function AdminDashboard() {
 }
 
 export default AdminDashboard;
-

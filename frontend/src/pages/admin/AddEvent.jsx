@@ -736,7 +736,7 @@ function AddEvent() {
             </div>
           </div>
 
-          /*ERroR*/
+          {/* ================= ERROR MESSAGE ================= */}
           {error && (
             <div className="add-event-error d-flex align-items-center gap-3 mb-4">
               <div className="add-event-error-icon">
@@ -766,10 +766,10 @@ function AddEvent() {
 
             <div className="add-event-layout">
 
-              /*  LEFT FORM*/
+              {/* ================= LEFT FORM ================= */}
               <div className="add-event-card">
 
-                {/* Card Header */}
+                {/* ================= CARD HEADER ================= */}
                 <div className="add-event-card-header">
                   <div className="d-flex align-items-center gap-3">
 
@@ -790,7 +790,7 @@ function AddEvent() {
                   </div>
                 </div>
 
-                /* BASIC INFORMATION  */
+                {/* ================= BASIC INFORMATION ================= */}
                 <div className="add-event-section">
 
                   <div className="add-event-section-title">
@@ -966,7 +966,7 @@ function AddEvent() {
                   </div>
                 </div>
 
-                /*TICKETS*/
+                {/* ================= TICKET & SEATING ================= */}
                 <div className="add-event-section">
 
                   <div className="add-event-section-title">
@@ -1119,7 +1119,7 @@ function AddEvent() {
 
                 </div>
 
-                /*DESCRIPTION ================= */
+                {/* ================= EVENT DESCRIPTION ================= */}
                 <div className="add-event-section">
 
                   <div className="add-event-section-title">
@@ -1151,7 +1151,7 @@ function AddEvent() {
 
                 </div>
 
-                /* FOOTER*/
+                {/* ================= FORM FOOTER ================= */}
                 <div className="add-event-footer">
 
                   <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
@@ -1204,7 +1204,7 @@ function AddEvent() {
 
               </div>
 
-              /*LIVE PREVIEW */
+              {/* ================= LIVE PREVIEW ================= */}
               <div className="add-event-preview-card">
 
                 <div className="add-event-card">
@@ -1238,7 +1238,7 @@ function AddEvent() {
 
                   <div className="add-event-preview-content">
 
-                    {/* Image */}
+                    {/* ================= PREVIEW IMAGE ================= */}
                     <div className="add-event-preview-image">
 
                       <img
@@ -1256,7 +1256,7 @@ function AddEvent() {
 
                     </div>
 
-                    {/* Preview Body */}
+                    {/* ================= PREVIEW BODY ================= */}
                     <div className="add-event-preview-body">
 
                       <span className="add-event-preview-category">
@@ -1273,7 +1273,7 @@ function AddEvent() {
                           "Your event description will appear here. Add useful information to help attendees understand what your event is about."}
                       </div>
 
-                      {/* Date */}
+                      {/* Date & Time */}
                       <div className="add-event-preview-detail">
 
                         <div className="add-event-preview-detail-icon">
@@ -1334,7 +1334,7 @@ function AddEvent() {
 
                       </div>
 
-                      {/* Summary */}
+                      {/* Booking Summary */}
                       <div className="add-event-summary">
 
                         <div className="add-event-summary-row">

@@ -15,8 +15,18 @@ const app = express();
 
 // ================= MIDDLEWARE =================
 
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
+
+// ================= DATABASE =================
+
+connectDB();
 
 // ================= API ROUTES =================
 
@@ -33,14 +43,16 @@ app.get("/", (req, res) => {
   });
 });
 
-//DATABASE 
+// ================= SERVER =================
 
-connectDB();
+// Local development
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
 
-//SERVER 
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Export app for Vercel
+module.exports = app;

@@ -69,8 +69,7 @@ function AdminSetting() {
     }, 3000);
   };
 
-  /*  SETTING SWITCH*/
-
+  // SETTING SWITCH
   const SettingSwitch = ({
     name,
     checked,
@@ -122,7 +121,9 @@ function AdminSetting() {
   return (
     <>
       <style>{`
-        /*  EVENTBOOK ADMIN SETTINGS*/
+        /* =========================================================
+           EVENTBOOK ADMIN SETTINGS
+           ========================================================= */
 
         .admin-settings-page {
           min-height: calc(100vh - 70px);
@@ -551,7 +552,9 @@ function AdminSetting() {
           text-transform: uppercase;
         }
 
-        /* MODERN SWITCH */
+        /* =========================================================
+           MODERN SWITCH
+           ========================================================= */
 
         .modern-switch {
           position: relative;
@@ -612,7 +615,9 @@ function AdminSetting() {
           background: #4338ca;
         }
 
-        /*  MAINTENANCE BOX */
+        /* =========================================================
+           MAINTENANCE BOX
+           ========================================================= */
 
         .maintenance-box {
           padding: 17px 18px;
@@ -648,7 +653,9 @@ function AdminSetting() {
           line-height: 1.5;
         }
 
-        /* BOTTOM ACTIONS */
+        /* =========================================================
+           BOTTOM ACTIONS
+           ========================================================= */
 
         .settings-actions {
           display: flex;
@@ -709,7 +716,9 @@ function AdminSetting() {
           transform: translateY(0);
         }
 
-        /* TABLET */
+        /* =========================================================
+           TABLET
+           ========================================================= */
 
         @media (max-width: 1000px) {
           .admin-settings-page {
@@ -835,7 +844,9 @@ function AdminSetting() {
           }
         }
 
-        /*SMALL MOBILE */
+        /* =========================================================
+           SMALL MOBILE
+           ========================================================= */
 
         @media (max-width: 430px) {
           .admin-settings-page {
@@ -927,10 +938,9 @@ function AdminSetting() {
       <div className="admin-settings-page">
         <div className="settings-container">
 
-          /* HEADER*/
+          {/* HEADER */}
 
           <div className="settings-header">
-
             <div className="header-left">
 
               <div className="header-eyebrow">
@@ -951,14 +961,12 @@ function AdminSetting() {
               <span className="status-dot"></span>
               Platform Active
             </div>
-
           </div>
 
-          /* SUCCESS MESSAGE*/
+          {/* SUCCESS MESSAGE */}
 
           {saved && (
             <div className="success-alert">
-
               <div className="success-content">
 
                 <span className="success-icon">
@@ -967,21 +975,21 @@ function AdminSetting() {
 
                 <div className="success-text">
                   <strong>Settings saved successfully</strong>
+
                   <span>
                     Your EventBook preferences have been updated.
                   </span>
                 </div>
 
               </div>
-
             </div>
           )}
 
-          /* SETTINGS GRID*/
+          {/* SETTINGS GRID */}
 
           <div className="settings-grid">
 
-            /*GENERAL SETTINGS */
+            {/* GENERAL SETTINGS */}
 
             <div className="settings-card">
 
@@ -993,6 +1001,7 @@ function AdminSetting() {
 
                 <div className="card-header-content">
                   <h5>General Settings</h5>
+
                   <p>
                     Basic platform configuration
                   </p>
@@ -1010,6 +1019,7 @@ function AdminSetting() {
 
                   <label className="form-label-custom">
                     <span>Platform Name</span>
+
                     <span className="form-hint">
                       Public name
                     </span>
@@ -1030,6 +1040,7 @@ function AdminSetting() {
 
                   <label className="form-label-custom">
                     <span>Currency</span>
+
                     <span className="form-hint">
                       Booking currency
                     </span>
@@ -1061,12 +1072,9 @@ function AdminSetting() {
                 </div>
 
               </div>
-
             </div>
 
-            /*
-                BOOKING SETTINGS
-                 */
+            {/* BOOKING SETTINGS */}
 
             <div className="settings-card">
 
@@ -1078,6 +1086,7 @@ function AdminSetting() {
 
                 <div className="card-header-content">
                   <h5>Booking Settings</h5>
+
                   <p>
                     Control event booking rules
                   </p>
@@ -1116,10 +1125,9 @@ function AdminSetting() {
                 />
 
               </div>
-
             </div>
 
-            /* NOTIFICATION SETTINGS*/
+            {/* NOTIFICATION SETTINGS */}
 
             <div className="settings-card full-width">
 
@@ -1131,6 +1139,7 @@ function AdminSetting() {
 
                 <div className="card-header-content">
                   <h5>Notification Settings</h5>
+
                   <p>
                     Manage EventBook notification preferences
                   </p>
@@ -1161,10 +1170,9 @@ function AdminSetting() {
                 />
 
               </div>
-
             </div>
 
-            /* SYSTEM SETTINGS*/
+            {/* SYSTEM SETTINGS */}
 
             <div className="settings-card full-width">
 
@@ -1176,6 +1184,7 @@ function AdminSetting() {
 
                 <div className="card-header-content">
                   <h5>System Settings</h5>
+
                   <p>
                     Control the overall EventBook platform status
                   </p>
@@ -1201,23 +1210,25 @@ function AdminSetting() {
                   />
 
                   <div className="maintenance-info">
+
                     <span>ⓘ</span>
 
                     <span>
                       Enable this option only when you need to temporarily
                       restrict normal platform activity.
                     </span>
+
                   </div>
 
                 </div>
 
               </div>
-
             </div>
 
           </div>
 
-          /* ACTION BUTTONS*/
+          {/* ACTION BUTTONS */}
+
           <div className="settings-actions">
 
             <button
