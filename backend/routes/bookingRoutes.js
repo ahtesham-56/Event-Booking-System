@@ -3,6 +3,8 @@ const express = require("express");
 const {
   createBooking,
   getMyBookings,
+  getEventBookings,
+  cancelBooking,
   getAllBookings,
   getBookingById,
 } = require("../controllers/bookingController");
@@ -14,7 +16,6 @@ const {
 
 const router = express.Router();
 
-
 // =========================================================
 // CREATE BOOKING
 // POST /api/bookings
@@ -25,7 +26,6 @@ router.post(
   protect,
   createBooking
 );
-
 
 // =========================================================
 // GET ALL BOOKINGS - ADMIN
@@ -39,7 +39,6 @@ router.get(
   getAllBookings
 );
 
-
 // =========================================================
 // GET LOGGED-IN USER'S BOOKINGS
 // GET /api/bookings/my
@@ -51,6 +50,27 @@ router.get(
   getMyBookings
 );
 
+// =========================================================
+// GET CONFIRMED BOOKINGS FOR ONE EVENT
+// GET /api/bookings/event/:eventId
+// =========================================================
+
+router.get(
+  "/event/:eventId",
+  protect,
+  getEventBookings
+);
+
+// =========================================================
+// CANCEL BOOKING
+// PUT /api/bookings/:id/cancel
+// =========================================================
+
+router.put(
+  "/:id/cancel",
+  protect,
+  cancelBooking
+);
 
 // =========================================================
 // GET SINGLE BOOKING
@@ -62,6 +82,5 @@ router.get(
   protect,
   getBookingById
 );
-
 
 module.exports = router;

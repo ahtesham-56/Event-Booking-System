@@ -13,46 +13,167 @@ dotenv.config();
 
 const app = express();
 
-// ================= MIDDLEWARE =================
+
+// =========================================================
+// CORS
+// =========================================================
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://event-booking-system-flame-iota.vercel.app",
+];
 
 app.use(
   cors({
-    origin: true,
+    origin: function (origin, callback) {
+      // Allow requests without an origin
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(
+        new Error("Not allowed by CORS")
+      );
+    },
+
     credentials: true,
+
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS",
+    ],
+
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+    ],
   })
 );
 
+
+// =========================================================
+// JSON
+// =========================================================
+
 app.use(express.json());
 
-// ================= DATABASE =================
+
+// =========================================================
+// DATABASE
+// =========================================================
 
 connectDB();
 
-// ================= API ROUTES =================
 
-app.use("/api/auth", authRoutes);
-app.use("/api/events", eventRoutes);
-app.use("/api/bookings", bookingRoutes);
-app.use("/api/users", userRoutes);
+// =========================================================
+// API ROUTES
+// =========================================================
 
-// ================= HOME ROUTE =================
+app.use(
+  "/api/auth",
+  authRoutes
+);
+
+app.use(
+  "/api/events",
+  eventRoutes
+);
+
+app.use(
+  "/api/bookings",
+  bookingRoutes
+);
+
+app.use(
+  "/api/users",
+  userRoutes
+);
+
+
+// =========================================================
+// HOME ROUTE
+// =========================================================
 
 app.get("/", (req, res) => {
-  res.json({
+  res.status(200).json({
     message: "Event Booking API is running",
   });
 });
 
-// ================= SERVER =================
 
-// Local development
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 5000;
+// =========================================================
+// 404 HANDLER
+// =========================================================
+
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message:
+      `Route not found: ${req.method} ${req.originalUrl}`,
+  });
+});
+
+
+// =========================================================
+// ERROR HANDLER
+// =========================================================
+
+app.use((err, req, res, next) => {
+  console.error(
+    "SERVER ERROR:",
+    err
+  );
+
+  if (
+    err.message ===
+    "Not allowed by CORS"
+  ) {
+    return res.status(403).json({
+      success: false,
+      message: "CORS origin not allowed",
+    });
+  }
+
+  return res.status(500).json({
+    success: false,
+    message:
+      err.message ||
+      "Internal server error",
+  });
+});
+
+
+// =========================================================
+// LOCAL DEVELOPMENT
+// =========================================================
+
+if (
+  process.env.NODE_ENV !==
+  "production"
+) {
+  const PORT =
+    process.env.PORT || 5000;
 
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(
+      `Server running on port ${PORT}`
+    );
   });
 }
 
-// Export app for Vercel
+
+// =========================================================
+// VERCEL
+// =========================================================
+
 module.exports = app;
+
